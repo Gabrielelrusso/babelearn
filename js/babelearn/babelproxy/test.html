@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./babelproxy.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
+<body onload="soreta();">
+    <script>
+        function soreta(){
+            var proxyInstance = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
+            let synsets = proxyInstance.getBabelnetSynsets('play', 'EN');
+            console.log(synsets);
+        }
+    </script>   
+</body>
+</html>
