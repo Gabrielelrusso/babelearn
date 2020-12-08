@@ -6,7 +6,7 @@
   <link rel="icon" type="image/png" href="vendors/material-kit-theme/assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <title>
-    Material Kit by Creative Tim
+    Babelearn
   </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
   <!--     Fonts and icons     -->
@@ -18,33 +18,35 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="vendors/material-kit-theme/assets/demo/demo.css" rel="stylesheet"/>
 </head>
-<body>
-<nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100"
-     id="sectionsNav">
-  <div class="container">
-    <div class="navbar-translate">
-      <a class="navbar-brand" href="https://demos.creative-tim.com/material-kit/index.html">
-        Babeleran </a>
-    </div>
-  </div>
-</nav>
-<div class="page-header header-filter clear-filter" data-parallax="true"
-     style="background-image: url('vendors/material-kit-theme/assets/img/backgrounds/18.png');">
+<body style="background-image: url('vendors/material-kit-theme/assets/img/backgrounds/18.png'); background-size: cover;">
+<!--<nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100"-->
+<!--     id="sectionsNav">-->
+<!--  <div class="container">-->
+<!--    <div class="navbar-translate">-->
+<!--      <a class="navbar-brand" href="https://demos.creative-tim.com/material-kit/index.html">-->
+<!--        Babeleran </a>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
   <div class="container">
     <div class="row">
-      <div class="col-md-10 mx-auto">
 
-        <div id="app" class="card">
-          <div class="card-body" style="min-height: 700px">
+
+
+      <div class="col-md-12 bg-info">
+        <div id="app" class="card mt-5" style="min-height: 40em">
+          <div class="card-body">
             <component @change-view-event="swapComponent" v-bind:is="currentComponent"></component>
           </div>
           <div class="card-footer">
           </div>
         </div>
       </div>
+
+
+
     </div>
   </div>
-</div>
 
 
 <script src="vendors/material-kit-theme/assets/js/core/jquery.min.js" type="text/javascript"></script>
