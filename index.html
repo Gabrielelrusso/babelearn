@@ -66,7 +66,14 @@
 var vm = new Vue({
   el: '#app',
   data: {
-    currentComponent: 'view-home'
+    currentComponent: 'view-home',
+    game: {
+      language:'english',
+      challenge: {
+        'question':'What\'s the color of happiness?',
+        'answer':'You.'
+      }
+    }
   },
   components: {
     'view-home': ViewHome,
