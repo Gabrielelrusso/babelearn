@@ -5,13 +5,15 @@
     <script src="./babelproxy.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
-<body onload="soreta();">
+<body onload="challengeSim();">
     <script>
-        function soreta(){
+        function facadeSim(callback){
             var proxyInstance = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
-            let synsets = proxyInstance.getBabelnetSynsets('play', 'EN');
-            console.log(synsets);
+            proxyInstance.getBabelnetSynsets('play', 'EN').then((res) => {callback(res)});
         }
+        function challengeSim(){
+            facadeSim((res) => console.log('Synset IDs received by challenge simulator: ', res));
+        };
     </script>   
 </body>
 </html>
