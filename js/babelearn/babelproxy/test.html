@@ -5,8 +5,9 @@
     <script src="./babelproxy.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
-<body onload="challengeSim();">
+<body onload="getDisambiguatedSynsets();">
     <script>
+        // Test get synset associated to word
         function facadeSim(callback){
             var proxyInstance = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
             proxyInstance.getBabelnetSynsets('play', 'EN').then((res) => {callback(res)});
@@ -14,6 +15,17 @@
         function challengeSim(){
             facadeSim((res) => console.log('Synset IDs received by challenge simulator: ', res));
         };
+        // Test get main gloss associated to synset ID
+        function getGloss(){
+            var proxyInstance = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
+            // Query for the main gloss of 'play'
+            proxyInstance.getGloss('bn:00028604n').then((res) => console.log('Received gloss: ', res));
+        }
+        // Test Babelfy disambiguation
+        function getDisambiguatedSynsets(){
+            var proxyInstance = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
+            proxyInstance.getBabelfySynsets('You are so dumb you look like a mosquitto', 'EN').then((res) => console.log('Babelfy found these synsets:', res));
+        }
     </script>   
 </body>
 </html>
