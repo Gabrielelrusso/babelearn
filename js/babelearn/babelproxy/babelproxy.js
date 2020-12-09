@@ -3,8 +3,7 @@
  * 
  * @requires axios
  */
-// TODO: aggiungere export davanti a 'class'. L'ho tolto per fare il test in maniera più semplice.
-class BabelProxy {
+export class BabelProxy {
     /**
      * @param {string} apiKey The API key required by BabelNet/Babelfy to authorize API usage.
      */
@@ -21,7 +20,6 @@ class BabelProxy {
      * 
      * @param {array} apiResponse The data as returned by the BabelNet HTTP API, in JSON format.
      * @param {array} outArray The array in which the synset IDs must be returned.
-     * @private
      */
     createSynsetsList(apiResponse, outArray){
         console.log('creating synsets array'); // DEBUG
@@ -58,12 +56,17 @@ class BabelProxy {
         * obtained from the HTTP request (it "stops" the execution flow on the request and its callbacks, without actually
         * stopping the execution thread).
         */
-        await axios.get(
-            this.babelnetSynsetsByWordServiceUrl + '?',
-            {params: get_params}
-        ).then((response) => this.createSynsetsList(response, synsetIDs),
-        (error) => console.log(error)
-        );
+        
+        try{
+            await axios.get(
+                this.babelnetSynsetsByWordServiceUrl + '?',
+                {params: get_params}
+            ).then((response) => this.createSynsetsList(response, synsetIDs));
+        }catch(err){
+            // An exception is already thrown by get, so don't throw anything else here, simply
+            // stop execution flow
+            return;
+        }
 
         console.log('returning synsets array'); // DEBUG
     
@@ -84,22 +87,33 @@ class BabelProxy {
             'key' : this.apiKey
         };
 
-        var mainGloss;
+        var mainGloss = '';
 
-        await axios.get(
-            this.babelnetSynsetsInfoByIDServiceUrl + '?',
-            {params: get_params}
-        ).then((response) => mainGloss = response.data.glosses[0]['gloss'],
-        (error) => console.log(error)
-        );
+        try{
+            await axios.get(
+                this.babelnetSynsetsInfoByIDServiceUrl + '?',
+                {params: get_params}
+            ).then((response) => mainGloss = response.data.glosses[0]['gloss']);
+        }catch(err){
+            // An exception is already thrown by get, so don't throw anything else here, simply
+            // stop execution flow
+            return;
+        }
 
         console.log('returning main gloss'); // DEBUG
 
         return mainGloss;
     }
 
+    /**
+     * Creates a list of BabelNet synset IDs from the response received by the Babelfy API.
+     * The synsets IDs are represented as strings.
+     * 
+     * @param {array} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
+     * @param {array} outArray The array in which the synset IDs must be returned.
+     */
     createSynsetsListFromBabelfy(apiResponse, outArray){
-        console.log('Creating synsets from Babelfy');
+        console.log('Creating synsets from Babelfy'); // DEBUG
 
         apiResponse.data.forEach(element => {
             outArray.push(element["babelSynsetID"]);
@@ -123,14 +137,17 @@ class BabelProxy {
 
         var synsetIDs = [];
 
-        await axios.get(
-            this.babelfyDisambiguationServiceUrl + '?',
-            {params: get_params}
-        ).then((response) => this.createSynsetsListFromBabelfy(response, synsetIDs),
-        (error) => console.log(error)
-        );
-
-        console.log('done disambiguation');
+        try{
+            await axios.get(
+                this.babelfyDisambiguationServiceUrl + '?',
+                {params: get_params}
+            ).then((response) => this.createSynsetsListFromBabelfy(response, synsetIDs));
+        }catch(err){
+            // An exception is already thrown by get, so don't throw anything else here, simply
+            // stop execution flow
+            return;
+        }
+        console.log('done disambiguation'); // DEBUG
 
         return synsetIDs;
     }
