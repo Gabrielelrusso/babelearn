@@ -3,7 +3,7 @@
  * 
  * @requires axios
  */
-// TODO: aggiungere export davanti a 'class'. L'ho tolto per fare il test in maniera più semplice. Investigare questione async-await.
+// TODO: aggiungere export davanti a 'class'. L'ho tolto per fare il test in maniera più semplice.
 class BabelProxy {
     /**
      * @param {string} apiKey The API key required by BabelNet/Babelfy to authorize API usage.
@@ -71,13 +71,39 @@ class BabelProxy {
     }
 
     /**
-     * Retrieves the main gloss of the BabelNet synsets identified by the given ID.
+     * Retrieves the main gloss of the BabelNet synset identified by the given ID.
+     * The main gloss is "always" in position zero in the 'glosses' array.
      * 
      * @param {string} synsetID The ID of the synset whose main gloss will be retrieved.
      * @returns The retrieved main gloss, as a string.
      */
-    getGloss(synsetID){
-        // The main gloss is always in position zero in the 'glosses' array
+    async getGloss(synsetID){
+        // 
+        var get_params = {
+            'id' : synsetID,
+            'key' : this.apiKey
+        };
+
+        var mainGloss;
+
+        await axios.get(
+            this.babelnetSynsetsInfoByIDServiceUrl + '?',
+            {params: get_params}
+        ).then((response) => mainGloss = response.data.glosses[0]['gloss'],
+        (error) => console.log(error)
+        );
+
+        console.log('returning main gloss'); // DEBUG
+
+        return mainGloss;
+    }
+
+    createSynsetsListFromBabelfy(apiResponse, outArray){
+        console.log('Creating synsets from Babelfy');
+
+        apiResponse.data.forEach(element => {
+            outArray.push(element["babelSynsetID"]);
+        });
     }
 
     /**
@@ -85,9 +111,27 @@ class BabelProxy {
      * disambiguate.
      * 
      * @param {string} sentence The sentence to query the API for.
+     * @param {string} language The language 'sentence' is expressed into. Use two-letters abbreviations, e.g. 'EN' for English.
      * @returns A list of the retrived synset IDs, represented as strings.
      */
-    getBabelfySynsets(sentence){
+    async getBabelfySynsets(sentence, language){
+        var get_params = {
+            'text' : sentence,
+            'lang' : language,
+            'key' : this.apiKey
+        };
 
+        var synsetIDs = [];
+
+        await axios.get(
+            this.babelfyDisambiguationServiceUrl + '?',
+            {params: get_params}
+        ).then((response) => this.createSynsetsListFromBabelfy(response, synsetIDs),
+        (error) => console.log(error)
+        );
+
+        console.log('done disambiguation');
+
+        return synsetIDs;
     }
 }
