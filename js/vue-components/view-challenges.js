@@ -14,8 +14,8 @@ var ViewChallenges = Vue.component('view-challenges', {
                           Choose Your Challenge
                       </div>
                   </div>
-                  <div class="row my-lg-3">
-                    <ul class="nav nav-pills nav-pills-icons nav-pills-info mx-auto" role="tablist">
+                  <div class="row">
+                    <ul class="nav nav-pills nav-pills-icons nav-pills-info" role="tablist">
                         <!--
                                         color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
                                     -->
