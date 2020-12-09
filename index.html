@@ -15,8 +15,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="vendors/material-kit-theme/assets/css/material-kit.css?v=2.0.7" rel="stylesheet"/>
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="vendors/material-kit-theme/assets/demo/demo.css" rel="stylesheet"/>
+  <link href="css/game_effects.css" rel="stylesheet"/>
 </head>
 <body style="background-image: url('vendors/material-kit-theme/assets/img/backgrounds/18.png'); background-size: cover;">
 <!--<nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100"-->
@@ -32,11 +31,11 @@
     <div class="row">
       <div class="col-md-12">
         <div id="app" class="card mt-5 mx-auto" style="height: 70vh; width: 60vw">
-          <div class="card-body">
+
+
             <component @change-view-event="swapComponent" v-bind:is="currentComponent"></component>
-          </div>
-          <div class="card-footer">
-          </div>
+
+
         </div>
       </div>
     </div>
