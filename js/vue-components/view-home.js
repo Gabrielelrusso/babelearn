@@ -26,7 +26,7 @@ var ViewHome = Vue.component('view-home', {
                                           color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
                                       -->
                           <li class="nav-item ml-auto" >
-                            <div class="btn btn-link nav-link active" role="tab" data-toggle="tab" style="height: 60px; width: 60px;">
+                            <div @click="$emit('change-language-event','EN')" class="btn btn-link nav-link active" role="tab" data-toggle="tab" style="height: 60px; width: 60px;">
                                   <img class="card-img-top img-circle mx-auto"
                                       src="img/country_flags/united-kingdom.svg"
                                       alt="Card image cap"
@@ -35,7 +35,7 @@ var ViewHome = Vue.component('view-home', {
                             </div>
                           </li>
                           <li class="nav-item" >
-                            <div class="btn btn-link nav-link" role="tab" data-toggle="tab" style="height: 60px; width: 60px;">
+                            <div @click="$emit('change-language-event','IT')" class="btn btn-link nav-link" role="tab" data-toggle="tab" style="height: 60px; width: 60px;">
                                   <img class="card-img-top img-circle mx-auto"
                                       src="img/country_flags/italy.svg"
                                       alt="Card image cap"
@@ -44,7 +44,7 @@ var ViewHome = Vue.component('view-home', {
                             </div>
                           </li>
                           <li class="nav-item" >
-                            <div class="btn btn-link nav-link" role="tab" data-toggle="tab" style="height: 60px; width: 60px;">
+                            <div @click="$emit('change-language-event','FR')" class="btn btn-link nav-link" role="tab" data-toggle="tab" style="height: 60px; width: 60px;">
                                   <img class="card-img-top img-circle mx-auto"
                                       src="img/country_flags/france.svg"
                                       alt="Card image cap"
@@ -53,7 +53,7 @@ var ViewHome = Vue.component('view-home', {
                             </div>
                           </li>
                           <li class="nav-item" >
-                            <div class="btn btn-link nav-link" role="tab" data-toggle="tab" style="height: 60px; width: 60px;">
+                            <div @click="$emit('change-language-event','ES')" class="btn btn-link nav-link" role="tab" data-toggle="tab" style="height: 60px; width: 60px;">
                                   <img class="card-img-top img-circle mx-auto"
                                       src="img/country_flags/spain.svg"
                                       alt="Card image cap"
@@ -62,7 +62,7 @@ var ViewHome = Vue.component('view-home', {
                             </div>
                           </li>
                           <li class="nav-item mr-auto" >
-                            <div class="btn btn-link nav-link" role="tab" data-toggle="tab" style="height: 60px; width: 60px;">
+                            <div @click="$emit('change-language-event','DE')" class="btn btn-link nav-link" role="tab" data-toggle="tab" style="height: 60px; width: 60px;">
                                   <img class="card-img-top img-circle mx-auto"
                                       src="img/country_flags/germany.svg"
                                       alt="Card image cap"
