@@ -33,7 +33,13 @@
         <div id="app" class="card mt-5 mx-auto" style="height: 70vh; width: 60vw">
 
 
-            <component @change-view-event="swapComponent" v-bind:is="currentComponent"></component>
+            <component
+               @change-language-event="setLanguage"
+               @change-view-event="swapComponent"
+               v-bind:is="currentComponent"
+            >
+
+            </component>
 
 
         </div>
@@ -82,6 +88,10 @@ var vm = new Vue({
   methods: {
     swapComponent: function(component) {
       this.currentComponent = component;
+    },
+    setLanguage: function(language){
+      this.language = language;
+      console.log(language);
     }
   }
 })
