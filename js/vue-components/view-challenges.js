@@ -37,24 +37,33 @@ var ViewChallenges = Vue.component('view-challenges', {
                                 </div>
                                 <div class="col-10 h-100 my-auto mx-auto">
                                     <div id="carouselExampleIndicators" class="carousel slide h-100 my-auto" data-ride="carousel">
-                                        <div class="row h-100">
+                                        <div class="row" style="height: 90%">
                                             <div class="col h-100 my-auto">
                                                 <div class="carousel-inner h-100 my-auto">
                                                     <div class="carousel-item active h-100 mx-auto my-auto">
-                                                        <div class="card nav-link active h-100 mx-auto my-auto" role="tab" data-toggle="tab" style="box-shadow: none">
-                                                            <img class="card-img-top mx-auto"
-                                                                src="https://www.flaticon.com/svg/static/icons/svg/3869/3869355.svg"
-                                                                alt="Card image cap"
-                                                                style="max-height: 120px; max-width: 120px;"
-                                                            >
-                                                            <h5 class="card-title text-center text-info">Challenge One</h5>
-                                                            <div class="card-body">
-                                                                <div class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                                                        <div class="card h-100 mx-auto" role="tab" data-toggle="tab" style="box-shadow: none">
+                                                            <div class="d-flex align-items-center h-50">
+                                                                <img class="card-img-top mx-auto my-auto"
+                                                                    src="https://www.flaticon.com/svg/static/icons/svg/3869/3869355.svg"
+                                                                    alt="Card image cap"
+                                                                    style="max-height: 120px; max-width: 120px;"
+                                                                >
+
                                                             </div>
+                                                            <div class="d-flex align-items-center justify-content-center h-25">
+                                                                <h5 class="card-title text-info d-block">Challenge One</h5>
+                                                            </div>
+                                                            <div class="d-flex align-items-center h-25">
+                                                                <div class="card-body d-block">
+                                                                    <div class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                                                                </div>
+                                                            </div>
+
+
                                                         </div>
                                                     </div>
                                                     <div class="carousel-item h-100 mx-auto my-auto">
-                                                        <div class="card nav-link h-100 mx-auto my-auto" role="tab" data-toggle="tab" style="box-shadow: none">
+                                                        <div class="card h-100 mx-auto my-auto" role="tab" data-toggle="tab" style="box-shadow: none">
                                                             <img class="card-img-top mx-auto"
                                                                 src="https://www.flaticon.com/svg/static/icons/svg/3869/3869355.svg"
                                                                 alt="Card image cap"
@@ -67,7 +76,7 @@ var ViewChallenges = Vue.component('view-challenges', {
                                                         </div>
                                                     </div>
                                                     <div class="carousel-item h-100 mx-auto my-auto">
-                                                        <div class="card nav-link h-100 mx-auto my-auto" role="tab" data-toggle="tab" style="box-shadow: none">
+                                                        <div class="card h-100 mx-auto my-auto" role="tab" data-toggle="tab" style="box-shadow: none">
                                                             <img class="card-img-top mx-auto"
                                                                 src="https://www.flaticon.com/svg/static/icons/svg/3869/3869355.svg"
                                                                 alt="Card image cap"
@@ -82,7 +91,7 @@ var ViewChallenges = Vue.component('view-challenges', {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" style="height: 10%">
                                             <div class="col h-100 my-auto">
                                                 <ol class="carousel-indicators my-auto">
                                                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
