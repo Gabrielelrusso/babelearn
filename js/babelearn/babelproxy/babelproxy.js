@@ -3,7 +3,8 @@
  * 
  * @requires axios
  */
-export class BabelProxy {
+// TODO: missing export keyword
+class BabelProxy {
     /**
      * @param {string} apiKey The API key required by BabelNet/Babelfy to authorize API usage.
      */
@@ -80,7 +81,7 @@ export class BabelProxy {
      * @param {string} synsetID The ID of the synset whose main gloss will be retrieved.
      * @returns The retrieved main gloss, as a string.
      */
-    async getGloss(synsetID){
+    async getMainGloss(synsetID){
         // 
         var get_params = {
             'id' : synsetID,
@@ -93,7 +94,7 @@ export class BabelProxy {
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => mainGloss = response.data.glosses[0]['gloss']);
+            ).then((response) => {mainGloss = response.data.glosses[0]['gloss']; console.log(response); /*DEBUG*/});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -141,7 +142,7 @@ export class BabelProxy {
             await axios.get(
                 this.babelfyDisambiguationServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => this.createSynsetsListFromBabelfy(response, synsetIDs));
+            ).then((response) => {this.createSynsetsListFromBabelfy(response, synsetIDs); console.log(response) /*DEBUG*/});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -150,5 +151,90 @@ export class BabelProxy {
         console.log('done disambiguation'); // DEBUG
 
         return synsetIDs;
+    }
+
+    /**
+     * Extracts a list of the examples from the BabelNet API response.
+     * 
+     * @param {array} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
+     * @param {array} outArray Array in which the examples must be stored.
+     */
+    createExamplesList(apiResponse, outArray){
+        apiResponse.data.examples.forEach(element => {
+            outArray.push(element["example"]);
+        });
+    }
+
+    /**
+     * Retrieves all the examples associated to the BabelNet synset identified by the given ID.
+     * 
+     * @param {string} synsetID The ID of the desired synset.
+     * @returns An array of examples, represented as strings.
+     */
+    async getExamples(synsetID){
+        var get_params = {
+            'id' : synsetID,
+            'key' : this.apiKey
+        };
+
+        var examples = [];
+
+        try{
+            await axios.get(
+                this.babelnetSynsetsInfoByIDServiceUrl + '?',
+                {params: get_params}
+            ).then((response) => {this.createExamplesList(response, examples); console.log(response); /*DEBUG*/});
+        }catch(err){
+            // An exception is already thrown by get, so don't throw anything else here, simply
+            // stop execution flow
+            return;
+        }
+
+        
+        console.log('returning examples'); // DEBUG
+
+        return examples;
+    }
+
+    /**
+     * Extracts a list of the images from the BabelNet API response. 
+     * 
+     * @param {array} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
+     * @param {array} outArray Array in which the images must be stored.
+     */
+    createImagesList(apiResponse, outArray){
+        apiResponse.data.images.forEach(image => {
+            outArray.push(image['url']);
+        });
+    }
+
+    /**
+     * Retrives all the images associated to the given BabelNet synset.
+     * 
+     * @param {string} synsetID The ID of the BabelNet synset to take the images from.
+     * @returns An array of images, as they are returned by the BabelNet HTTP API.
+     */
+    async getImages(synsetID){
+        var get_params = {
+            'id' : synsetID,
+            'key' : this.apiKey
+        };
+
+        var images = [];
+
+        try{
+            await axios.get(
+                this.babelnetSynsetsInfoByIDServiceUrl + '?',
+                {params: get_params}
+            ).then((response) => {this.createImagesList(response, images); console.log(response); /*DEBUG*/});
+        }catch(err){
+            // An exception is already thrown by get, so don't throw anything else here, simply
+            // stop execution flow
+            return;
+        }
+
+        console.log('returning images'); // DEBUG
+
+        return images;
     }
 }
