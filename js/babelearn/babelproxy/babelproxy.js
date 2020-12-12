@@ -42,7 +42,7 @@ class BabelProxy {
      * 
      * @param {string} word The word for which BabelNet syntes will be retrieved.
      * @param {string} language The language 'word' belongs to. Use two letters abbreviation, e.g. 'EN' for English.
-     * @returns {string[]} A list of the retrived synset IDs, represented as strings.
+     * @returns {string[]} A list of the retrived synset IDs.
      */
     async getBabelnetSynsets(word, language){
         var get_params = { 
@@ -80,7 +80,7 @@ class BabelProxy {
      * The main gloss is "always" in position zero in the 'glosses' array.
      * 
      * @param {string} synsetID The ID of the synset whose main gloss will be retrieved.
-     * @returns {string} The retrieved main gloss, as a string.
+     * @returns {string} The retrieved main gloss.
      */
     async getMainGloss(synsetID){
         // 
@@ -129,7 +129,7 @@ class BabelProxy {
      * 
      * @param {string} sentence The sentence to query the API for.
      * @param {string} language The language 'sentence' is expressed into. Use two-letters abbreviations, e.g. 'EN' for English.
-     * @returns {string[]} A list of the retrieved synset IDs, represented as strings.
+     * @returns {string[]} A list of the retrieved synset IDs.
      */
     async getBabelfySynsets(sentence, language){
         var get_params = {
@@ -172,7 +172,7 @@ class BabelProxy {
      * Retrieves all the examples associated to the BabelNet synset identified by the given ID.
      * 
      * @param {string} synsetID The ID of the desired synset.
-     * @returns {string[]} An array of examples, represented as strings.
+     * @returns {string[]} An array of examples.
      */
     async getExamples(synsetID){
         var get_params = {
