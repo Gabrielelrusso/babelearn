@@ -23,9 +23,9 @@ var ViewChallenges = Vue.component('view-challenges', {
             </div>
         </div>
         <div class="card-body h-100">
-            <div class="row h-80">
+            <div class="row h-100">
                 <div class="col-12 my-auto h-100">
-                    <div class="row h-75">
+                    <div class="row h-75 bg-success">
                         <div class="col-12 h-100 my-auto">
                             <ul class="nav nav-pills nav-pills-icons nav-pills-info mx-auto h-100 d-flex" role="tablist" style="justify-content: space-between">
                         <!--
