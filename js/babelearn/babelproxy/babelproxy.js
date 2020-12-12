@@ -41,7 +41,7 @@ class BabelProxy {
      * be completed.
      * 
      * @param {string} word The word for which BabelNet syntes will be retrieved.
-     * @param {string} language The language 'word' belongs to. Use two letters abbreviation, e.g. 'EN' for English.
+     * @param {string} language The language the given word belongs to. Use two letters abbreviation, e.g. 'EN' for English.
      * @returns {string[]} A list of the retrived synset IDs.
      */
     async getBabelnetSynsets(word, language){
@@ -76,21 +76,22 @@ class BabelProxy {
     }
 
     /**
-     * Retrieves the main gloss of the BabelNet synset identified by the given ID.
-     * The main gloss is "always" in position zero in the 'glosses' array.
+     * Retrieves the main gloss of the BabelNet synset identified by the given ID, in a desired language.
      * 
      * @param {string} synsetID The ID of the synset whose main gloss will be retrieved.
+     * @param {string} targetLanguage The desired language for the returned gloss. Use two letters abbreviation, e.g. 'EN' for English.
      * @returns {string} The retrieved main gloss.
      */
-    async getMainGloss(synsetID){
-        // 
+    async getMainGloss(synsetID, targetLanguage = 'EN'){
         var get_params = {
             'id' : synsetID,
-            'key' : this.apiKey
+            'key' : this.apiKey,
+            'targetLang': targetLanguage
         };
 
         var mainGloss = '';
 
+        // The main gloss is "always" in position zero in the 'glosses' array.
         try{
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
@@ -128,7 +129,7 @@ class BabelProxy {
      * disambiguate.
      * 
      * @param {string} sentence The sentence to query the API for.
-     * @param {string} language The language 'sentence' is expressed into. Use two-letters abbreviations, e.g. 'EN' for English.
+     * @param {string} language The language the sentence is expressed into. Use two-letters abbreviations, e.g. 'EN' for English.
      * @returns {string[]} A list of the retrieved synset IDs.
      */
     async getBabelfySynsets(sentence, language){
