@@ -21,8 +21,9 @@ class BabelProxy {
      * 
      * @param {array} apiResponse The data as returned by the BabelNet HTTP API, in JSON format.
      * @param {array} outArray The array in which the synset IDs must be returned.
+     * @private
      */
-    createSynsetsList(apiResponse, outArray){
+    createSynsetsList_(apiResponse, outArray){
         console.log('creating synsets array'); // DEBUG
         
         /* 
@@ -62,7 +63,7 @@ class BabelProxy {
             await axios.get(
                 this.babelnetSynsetsByWordServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => this.createSynsetsList(response, synsetIDs));
+            ).then((response) => this.createSynsetsList_(response, synsetIDs));
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -112,8 +113,9 @@ class BabelProxy {
      * 
      * @param {array} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
      * @param {array} outArray The array in which the synset IDs must be returned.
+     * @private
      */
-    createSynsetsListFromBabelfy(apiResponse, outArray){
+    createSynsetsListFromBabelfy_(apiResponse, outArray){
         console.log('Creating synsets from Babelfy'); // DEBUG
 
         apiResponse.data.forEach(element => {
@@ -142,7 +144,7 @@ class BabelProxy {
             await axios.get(
                 this.babelfyDisambiguationServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {this.createSynsetsListFromBabelfy(response, synsetIDs); console.log(response) /*DEBUG*/});
+            ).then((response) => {this.createSynsetsListFromBabelfy_(response, synsetIDs); console.log(response) /*DEBUG*/});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -158,8 +160,9 @@ class BabelProxy {
      * 
      * @param {array} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
      * @param {array} outArray Array in which the examples must be stored.
+     * @private
      */
-    createExamplesList(apiResponse, outArray){
+    createExamplesList_(apiResponse, outArray){
         apiResponse.data.examples.forEach(element => {
             outArray.push(element["example"]);
         });
@@ -183,7 +186,7 @@ class BabelProxy {
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {this.createExamplesList(response, examples); console.log(response); /*DEBUG*/});
+            ).then((response) => {this.createExamplesList_(response, examples); console.log(response); /*DEBUG*/});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -201,8 +204,9 @@ class BabelProxy {
      * 
      * @param {array} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
      * @param {array} outArray Array in which the images must be stored.
+     * @private
      */
-    createImagesList(apiResponse, outArray){
+    createImagesList_(apiResponse, outArray){
         apiResponse.data.images.forEach(image => {
             outArray.push(image['url']);
         });
@@ -226,7 +230,7 @@ class BabelProxy {
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {this.createImagesList(response, images); console.log(response); /*DEBUG*/});
+            ).then((response) => {this.createImagesList_(response, images); console.log(response); /*DEBUG*/});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
