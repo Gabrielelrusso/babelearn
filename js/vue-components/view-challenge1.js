@@ -30,7 +30,7 @@ var ViewChallenge1 = Vue.component('view-challenge1', {
                     </div>
                     <div class="row h-50">
                         <div class="col-12 h-100 text-center">
-
+                            <div><p>{{ challenge.question.question }}</p></div>
                         </div>
                     </div>
 
