@@ -2,11 +2,11 @@
 <html>
 <head>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <!--<script src="./babelproxy.js"></script>-->
+    <script src="./babelproxy.js"></script>
     <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
-    <script type="module" src="./test_index.js"></script>
+    <!--<script type="module" src="./test_index.js"></script>-->
 </head>
-<body onload="getGloss();">
+<body onload="getImages();">
     <script>
         var proxyInstance = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
 
@@ -22,12 +22,20 @@
         // Test get main gloss associated to synset ID
         function getGloss(){
             // Query for the main gloss of 'play'
-            proxyInstance.getGloss('bn:00028604n').then((res) => console.log('Received gloss: ', res));
+            proxyInstance.getMainGloss('bn:00028604n').then((res) => console.log('Received gloss: ', res));
         };
 
         // Test Babelfy disambiguation
         function getDisambiguatedSynsets(){
-            proxyInstance.getBabelfySynsets('You are so dumb you look like a mosquitto', 'EN').then((res) => console.log('Babelfy found these synsets:', res));
+            proxyInstance.getBabelfySynsets('aparcamiento', 'ES').then((res) => console.log('Babelfy found these synsets:', res));
+        };
+
+        function getExamples(){
+            proxyInstance.getExamples('bn:00028604n').then((res) => console.log('Usage examples:\n', res));
+        };
+
+        function getImages(){
+            proxyInstance.getImages('bn:00028604n').then((res) => console.log('Found images:\n', res));
         };
     </script>   
 </body>
