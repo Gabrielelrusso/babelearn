@@ -14,9 +14,9 @@ var ViewHome = Vue.component('view-home', {
             <div class="col-12 h-100 my-auto">
               <div class="row h-25">
                 <div class="col-12 text-center my-auto">
-                    <div>
+                    <h3>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis eleifend sem. Pellentesque posuere quam nisi, et condimentum neque interdum sed.
-                    </div>
+                    </h3>
                 </div>
               </div>
               <div class="row h-25">
