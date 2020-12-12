@@ -19,8 +19,8 @@ class BabelProxy {
      * Creates a list of BabelNet synset IDs from the response received by the BabelNet API.
      * The synsets IDs are represented as strings.
      * 
-     * @param {array} apiResponse The data as returned by the BabelNet HTTP API, in JSON format.
-     * @param {array} outArray The array in which the synset IDs must be returned.
+     * @param {Object} apiResponse The data as returned by the BabelNet HTTP API, in JSON format.
+     * @param {string[]} outArray The array in which the synset IDs must be returned.
      * @private
      */
     createSynsetsList_(apiResponse, outArray){
@@ -42,7 +42,7 @@ class BabelProxy {
      * 
      * @param {string} word The word for which BabelNet syntes will be retrieved.
      * @param {string} language The language 'word' belongs to. Use two letters abbreviation, e.g. 'EN' for English.
-     * @returns A list of the retrived synset IDs, represented as strings.
+     * @returns {string[]} A list of the retrived synset IDs.
      */
     async getBabelnetSynsets(word, language){
         var get_params = { 
@@ -80,7 +80,7 @@ class BabelProxy {
      * The main gloss is "always" in position zero in the 'glosses' array.
      * 
      * @param {string} synsetID The ID of the synset whose main gloss will be retrieved.
-     * @returns The retrieved main gloss, as a string.
+     * @returns {string} The retrieved main gloss.
      */
     async getMainGloss(synsetID){
         // 
@@ -111,8 +111,8 @@ class BabelProxy {
      * Creates a list of BabelNet synset IDs from the response received by the Babelfy API.
      * The synsets IDs are represented as strings.
      * 
-     * @param {array} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
-     * @param {array} outArray The array in which the synset IDs must be returned.
+     * @param {Object} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
+     * @param {string[]} outArray The array in which the synset IDs must be returned.
      * @private
      */
     createSynsetsListFromBabelfy_(apiResponse, outArray){
@@ -129,7 +129,7 @@ class BabelProxy {
      * 
      * @param {string} sentence The sentence to query the API for.
      * @param {string} language The language 'sentence' is expressed into. Use two-letters abbreviations, e.g. 'EN' for English.
-     * @returns A list of the retrived synset IDs, represented as strings.
+     * @returns {string[]} A list of the retrieved synset IDs.
      */
     async getBabelfySynsets(sentence, language){
         var get_params = {
@@ -158,8 +158,8 @@ class BabelProxy {
     /**
      * Extracts a list of the examples from the BabelNet API response.
      * 
-     * @param {array} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
-     * @param {array} outArray Array in which the examples must be stored.
+     * @param {Object} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
+     * @param {string[]} outArray Array in which the examples must be stored.
      * @private
      */
     createExamplesList_(apiResponse, outArray){
@@ -172,7 +172,7 @@ class BabelProxy {
      * Retrieves all the examples associated to the BabelNet synset identified by the given ID.
      * 
      * @param {string} synsetID The ID of the desired synset.
-     * @returns An array of examples, represented as strings.
+     * @returns {string[]} An array of examples.
      */
     async getExamples(synsetID){
         var get_params = {
@@ -200,10 +200,10 @@ class BabelProxy {
     }
 
     /**
-     * Extracts a list of the images from the BabelNet API response. 
+     * Extracts a list of image URL from the BabelNet API response. 
      * 
-     * @param {array} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
-     * @param {array} outArray Array in which the images must be stored.
+     * @param {Object} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
+     * @param {string[]} outArray Array in which image URLs must be stored.
      * @private
      */
     createImagesList_(apiResponse, outArray){
@@ -213,10 +213,10 @@ class BabelProxy {
     }
 
     /**
-     * Retrives all the images associated to the given BabelNet synset.
+     * Retrives all the image URLs associated to the given BabelNet synset.
      * 
      * @param {string} synsetID The ID of the BabelNet synset to take the images from.
-     * @returns An array of images, as they are returned by the BabelNet HTTP API.
+     * @returns {string[]} An array of image URLs.
      */
     async getImages(synsetID){
         var get_params = {
