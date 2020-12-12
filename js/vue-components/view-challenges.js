@@ -37,7 +37,7 @@ var ViewChallenges = Vue.component('view-challenges', {
                                 </div>
                                 <div class="col-10 h-100 my-auto mx-auto">
                                     <div id="carouselExampleIndicators" class="carousel slide h-100 my-auto" data-ride="carousel">
-                                        <div class="row mb-1">
+                                        <div class="row h-100">
                                             <div class="col h-100 my-auto">
                                                 <div class="carousel-inner h-100 my-auto">
                                                     <div class="carousel-item active h-100 mx-auto my-auto">
