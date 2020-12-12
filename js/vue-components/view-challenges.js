@@ -23,7 +23,7 @@ var ViewChallenges = Vue.component('view-challenges', {
             </div>
         </div>
         <div class="card-body h-100">
-            <div class="row h-100">
+            <div class="row h-80">
                 <div class="col-12 my-auto h-100">
                     <div class="row h-75">
                         <div class="col-12 h-100 my-auto">
@@ -31,8 +31,8 @@ var ViewChallenges = Vue.component('view-challenges', {
                         <!--
                                         color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
                                     -->
-                                <li class="nav-item" style="max-width: 30%;">
-                                    <div class="card nav-link active" role="tab" data-toggle="tab">
+                                <li class="nav-item h-100" style="max-width: 30%;">
+                                    <div class="card nav-link active h-100" role="tab" data-toggle="tab">
                                         <img class="card-img-top img-circle mx-auto"
                                             src="https://www.flaticon.com/svg/static/icons/svg/3869/3869355.svg"
                                             alt="Card image cap"
@@ -44,8 +44,8 @@ var ViewChallenges = Vue.component('view-challenges', {
                                         </div>
                                     </div>
                                 </li>
-                                <li class="nav-item" style="max-width: 30%;">
-                                    <div class="card nav-link" role="tab" data-toggle="tab">
+                                <li class="nav-item h-100" style="max-width: 30%;">
+                                    <div class="card nav-link h-100" role="tab" data-toggle="tab">
                                         <img class="card-img-top img-circle mx-auto"
                                             src="https://www.flaticon.com/svg/static/icons/svg/3869/3869355.svg"
                                             alt="Card image cap"
@@ -57,8 +57,8 @@ var ViewChallenges = Vue.component('view-challenges', {
                                         </div>
                                     </div>
                                 </li>
-                                <li class="nav-item" style="max-width: 30%;">
-                                    <div class="card nav-link" role="tab" data-toggle="tab">
+                                <li class="nav-item h-100" style="max-width: 30%;">
+                                    <div class="card nav-link h-100" role="tab" data-toggle="tab">
                                         <img class="card-img-top img-circle mx-auto"
                                             src="https://www.flaticon.com/svg/static/icons/svg/3869/3869355.svg"
                                             alt="Card image cap"
