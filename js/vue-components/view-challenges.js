@@ -39,8 +39,8 @@ var ViewChallenges = Vue.component('view-challenges', {
                                     <div id="carouselExampleIndicators" class="carousel slide h-100 my-auto" data-ride="carousel">
                                         <div class="row mb-1">
                                             <div class="col h-100 my-auto">
-                                                <div class="carousel-inner h-100">
-                                                    <div class="carousel-item active h-100 mx-auto">
+                                                <div class="carousel-inner h-100 my-auto">
+                                                    <div class="carousel-item active h-100 mx-auto my-auto">
                                                         <div class="card nav-link active h-100 mx-auto my-auto" role="tab" data-toggle="tab" style="box-shadow: none">
                                                             <img class="card-img-top mx-auto"
                                                                 src="https://www.flaticon.com/svg/static/icons/svg/3869/3869355.svg"
@@ -53,7 +53,7 @@ var ViewChallenges = Vue.component('view-challenges', {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="carousel-item h-100 mx-auto">
+                                                    <div class="carousel-item h-100 mx-auto my-auto">
                                                         <div class="card nav-link h-100 mx-auto my-auto" role="tab" data-toggle="tab" style="box-shadow: none">
                                                             <img class="card-img-top mx-auto"
                                                                 src="https://www.flaticon.com/svg/static/icons/svg/3869/3869355.svg"
@@ -66,7 +66,7 @@ var ViewChallenges = Vue.component('view-challenges', {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="carousel-item h-100 mx-auto">
+                                                    <div class="carousel-item h-100 mx-auto my-auto">
                                                         <div class="card nav-link h-100 mx-auto my-auto" role="tab" data-toggle="tab" style="box-shadow: none">
                                                             <img class="card-img-top mx-auto"
                                                                 src="https://www.flaticon.com/svg/static/icons/svg/3869/3869355.svg"
