@@ -12,7 +12,7 @@
 
         // Test get synset associated to word
         function facadeSim(callback){
-            proxyInstance.getBabelnetSynsets('play', 'EN').then((res) => {callback(res)});
+            proxyInstance.getBabelnetSynsets('parco', 'IT').then((res) => {callback(res)});
         };
 
         function challengeSim(){
@@ -22,7 +22,8 @@
         // Test get main gloss associated to synset ID
         function getGloss(){
             // Query for the main gloss of 'play'
-            proxyInstance.getMainGloss('bn:00028604n').then((res) => console.log('Received gloss: ', res));
+            // bn:00028604n
+            proxyInstance.getMainGloss('bn:00060690n', 'IT').then((res) => console.log('Received gloss: ', res));
         };
 
         // Test Babelfy disambiguation
