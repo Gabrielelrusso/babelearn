@@ -36,6 +36,7 @@
          v-bind:challenge="game.challenge"
          @change-language-event="setLanguage"
          @change-view-event="swapComponent"
+         @create-challenge-event="createChallenge"
          v-bind:is="currentComponent"
         >
 
@@ -116,7 +117,11 @@ var vm = new Vue({
         backdrop:false,
         keyboard:false,
       });
+    },
+    createChallenge(chosenChallengeIndex){
+        console.log("challenge "+chosenChallengeIndex+" has been created.");
     }
+
   }
 })
 </script>
