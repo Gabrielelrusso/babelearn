@@ -28,24 +28,23 @@
 <!--  </div>-->
 <!--</nav>-->
   <div class="container">
-      <div class="row">
-          <div id="app" class="col-md-12">
+    <div class="row">
+      <div id="app" class="col-md-12">
+
+        <success-modal></success-modal>
+        <component
+         v-bind:challenge="game.challenge"
+         @change-language-event="setLanguage"
+         @change-view-event="swapComponent"
+         v-bind:is="currentComponent"
+        >
+
+        </component>
 
 
-              <component
-               v-bind:challenge="game.challenge"
-               @change-language-event="setLanguage"
-               @change-view-event="swapComponent"
-               @create-challenge-event="createChallenge"
-               v-bind:is="currentComponent"
-              >
 
-              </component>
-
-
-
-          </div>
       </div>
+    </div>
   </div>
 
 
@@ -68,6 +67,7 @@
 <script src="js/vue-components/view-challenges.js"></script>
 <script src="js/vue-components/view-challenge1.js"></script>
 <script src="js/vue-components/view-challenge-2.js"></script>
+<script src="js/vue-components/success-modal.js"></script>
 
 <script>
 
@@ -100,17 +100,22 @@ var vm = new Vue({
     'view-challenges': ViewChallenges,
     'view-challenge-1':ViewChallenge1,
     'view-challenge-2':ViewChallenge2,
+    'success-modal':SuccessModal
   },
   methods: {
     swapComponent: function(component) {
       this.currentComponent = component;
+      this.showSuccessMenu();
     },
     setLanguage: function(language){
       this.language = language;
       console.log(language);
     },
-    createChallenge(chosenChallengeIndex){
-      console.log("challenge "+chosenChallengeIndex+" has been created");
+    showSuccessMenu: function () {
+      $('#successModal').modal({
+        backdrop:false,
+        keyboard:false,
+      });
     }
   }
 })
