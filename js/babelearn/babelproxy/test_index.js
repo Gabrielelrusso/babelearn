@@ -1,1 +1,0 @@
-import BabelProxy from './babelproxy'
