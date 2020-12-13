@@ -76,6 +76,13 @@ export class BabelProxy {
         return synsetIDs;
     }
 
+    /**
+     * Retrieves all the available informations regarding a given BabelNet synset.
+     * 
+     * @param {string} synsetID The identifier of the desired synset.
+     * @param {string[]} targetLanguages Languages desired for the language-dependent information (e.g. words usage examples).
+     * @returns {Object} The data retuned by the API, in the same format as it's returned.
+     */
     async getSynsetInfo(synsetID, targetLanguages = ['EN']){
         if(targetLanguages.length > 4){
             throw new RangeError('BabelNet API accepts at most 4 different languages');
