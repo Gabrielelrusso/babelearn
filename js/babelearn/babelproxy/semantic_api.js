@@ -1,10 +1,18 @@
+import { BabelProxy } from './babelproxy.js'
+
 /**
  * Implements a facade towards the BabelProxy class, in order to decouple the business logic
  * of the game from the details of the BabelNet/Babelfy API (e.g. existance of synsets, synset IDs
  * and so on).
  */
-class SemanticOracle {
-    constructor(){}
+export class SemanticOracle {
+    /**
+     * @param {string} apiKey The key required to access the BabelNet API.
+     */
+    constructor(apiKey){
+        console.log('bulding semantic oracle'); // DEBUG
+        this.babelnetApiProxy = new BabelProxy(apiKey);
+    }
 
     /**
      * Retrieves the first N meanings of a given word, together with some usage examples for
@@ -16,7 +24,18 @@ class SemanticOracle {
      * @returns {{string: {'examples': string[], 'meaning': string[]}}} An Object mapping the given word to an Object containing the meanings and the examples.
      */
     getTopMeaningsWithExamples(word, language, n){
+        var meanings = [];
+        var examples = [];
+        var retVal;
 
+        var synsets = this.babelnetApiProxy.getBabelnetSynsets(word, language);
+
+        return synsets.then((synsetIDs) => {
+            for(var i=0; i < n; i++){
+                this.babelnetApiProxy.getMainGloss(synsetIDs[i]).then((meaning) => meanings.push(meaning));
+                this.babelnetApiProxy.getExamples(synsetIDs[i]).then((ex) => examples.push(ex));
+            }
+        }).then((res) => retVal = {word: {'examples': examples, 'meanings': meanings}});
     }   
 
     /**
