@@ -3,7 +3,7 @@ var ViewChallenges = Vue.component('view-challenges', {
     return {}
   },
   template: `
-    <div class="h-100">
+    <div  class="card mt-5 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
         <div class="card-header card-header-icon card-header-info">
             <div class="card-text h-100">
                 <div class="row h-100">

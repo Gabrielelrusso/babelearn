@@ -3,13 +3,13 @@ var ViewHome = Vue.component('view-home', {
     return {}
   },
   template: `
-    <div class="h-100">
+    <div  class="card mt-5 mx-auto d-flex bg-dark" style="min-height: 80vh; width: 60vw">
       <div class="card-header card-header-icon card-header-info">
         <div class="card-text">
           <h4 class="card-title text-xl-center">Main menu</h4>
         </div>
       </div>
-      <div class="card-body h-100">
+      <div class="card-body align-items-center d-flex justify-content-center bg-success h-100">
         <div class="row h-100">
             <div class="col-12 h-100 my-auto">
               <div class="row h-25">
@@ -75,7 +75,7 @@ var ViewHome = Vue.component('view-home', {
               </div>
               <div class="row h-50">
                   <div class="col-12 my-auto text-center">
-                        <button @click="$emit('change-view-event','view-challenges')" class="btn btn-info btn-round">
+                        <button @click="$emit('change-view-event','view-challenge1')" class="btn btn-info btn-round">
                             <h1 class="text-white blinking">START GAME</h1>
                          </button>
                   </div>
