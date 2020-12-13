@@ -32,14 +32,14 @@
       <div id="app" class="col-md-12">
 
 
-              <component
-               v-bind:challenge="game.challenge"
-               @change-language-event="setLanguage"
-               @change-view-event="swapComponent"
-               v-bind:is="currentComponent"
-            >
+        <component
+         v-bind:challenge="game.challenge"
+         @change-language-event="setLanguage"
+         @change-view-event="swapComponent"
+         v-bind:is="currentComponent"
+        >
 
-            </component>
+        </component>
 
 
 
@@ -66,6 +66,7 @@
 <script src="js/vue-components/view-home.js"></script>
 <script src="js/vue-components/view-challenges.js"></script>
 <script src="js/vue-components/view-challenge1.js"></script>
+<script src="js/vue-components/view-challenge-2.js"></script>
 
 <script>
 
@@ -79,8 +80,8 @@ var vm = new Vue({
       challenge: {
         'word':'basil',
         'description':'Given a word and a sentence in which it is used, the user has to identify the right meaning in the used context.',
-        'question':{
-          'question':'What\'s the color of happiness?',
+        'exercise':{
+          'main':'What\'s the color of happiness?',
           'options':[
             'Cheese is very good when you lick it from the spoon',
             'Carnival trees are way too high to climb when you\'re drunk',
@@ -96,7 +97,8 @@ var vm = new Vue({
   components: {
     'view-home': ViewHome,
     'view-challenges': ViewChallenges,
-    'view-challenge-1':ViewChallenge1
+    'view-challenge-1':ViewChallenge1,
+    'view-challenge-2':ViewChallenge2,
   },
   methods: {
     swapComponent: function(component) {

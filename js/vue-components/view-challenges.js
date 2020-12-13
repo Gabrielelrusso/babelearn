@@ -1,6 +1,20 @@
 var ViewChallenges = Vue.component('view-challenges', {
   data: function () {
-    return {}
+    return {
+      activeChallenge: 0,
+    }
+  },
+  methods: {
+      start(){
+          console.log("pressed");
+          $("p").on("click", function() {
+                document.getElementById("p1").innerHTML = "Paragraph changed!";
+          });
+                  let currentIndex = $('div.carousel-item.active').index() + 1;
+                  console.log("active page: ", currentIndex);
+
+
+      }
   },
   template: `
     <div  class="card mt-5 mx-auto" style="min-height: 80vh; width: 60vw">
@@ -39,7 +53,7 @@ var ViewChallenges = Vue.component('view-challenges', {
                                     <div id="carouselExampleIndicators" class="carousel slide h-100 my-auto" data-ride="carousel">
                                         <div class="row h-75">
                                             <div class="col h-100 my-auto">
-                                                <div class="carousel-inner h-100 my-auto">
+                                                <div id="challengesCarousel" class="carousel-inner h-100 my-auto">
                                                     <div class="carousel-item active h-100 mx-auto my-auto">
                                                         <div class="card h-100 mx-auto" role="tab" data-toggle="tab" style="box-shadow: none">
                                                             <div class="d-flex align-items-center h-50">
@@ -131,7 +145,7 @@ var ViewChallenges = Vue.component('view-challenges', {
                     <div class="row h-25">
                         <div class="col-1 h-100 my-auto"></div>
                         <div class="col-10 h-100 my-auto text-center">
-                            <button type="button" class="btn btn-info btn-sm btn-round btn-block">START</button>
+                            <button type="button" class="btn btn-info btn-sm btn-round btn-block" @click.prevent="start">START</button>
                         </div>
                         <div class="col-1 h-100 my-auto"></div>
                     </div>
