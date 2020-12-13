@@ -16,37 +16,6 @@ export class BabelProxy {
         this.MAX_CACHE_SIZE = 4;
     }
 
-    updateCache_(synsetID, data){
-        var found = false;
-
-        // Check if the synset is already in cache
-        for(var i = 0; i < this.cache.length; i++){
-            if(this.cache[i]["synsetID"] === synsetID){ // no need for ===, just used for robustness
-                found = true;
-            }
-        }
-
-        if(!found){
-            if(this.cache.length < this.MAX_CACHE_SIZE){
-                this.cache.push({"synsetID": synsetID, "data": data});
-            }
-            else{
-                this.cache.shift(); // removes the first element (the one which has been in cache for the most time)
-                this.cache.push({"synsetID": synsetID, "data": data});
-            }
-        }
-    }
-
-    getFromCache_(synsetID){
-        for(var i = 0; i < this.cache.length; i++){
-            if(this.cache[i]["synsetID"] === synsetID){ // no need for ===, just used for robustness
-                return data;
-            }
-        }
-
-        return null;
-    }
-
     /**
      * Creates a list of BabelNet synset IDs from the response received by the BabelNet API.
      * The synsets IDs are represented as strings.
@@ -107,39 +76,30 @@ export class BabelProxy {
         return synsetIDs;
     }
 
-    /**
-     * Retrieves the main gloss of the BabelNet synset identified by the given ID, in a desired language.
-     * 
-     * @param {string} synsetID The ID of the synset whose main gloss will be retrieved.
-     * @param {string} targetLanguage The desired language for the returned gloss. Use two letters abbreviation, e.g. 'EN' for English.
-     * @returns {string} The retrieved main gloss.
-     */
-    async getMainGloss(synsetID, targetLanguage = 'EN'){
+    async getSynsetInfo(synsetID, targetLanguage = 'EN'){
         var get_params = {
             'id' : synsetID,
             'key' : this.apiKey,
             'targetLang': targetLanguage
         };
 
-        // TODO: check if it's in cache
-
-        var mainGloss = '';
+        var apiResponse;
 
         // The main gloss is "always" in position zero in the 'glosses' array.
         try{
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {mainGloss = response.data.glosses[0]['gloss']; this.updateCache_(synsetID, response)});
+            ).then((response) => apiResponse = response);
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
             return;
         }
 
-        console.log('returning main gloss'); // DEBUG
+        console.log('returning synset info'); // DEBUG
 
-        return mainGloss;
+        return apiResponse;
     }
 
     /**
@@ -188,96 +148,5 @@ export class BabelProxy {
         console.log('done disambiguation'); // DEBUG
 
         return synsetIDs;
-    }
-
-    /**
-     * Extracts a list of the examples from the BabelNet API response.
-     * 
-     * @param {Object} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
-     * @param {string[]} outArray Array in which the examples must be stored.
-     * @private
-     */
-    createExamplesList_(apiResponse, outArray){
-        apiResponse.data.examples.forEach(element => {
-            outArray.push(element["example"]);
-        });
-    }
-
-    /**
-     * Retrieves all the examples associated to the BabelNet synset identified by the given ID.
-     * 
-     * @param {string} synsetID The ID of the desired synset.
-     * @returns {string[]} An array of examples.
-     */
-    async getExamples(synsetID){
-        var get_params = {
-            'id' : synsetID,
-            'key' : this.apiKey
-        };
-
-        //TODO: check if it's in cache
-
-        var examples = [];
-
-        try{
-            await axios.get(
-                this.babelnetSynsetsInfoByIDServiceUrl + '?',
-                {params: get_params}
-            ).then((response) => {this.createExamplesList_(response, examples); this.updateCache_(synsetID, response)});
-        }catch(err){
-            // An exception is already thrown by get, so don't throw anything else here, simply
-            // stop execution flow
-            return;
-        }
-
-        
-        console.log('returning examples'); // DEBUG
-
-        return examples;
-    }
-
-    /**
-     * Extracts a list of image URL from the BabelNet API response. 
-     * 
-     * @param {Object} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
-     * @param {string[]} outArray Array in which image URLs must be stored.
-     * @private
-     */
-    createImagesList_(apiResponse, outArray){
-        apiResponse.data.images.forEach(image => {
-            outArray.push(image['url']);
-        });
-    }
-
-    /**
-     * Retrives all the image URLs associated to the given BabelNet synset.
-     * 
-     * @param {string} synsetID The ID of the BabelNet synset to take the images from.
-     * @returns {string[]} An array of image URLs.
-     */
-    async getImages(synsetID){
-        var get_params = {
-            'id' : synsetID,
-            'key' : this.apiKey
-        };
-
-        // TODO: check if it's in cache
-
-        var images = [];
-
-        try{
-            await axios.get(
-                this.babelnetSynsetsInfoByIDServiceUrl + '?',
-                {params: get_params}
-            ).then((response) => {this.createImagesList_(response, images); this.updateCache_(synsetID, response)});
-        }catch(err){
-            // An exception is already thrown by get, so don't throw anything else here, simply
-            // stop execution flow
-            return;
-        }
-
-        console.log('returning images'); // DEBUG
-
-        return images;
     }
 }
