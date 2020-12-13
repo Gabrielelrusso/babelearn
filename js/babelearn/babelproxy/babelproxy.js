@@ -3,8 +3,7 @@
  * 
  * @requires axios
  */
-// TODO: missing export keyword
-class BabelProxy {
+export class BabelProxy {
     /**
      * @param {string} apiKey The API key required by BabelNet/Babelfy to authorize API usage.
      */
@@ -24,7 +23,7 @@ class BabelProxy {
      * @private
      */
     createSynsetsList_(apiResponse, outArray){
-        console.log('creating synsets array'); // DEBUG
+        //console.log('creating synsets array'); // DEBUG
         
         /* 
         * apiResponse is an array of dictionaries which in turn contain synset-related information,
@@ -96,7 +95,7 @@ class BabelProxy {
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {mainGloss = response.data.glosses[0]['gloss']; console.log(response); /*DEBUG*/});
+            ).then((response) => {mainGloss = response.data.glosses[0]['gloss'];});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -117,7 +116,7 @@ class BabelProxy {
      * @private
      */
     createSynsetsListFromBabelfy_(apiResponse, outArray){
-        console.log('Creating synsets from Babelfy'); // DEBUG
+        //console.log('Creating synsets from Babelfy'); // DEBUG
 
         apiResponse.data.forEach(element => {
             outArray.push(element["babelSynsetID"]);
@@ -145,7 +144,7 @@ class BabelProxy {
             await axios.get(
                 this.babelfyDisambiguationServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {this.createSynsetsListFromBabelfy_(response, synsetIDs); console.log(response) /*DEBUG*/});
+            ).then((response) => {this.createSynsetsListFromBabelfy_(response, synsetIDs);});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -187,7 +186,7 @@ class BabelProxy {
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {this.createExamplesList_(response, examples); console.log(response); /*DEBUG*/});
+            ).then((response) => {this.createExamplesList_(response, examples);});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -231,7 +230,7 @@ class BabelProxy {
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {this.createImagesList_(response, images); console.log(response); /*DEBUG*/});
+            ).then((response) => {this.createImagesList_(response, images);});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
