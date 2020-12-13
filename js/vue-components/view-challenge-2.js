@@ -5,6 +5,12 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
   props:{
     challenge:Object
   },
+  methods: {
+      submitAnswer(){
+          let str = $("#answer-input").val();
+          console.log(str);
+      },
+  },
   template: `
     <div  class="card mt-5 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
         <div class="card-header card-header-icon card-header-info">
@@ -36,12 +42,12 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
                         <div class="col-12 text-center">
                             <div class="form-group label-floating has-info">
                                 <label class="control-label">Success input</label>
-                                      <input type="text" value="" class="form-control" />
+                                      <input id="answer-input" type="text" value="" class="form-control" />
                                 <span class="form-control-feedback">
                                 <i class="material-icons">done</i>
                                 </span>
                             </div>
-                            <div class="btn btn-info d-block btn-round">Submit</div>
+                            <div class="btn btn-info d-block btn-round" @click.prevent="submitAnswer">Submit</div>
                         </div>
                     </div>
                 </div>
