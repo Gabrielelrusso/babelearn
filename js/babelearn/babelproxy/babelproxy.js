@@ -12,6 +12,39 @@ export class BabelProxy {
         this.babelnetSynsetsByWordServiceUrl = "https://babelnet.io/v5/getSynsetIds";
         this.babelnetSynsetsInfoByIDServiceUrl = "https://babelnet.io/v5/getSynset";
         this.babelfyDisambiguationServiceUrl = "https://babelfy.io/v1/disambiguate";
+        this.cache = [];
+        this.MAX_CACHE_SIZE = 4;
+    }
+
+    updateCache_(synsetID, data){
+        var found = false;
+
+        // Check if the synset is already in cache
+        for(var i = 0; i < this.cache.length; i++){
+            if(this.cache[i]["synsetID"] === synsetID){ // no need for ===, just used for robustness
+                found = true;
+            }
+        }
+
+        if(!found){
+            if(this.cache.length < this.MAX_CACHE_SIZE){
+                this.cache.push({"synsetID": synsetID, "data": data});
+            }
+            else{
+                this.cache.shift(); // removes the first element (the one which has been in cache for the most time)
+                this.cache.push({"synsetID": synsetID, "data": data});
+            }
+        }
+    }
+
+    getFromCache_(synsetID){
+        for(var i = 0; i < this.cache.length; i++){
+            if(this.cache[i]["synsetID"] === synsetID){ // no need for ===, just used for robustness
+                return data;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -88,6 +121,8 @@ export class BabelProxy {
             'targetLang': targetLanguage
         };
 
+        // TODO: check if it's in cache
+
         var mainGloss = '';
 
         // The main gloss is "always" in position zero in the 'glosses' array.
@@ -95,7 +130,7 @@ export class BabelProxy {
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {mainGloss = response.data.glosses[0]['gloss'];});
+            ).then((response) => {mainGloss = response.data.glosses[0]['gloss']; this.updateCache_(synsetID, response)});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -180,13 +215,15 @@ export class BabelProxy {
             'key' : this.apiKey
         };
 
+        //TODO: check if it's in cache
+
         var examples = [];
 
         try{
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {this.createExamplesList_(response, examples);});
+            ).then((response) => {this.createExamplesList_(response, examples); this.updateCache_(synsetID, response)});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -224,13 +261,15 @@ export class BabelProxy {
             'key' : this.apiKey
         };
 
+        // TODO: check if it's in cache
+
         var images = [];
 
         try{
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {this.createImagesList_(response, images);});
+            ).then((response) => {this.createImagesList_(response, images); this.updateCache_(synsetID, response)});
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
