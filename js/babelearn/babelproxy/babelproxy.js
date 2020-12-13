@@ -76,21 +76,25 @@ export class BabelProxy {
         return synsetIDs;
     }
 
-    async getSynsetInfo(synsetID, targetLanguage = 'EN'){
-        var get_params = {
-            'id' : synsetID,
-            'key' : this.apiKey,
-            'targetLang': targetLanguage
-        };
+    async getSynsetInfo(synsetID, targetLanguages = ['EN']){
+        if(targetLanguages.length > 4){
+            throw new RangeError('BabelNet API accepts at most 4 different languages');
+        }
+        var get_params = new URLSearchParams();
+        
+        get_params.append('id', synsetID);
+        get_params.append('key', this.apiKey);
+        targetLanguages.forEach((language) => {
+            get_params.append('targetLang', language);    
+        });
 
         var apiResponse;
 
-        // The main gloss is "always" in position zero in the 'glosses' array.
         try{
             await axios.get(
                 this.babelnetSynsetsInfoByIDServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => apiResponse = response);
+            ).then((response) => apiResponse = response.data);
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
