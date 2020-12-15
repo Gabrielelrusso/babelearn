@@ -31,12 +31,21 @@
     <div class="row">
       <div id="app" class="col-md-12">
 
+
+
         <success-modal
           @go-to-main-menu-event="goToMainMenu"
           @go-to-challenges-menu-event="goToChallengesMenu"
           @play-again-event="playAgain"
         >
         </success-modal>
+
+        <failure-modal
+          @go-to-main-menu-event="goToMainMenu"
+          @go-to-challenges-menu-event="goToChallengesMenu"
+          @play-again-event="playAgain"
+        >
+        </failure-modal>
 
         <component
          v-bind:challenge="game.challenge"
@@ -76,6 +85,7 @@
 <script src="js/vue-components/view-challenge-1.js"></script>
 <script src="js/vue-components/view-challenge-2.js"></script>
 <script src="js/vue-components/success-modal.js"></script>
+<script src="js/vue-components/failure-modal.js"></script>
 
 <script>
 
@@ -112,7 +122,8 @@ var vm = new Vue({
     'view-challenges': ViewChallenges,
     'view-challenge-1': ViewChallenge1,
     'view-challenge-2': ViewChallenge2,
-    'success-modal':SuccessModal
+    'success-modal': SuccessModal,
+    'failure-modal': FailureModal
   },
   methods: {
     swapComponent: function(component) {
@@ -153,7 +164,7 @@ var vm = new Vue({
       if(true){ // if answer_is_correct
         this.showSuccessMenu();
       }else{
-
+        this.showFailureMenu();
       }
     }
 
