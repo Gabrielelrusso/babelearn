@@ -161,10 +161,13 @@ var vm = new Vue({
     },
     guessAnswer(userInput){
       console.log(userInput);
-      if(true){ // if answer_is_correct
+      if(false){ // if answer_is_correct
         this.showSuccessMenu();
+      }
+      else {
         this.showFailureMenu();
       }
+
     }
 
   }
