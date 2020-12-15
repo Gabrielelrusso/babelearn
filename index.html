@@ -37,6 +37,7 @@
          @change-language-event="setLanguage"
          @change-view-event="swapComponent"
          @create-challenge-event="createChallenge"
+         @submit-answer-event="submitAnswer"
          v-bind:is="currentComponent"
         >
 
@@ -68,6 +69,7 @@
 <script src="js/vue-components/view-challenges.js"></script>
 <script src="js/vue-components/view-challenge-1.js"></script>
 <script src="js/vue-components/view-challenge-2.js"></script>
+<script src="js/vue-components/view-challenge-4.js"></script>
 <script src="js/vue-components/success-modal.js"></script>
 
 <script>
@@ -101,6 +103,7 @@ var vm = new Vue({
     'view-challenges': ViewChallenges,
     'view-challenge-1': ViewChallenge1,
     'view-challenge-2': ViewChallenge2,
+    'view-challenge-4': ViewChallenge4,
     'success-modal':SuccessModal
   },
   methods: {
@@ -119,6 +122,9 @@ var vm = new Vue({
     },
     createChallenge(chosenChallengeIndex){
         console.log("challenge "+chosenChallengeIndex+" has been created.");
+    },
+    submitAnswer(answer){
+        console.log("submitted answer: ", answer);
     }
 
   }

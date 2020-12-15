@@ -73,7 +73,7 @@ var ViewHome = Vue.component('view-home', {
           </div>
           <div class="row">
               <div class="col-12 my-auto text-center">
-                    <button @click="$emit('change-view-event','view-challenge-1')" class="btn btn-info btn-round">
+                    <button @click="$emit('change-view-event','view-challenge-4')" class="btn btn-info btn-round">
                         <h1 class="text-white blinking">START GAME</h1>
                      </button>
               </div>

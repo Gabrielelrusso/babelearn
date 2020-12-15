@@ -1,17 +1,17 @@
 var ViewChallenges = Vue.component('view-challenges', {
   data: function () {
     return {
-      chosenChallengeIndex: 0,
     }
   },
   model: {
 
   },
   methods: {
-      setChosenChallengeIndex(){
-          this.chosenChallengeIndex = $('div.carousel-item.active').index() + 1;
-          console.log("user has chosen challenge: ", this.chosenChallengeIndex);
-      },
+      getChosenChallengeIndex(){
+        let chosenChallengeIndex = $('div.carousel-item.active').index() + 1;
+        console.log("user has chosen challenge: ", chosenChallengeIndex);
+        return chosenChallengeIndex;
+      }
   },
   template: `
     <div  class="card mt-5 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
@@ -134,7 +134,7 @@ var ViewChallenges = Vue.component('view-challenges', {
                         <div class="col-1 h-100 my-auto"></div>
                         <div class="col-10 h-100 my-auto text-center">
                             <button type="button" class="btn btn-info btn-sm btn-round btn-block"
-                                @click.prevent="setChosenChallengeIndex();$emit('create-challenge-event', chosenChallengeIndex)"
+                                @click.prevent="$emit('create-challenge-event', getChosenChallengeIndex())"
                                 >START</button>
                         </div>
                         <div class="col-1 h-100 my-auto"></div>

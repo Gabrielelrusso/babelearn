@@ -1,15 +1,19 @@
 var ViewChallenge2 = Vue.component('view-challenge-2', {
   data: function () {
-    return {}
+    return {
+    }
   },
   props:{
     challenge:Object
   },
   methods: {
-      submitAnswer(){
-          let str = $("#answer-input").val();
-          console.log(str);
+      getSubmittedAnswer(){
+          let answer = $("#answer-input").val();
+          return answer;
       },
+      cleanInput(){
+          $("#answer-input").val("");
+      }
   },
   template: `
     <div  class="card mt-5 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
@@ -41,13 +45,13 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
                     <div class="row mt-3">
                         <div class="col-12 text-center">
                             <div class="form-group label-floating has-info">
-                                <label class="control-label">Success input</label>
-                                      <input id="answer-input" type="text" value="" class="form-control" />
+                                <label class="control-label">Your Answer</label>
+                                      <input id="answer-input" type="text" class="form-control" />
                                 <span class="form-control-feedback">
                                 <i class="material-icons">done</i>
                                 </span>
                             </div>
-                            <div class="btn btn-info d-block btn-round" @click.prevent="submitAnswer">Submit</div>
+                            <div class="btn btn-info d-block btn-round" @click.prevent="$emit('submit-answer-event', getSubmittedAnswer()); cleanInput();">Submit</div>
                         </div>
                     </div>
                 </div>
