@@ -5,7 +5,7 @@ var SuccessModal = Vue.component('success-modal',{
     template: `
       <div class="modal fade mt-5" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content text-center">
+          <div class="modal-content">
             <div class="modal-header bg-success text-light text-center d-flex flex-row flex-wrap align-content-center">
               <h2 class="text-center" id="successModalLabel">BRAVO!</h2>
             </div>
@@ -23,9 +23,9 @@ var SuccessModal = Vue.component('success-modal',{
                       </button>
                 </div>
                 <div class="col-3">
-                    <img class="img-fluid"
+                    <img class=""
                           src="img/doggos/happy-doggo.png"
-                          style="position: absolute; margin-top: -50%"
+                          style="position: absolute; max-width: 200px; margin-top: -50%"
                       >
                 </div>
               </div>
