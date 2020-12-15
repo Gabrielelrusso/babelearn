@@ -36,11 +36,11 @@ var ViewChallenge1 = Vue.component('view-challenge-1', {
                         <div class="col-12 text-center">
                             <ul class="nav nav-pills justify-content-center nav-pills-warning w-100"  role="tablist">
                                 <li v-for="(option, index) in challenge.exercise.options" class="nav-item w-25">
-                                  <div @click="$emit('change-language-event','EN')" class="btn-link w-100 nav-link"  data-toggle="tab">
+                                  <div class="btn-link w-100 nav-link"  data-toggle="tab">
                                       <table class="h-100">
                                         <tbody>
                                           <tr>
-                                            <td class="align-middle">{{option}}</td>
+                                            <td @click="$emit('submit-answer-event',$event.target.innerText)" class="align-middle">{{option}}</td>
                                           </tr>
                                         </tbody>
                                       </table>

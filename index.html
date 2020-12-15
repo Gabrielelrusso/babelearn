@@ -31,13 +31,28 @@
     <div class="row">
       <div id="app" class="col-md-12">
 
-        <success-modal></success-modal>
+
+
+        <success-modal
+          @go-to-main-menu-event="goToMainMenu"
+          @go-to-challenges-menu-event="goToChallengesMenu"
+          @play-again-event="playAgain"
+        >
+        </success-modal>
+
+        <failure-modal
+          @go-to-main-menu-event="goToMainMenu"
+          @go-to-challenges-menu-event="goToChallengesMenu"
+          @play-again-event="playAgain"
+        >
+        </failure-modal>
+
         <component
          v-bind:challenge="game.challenge"
          @change-language-event="setLanguage"
          @change-view-event="swapComponent"
          @create-challenge-event="createChallenge"
-         @submit-answer-event="submitAnswer"
+         @submit-answer-event="guessAnswer"
          v-bind:is="currentComponent"
         >
 
@@ -69,8 +84,8 @@
 <script src="js/vue-components/view-challenges.js"></script>
 <script src="js/vue-components/view-challenge-1.js"></script>
 <script src="js/vue-components/view-challenge-2.js"></script>
-<script src="js/vue-components/view-challenge-4.js"></script>
 <script src="js/vue-components/success-modal.js"></script>
+<script src="js/vue-components/failure-modal.js"></script>
 
 <script>
 
@@ -79,6 +94,10 @@ var vm = new Vue({
   el: '#app',
   data: {
     currentComponent: 'view-home',
+    challengeTypeToViewName:{
+      '1':'view-challenge-1',
+      '2':'view-challenge-2'
+    },
     game: {
       language:'english',
       challenge: {
@@ -103,12 +122,21 @@ var vm = new Vue({
     'view-challenges': ViewChallenges,
     'view-challenge-1': ViewChallenge1,
     'view-challenge-2': ViewChallenge2,
-    'view-challenge-4': ViewChallenge4,
-    'success-modal':SuccessModal
+    'success-modal': SuccessModal,
+    'failure-modal': FailureModal
   },
   methods: {
     swapComponent: function(component) {
       this.currentComponent = component;
+    },
+    goToMainMenu: function(){
+      this.swapComponent('view-home');
+    },
+    goToChallengesMenu: function(){
+      this.swapComponent('view-challenges');
+    },
+    playAgain: function(){
+
     },
     setLanguage: function(language){
       this.language = language;
@@ -120,11 +148,26 @@ var vm = new Vue({
         keyboard:false,
       });
     },
+    showFailureMenu: function(){
+      $('#failureModal').modal({
+        backdrop:false,
+        keyboard:false,
+      });
+    },
     createChallenge(chosenChallengeIndex){
         console.log("challenge "+chosenChallengeIndex+" has been created.");
+        let challengeViewName = this.challengeTypeToViewName[chosenChallengeIndex];
+        this.swapComponent(challengeViewName);
     },
-    submitAnswer(answer){
-        console.log("submitted answer: ", answer);
+    guessAnswer(userInput){
+      console.log(userInput);
+      if(true){ // if answer_is_correct
+        this.showSuccessMenu();
+      }
+      else {
+        this.showFailureMenu();
+      }
+
     }
 
   }

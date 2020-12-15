@@ -1,13 +1,13 @@
-var SuccessModal = Vue.component('success-modal',{
+var FailureModal = Vue.component('failure-modal',{
     data: function () {
       return {}
     },
     template: `
-      <div class="modal fade mt-5" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+      <div class="modal fade mt-5" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="failureModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <div class="modal-header bg-success text-light text-center d-flex flex-row flex-wrap align-content-center">
-              <h2 class="text-center" id="successModalLabel">BRAVO!</h2>
+            <div class="modal-header bg-danger text-light text-center d-flex flex-row flex-wrap align-content-center">
+              <h2 class="text-center" id="successModalLabel">UPS!</h2>
             </div>
             <div class="modal-body">
               <div class="row">
@@ -21,10 +21,13 @@ var SuccessModal = Vue.component('success-modal',{
                       <button @click="$emit('play-again-event')" class="btn btn-primary btn-round mt-5" data-dismiss="modal">
                         NEW EXERCISE
                       </button>
+                      <button class="btn btn-success btn-round" data-dismiss="modal">
+                        RETRY!
+                      </button>
                 </div>
                 <div class="col-3">
                     <img class=""
-                          src="img/doggos/happy-doggo.png"
+                          src="img/doggos/sad-doggo.png"
                           style="position: absolute; max-width: 200px; margin-top: -50%"
                       >
                 </div>
