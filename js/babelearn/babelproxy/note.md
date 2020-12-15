@@ -10,5 +10,21 @@ Il chiamante può inoltre [controllare se il valore restituito dalla funzione è
 
 ### Problema
 
-Per caricare moduli javascript bisogna farsi servire i file da un server (vedi [qui](https://stackoverflow.com/questions/58211880/uncaught-syntaxerror-cannot-use-import-statement-outside-a-module-when-import)), quindi se non tolgo l'export da davanti alla dichiarazione della classe e l'import nel file di test HTML non funziona nulla.  
-Il `type='module'` quando carico `test_index.js` nel file HTML di test è necessario perché lo statement `import` si può usare solo nei moduli, mentre `test_index.js` zerve appunto per avere lo statement di import, perché non posso metterlo direttamente nel file HTML in un tag `script`.
+Per caricare moduli javascript bisogna farsi servire i file da un server (vedi [qui](https://stackoverflow.com/questions/58211880/uncaught-syntaxerror-cannot-use-import-statement-outside-a-module-when-import)).
+Ho risolto installando l'estensione di VSCode 'Live Server'.
+
+## SemanticWordDescription
+
+### Problema
+
+Facendo cambiare meaning con l'utilizzo di meaningPos, potremmo trovarci in situazioni in cui becchiamo un elemento che ha lo stesso significato ma è interpretato in maniera diversa. Ad esempio, il synset `bn:18592848n` ed il synset `bn:00060690n` li troviamo entrambi faceno una query per la parola 'park', solo che il secondo, legato al concetto 'park', è un synset "bello", nel senso che ha gli esempi, è disponibile in diverse lingue etc., mentre il primo è legato alla named entity 'park', quindi non ha nulla: non ha gloss, non ha esempi etc. Quindi abbiamo due opzioni:
+
+1. Chi usa l'oggetto `SemanticWordDescritpion` (la challenge penso), quando richiede i gloss, gli esempi etc. deve controllare che non siano vuoti, e nel caso lo siano deve creare un altro oggetto, cambiando `meaningpos`.
+2. Togliamo `meaningPos` di mezzo e restituiamo sempre oggetti con dentro synset relativi a concetti, perché i concetti (nel senso di CONCEPT) dovrebbero essere sempre ben descritti, quindi non dovremmo avere di questi problemi. Questo però introdurrebbe complessità nel trovare significati diversi della stessa parola.
+
+### TODO
+
+- Costruttore: controllare che ogni elemento di targetLangs sia in un formato consentito ('EN', 'ES' etc.)
+- Metodi vari: controllare i valori restituiti dall'API di BabelNet, es. che quando le chiedo un synset sia riuscita a trovarlo etc.
+- attributi privati
+- aggiungere getter per il lemma in una data lingua
