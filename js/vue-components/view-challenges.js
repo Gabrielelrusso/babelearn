@@ -14,25 +14,21 @@ var ViewChallenges = Vue.component('view-challenges', {
       },
   },
   template: `
-    <div  class="card mt-5 mx-auto" style="min-height: 80vh; width: 60vw">
+    <div  class="card mt-5 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
         <div class="card-header card-header-icon card-header-info">
-            <div class="card-text h-100">
-                <div class="row h-100">
-                    <div class="col-12 h-100 my-auto">
-                        <img class="img mx-auto my-auto no-shadow float-left"
-                            src="https://www.pngrepo.com/download/181385/left-arrow-arrows.png"
-                            alt="Card image cap"
-                            @click="$emit(\'change-view-event\',\'view-home\')"
-                            type="submit"
-                            style="max-height: 30px; max-width: 40px; background-color: transparent !important; cursor: pointer"
-                        >
+            <div class="card-text">
+                <img class="img mx-auto my-auto no-shadow float-left"
+                    src="https://www.pngrepo.com/download/181385/left-arrow-arrows.png"
+                    alt="Card image cap"
+                    @click="$emit(\'change-view-event\',\'view-home\')"
+                    type="submit"
+                    style="max-height: 30px; max-width: 40px; background-color: transparent !important; cursor: pointer"
+                >
 
-                        <h4 class="card-title text-center my-auto">Choose Your Challenge</h4>
-                    </div>
-
-                </div>
+                <h4 class="card-title text-center">Choose Your Challenge</h4>
             </div>
         </div>
+
         <div class="card-body h-100 align-items-center d-flex justify-content-center mt-3">
             <div class="row h-100">
                 <div class="col-12 h-100">
