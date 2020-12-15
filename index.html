@@ -84,6 +84,7 @@
 <script src="js/vue-components/view-challenges.js"></script>
 <script src="js/vue-components/view-challenge-1.js"></script>
 <script src="js/vue-components/view-challenge-2.js"></script>
+<script src="js/vue-components/view-challenge-4.js"></script>
 <script src="js/vue-components/success-modal.js"></script>
 <script src="js/vue-components/failure-modal.js"></script>
 
@@ -122,6 +123,7 @@ var vm = new Vue({
     'view-challenges': ViewChallenges,
     'view-challenge-1': ViewChallenge1,
     'view-challenge-2': ViewChallenge2,
+    'view-challenge-4': ViewChallenge4,
     'success-modal': SuccessModal,
     'failure-modal': FailureModal
   },
@@ -160,7 +162,7 @@ var vm = new Vue({
         this.swapComponent(challengeViewName);
     },
     guessAnswer(userInput){
-      console.log(userInput);
+      console.log("user input: ",userInput);
       if(true){ // if answer_is_correct
         this.showSuccessMenu();
       }
