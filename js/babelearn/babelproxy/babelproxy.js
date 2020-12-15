@@ -12,8 +12,6 @@ export class BabelProxy {
         this.babelnetSynsetsByWordServiceUrl = "https://babelnet.io/v5/getSynsetIds";
         this.babelnetSynsetsInfoByIDServiceUrl = "https://babelnet.io/v5/getSynset";
         this.babelfyDisambiguationServiceUrl = "https://babelfy.io/v1/disambiguate";
-        this.cache = [];
-        this.MAX_CACHE_SIZE = 4;
     }
 
     /**
@@ -81,7 +79,7 @@ export class BabelProxy {
      * 
      * @param {string} synsetID The identifier of the desired synset.
      * @param {string[]} targetLanguages Languages desired for the language-dependent information (e.g. words usage examples).
-     * @returns {Object} The data retuned by the API, in the same format as it's returned.
+     * @returns {Object} The data (so no headers) retuned by the API, in the same format as it's returned.
      */
     async getSynsetInfo(synsetID, targetLanguages = ['EN']){
         if(targetLanguages.length > 4){
