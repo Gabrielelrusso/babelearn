@@ -1,4 +1,4 @@
-var ViewChallenge1 = Vue.component('view-challenge1', {
+var ViewChallenge1 = Vue.component('view-challenge-1', {
   data: function () {
     return {}
   },
@@ -13,7 +13,7 @@ var ViewChallenge1 = Vue.component('view-challenge1', {
             </div>
         </div>
         <div class="card-body d-flex flex-column align-items-center">
-            <div class="row  mt-3">
+            <div class="row mt-3">
                 <div class="col-12">
                     <h4>{{ challenge.description }}</h4>
                     <hr>
@@ -29,13 +29,13 @@ var ViewChallenge1 = Vue.component('view-challenge1', {
                     </div>
                     <div class="row mt-5">
                         <div class="col-12">
-                            <h3>{{ challenge.question.question }}</h3>
+                            <h3>{{ challenge.exercise.main }}</h3>
                         </div>
                     </div>
                     <div class="row mt-5">
                         <div class="col-12 text-center">
                             <ul class="nav nav-pills justify-content-center nav-pills-warning w-100"  role="tablist">
-                                <li v-for="(option, index) in challenge.question.options" class="nav-item w-25">
+                                <li v-for="(option, index) in challenge.exercise.options" class="nav-item w-25">
                                   <div @click="$emit('change-language-event','EN')" class="btn-link w-100 nav-link"  data-toggle="tab">
                                       <table class="h-100">
                                         <tbody>
@@ -56,8 +56,6 @@ var ViewChallenge1 = Vue.component('view-challenge1', {
 
         </div>
     </div>
-
-
 
 `
 })
