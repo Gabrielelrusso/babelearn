@@ -1,4 +1,4 @@
-var ViewChallenge1 = Vue.component('view-challenge1', {
+var ViewChallenge1 = Vue.component('view-challenge-1', {
   data: function () {
     return {}
   },
@@ -13,7 +13,7 @@ var ViewChallenge1 = Vue.component('view-challenge1', {
             </div>
         </div>
         <div class="card-body d-flex flex-column align-items-center">
-            <div class="row  mt-3">
+            <div class="row mt-3">
                 <div class="col-12">
                     <h4>{{ challenge.description }}</h4>
                     <hr>
