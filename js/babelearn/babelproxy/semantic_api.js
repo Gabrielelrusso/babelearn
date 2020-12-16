@@ -3,27 +3,71 @@ import { BabelProxy } from './babelproxy.js'
 // Convenience class for representing a custom exception
 export class NotInitializedError extends Error{}
 
-export class SemanticPhraseDescription {
-    constructor(phrase, language){
+export class SemanticSentenceDescription {
+    constructor(sentence, language){
         /**
          * Fa chiamata a API di Babelfy e si crea un dizionario del tipo
          * {parola: synsetID}
          */
+        if(sentence == null || language == null){
+            throw new TypeError('Sentence and her language must be both specified.');
+        }
+
+        this.sentence = sentence;
+        this.sentenceLang = language;
+        this.proxy = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
+        this.isInitialized = false;
     }
 
-    getSemanticWordDescription(word){
+    async initialize(){
+        this.disambiguatedWords = await this.proxy.getBabelfySynsets(this.sentence, this.sentenceLang);
+        this.isInitialized = true;
+    }
+
+    initializationErrorChecking_(){
+        if(!this.isInitialized){
+            throw new NotInitializedError('This instance of SemanticSentenceDescription is not initialized. Please call initialize() on her.')
+        }
+    }
+
+    /**
+     * L'oggetto SemanticWordDescription che restituisce dev'essere prima inizializzato, la funzione non lo fa,
+     * così il chiamante può inizializzarselo quando serve.
+     * 
+     * @param {*} word 
+     */
+    getSemanticWordDescription(word, targetLanguages){
         /**
          * Restituisce un oggetto SemanticWordDescription con il significato trovato
          * da Babelfy per 'word' nella nostra frase, così challenge può fare
          * checkForEquality con la SemanticWordDescription della parola di gioco.
          */
-    }
+        this.initializationErrorChecking_();
 
+        // Get all the available words (can't use Object.keys() because it would return array indices)
+        var words = [];
+        this.disambiguatedWords.forEach((element) => {
+            words.push(element['word']);
+        });
+
+        // Check if the required word is available
+        if(word == null || !words.includes(word)){
+            return null;
+        }
+
+        // Loop over the available words
+        for(var i = 0; i < words.length; i++){
+            if(words[i] == word){
+                // When you find the required one, build a SemanticWordDescription object through her synsetID
+                return new SemanticWordDescription(null, null, targetLanguages, null, this.disambiguatedWords[i]['synsetID']);
+            }
+        }
+    }
 }
 
 export class SemanticWordDescription {
     // default parameters values are here only for documentation purposes
-    constructor(word=null, language=null, targetLangs=['EN'], meaningPos=0, synsetID=null){
+    constructor(word=null, language=null, targetLangs=['EN'], meaningPos=null, synsetID=null){
         /**
          * Si crea un proxy, fa la richiesta e si salva tutta la risposta.
          * Properties:
@@ -43,7 +87,7 @@ export class SemanticWordDescription {
             throw new RangeError('At least 1 and at most 4 target languages must be specified by passing an array of strings.');
         }
 
-        if (meaningPos == null || meaningPos < 0){
+        if (synsetID == null && (meaningPos == null || meaningPos < 0)){
             throw new RangeError("'meaningPos' must be specified and must be an integer valued at least 0.");
         }
 
@@ -53,7 +97,7 @@ export class SemanticWordDescription {
         this.wordLang = language;
         this.availableLangs = targetLangs;
         this.meaningPos = meaningPos;
-        this.initialized = false;
+        this.isInitialized = false;
     }
 
     // il synsetID, se specificato, è il metodo preferito
@@ -78,12 +122,12 @@ export class SemanticWordDescription {
             this.lemma = this.apiResponse["senses"][0]["properties"]["simpleLemma"];
         }
 
-        this.initialized = true;
+        this.isInitialized = true;
     }
 
     initializationErrorChecking_(){
-        if(!this.initialized){
-            throw new NotInitializedError('This instance of SemanticWordDescription is not initialized. Please call initialize() on it.')
+        if(!this.isInitialized){
+            throw new NotInitializedError('This instance of SemanticWordDescription is not initialized. Please call initialize() on her.')
         }
     }
 
