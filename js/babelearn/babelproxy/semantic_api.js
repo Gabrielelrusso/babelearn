@@ -15,13 +15,16 @@ export class SemanticSentenceDescription {
 
         this.sentence = sentence;
         this.sentenceLang = language;
-        this.proxy = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
+
+        /** @private */
+        this.proxy_ = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
+
         this.isInitialized = false;
         this.disambiguatedWords = null; // Google style conventions require to set all of the fields in the constructor
     }
 
     async initialize(){
-        this.disambiguatedWords = await this.proxy.getBabelfySynsets(this.sentence, this.sentenceLang);
+        this.disambiguatedWords = await this.proxy_.getBabelfySynsets(this.sentence, this.sentenceLang);
         this.isInitialized = true;
     }
 
