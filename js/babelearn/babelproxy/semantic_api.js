@@ -17,6 +17,7 @@ export class SemanticSentenceDescription {
         this.sentenceLang = language;
         this.proxy = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
         this.isInitialized = false;
+        this.disambiguatedWords = null; // Google style conventions require to set all of the fields in the constructor
     }
 
     async initialize(){
@@ -91,13 +92,24 @@ export class SemanticWordDescription {
             throw new RangeError("'meaningPos' must be specified and must be an integer valued at least 0.");
         }
 
-        this.proxy = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
-        this.synsetID = synsetID;
-        this.lemma = word;
-        this.wordLang = language;
+        /** @private */
+        this.proxy_ = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
+
+        /** @private */
+        this.synsetID_ = synsetID;
+
+        /** @private */
+        this.lemma_ = word;
+
+        /** @private */
+        this.wordLang_ = language;
+
         this.availableLangs = targetLangs;
         this.meaningPos = meaningPos;
         this.isInitialized = false;
+
+        /** @private */
+        this.apiResponse_ = null; // Google style conventions require to set all of the fields in the constructor
     }
 
     // il synsetID, se specificato, è il metodo preferito
@@ -105,21 +117,21 @@ export class SemanticWordDescription {
     async initialize(){
         var set = false;
 
-        if(this.synsetID == null){
+        if(this.synsetID_ == null){
             // it was not provided in the constructor
-            var synsetIDs = await this.proxy.getBabelnetSynsets(this.lemma, this.wordLang); // VSCode suggests that await has no effect here, but evidences show that it has.
-            this.synsetID = synsetIDs[this.meaningPos];
+            var synsetIDs = await this.proxy_.getBabelnetSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
+            this.synsetID_ = synsetIDs[this.meaningPos];
         }
         else{
             set = true;
         }
 
-        this.apiResponse = await this.proxy.getSynsetInfo(this.synsetID, this.targetLangs);
+        this.apiResponse_ = await this.proxy_.getSynsetInfo(this.synsetID_, this.availableLangs);
         
         if(set){
             // Init wordLang and lemma to the values of the first sense in the response
-            this.wordLang = this.apiResponse["senses"][0]["properties"]["language"];
-            this.lemma = this.apiResponse["senses"][0]["properties"]["simpleLemma"];
+            this.wordLang_ = this.apiResponse_["senses"][0]["properties"]["language"];
+            this.lemma_ = this.apiResponse_["senses"][0]["properties"]["simpleLemma"];
         }
 
         this.isInitialized = true;
@@ -137,6 +149,20 @@ export class SemanticWordDescription {
         }
     }
 
+    // Prende il primo lemma nella lingua richiesta che trova e lo restituisce
+    getLemma(targetLang){
+        if(targetLang == null || (this.wordLang_ != targetLang && !this.availableLangs.includes(targetLang))){
+            throw new TypeError('Lemma not available in the required language.')
+        }
+
+        var senses = this.apiResponse_["senses"];
+        for(var i = 0; i < senses.length; i++){
+            if(senses[i]['properties']['language'] == targetLang){
+                return senses[i]['properties']['simpleLemma'];
+            }
+        }
+    }
+
     getMeaning(lang){
         this.initializationErrorChecking_();
 
@@ -148,7 +174,7 @@ export class SemanticWordDescription {
          * -> non è detto che un synset contenga sempre il gloss purtroppo (vedi note)
          */
         // forEach does not work properly here
-        var glosses = this.apiResponse.glosses;
+        var glosses = this.apiResponse_.glosses;
 
         for(var i = 0; i < glosses.length; i++){
             if(glosses[i]['language'] == lang){
@@ -158,7 +184,7 @@ export class SemanticWordDescription {
         }
 
         /**
-         * No need for further error checking, because if the code array to the point of 
+         * No need for further error checking, because if the code arrives to the point of 
          * executing the 'forEach' loop the required language is available and a gloss
          * will surely exist.
          */
@@ -175,7 +201,7 @@ export class SemanticWordDescription {
 
         var examplesList = [];
 
-        this.apiResponse.examples.forEach((example) => {
+        this.apiResponse_.examples.forEach((example) => {
             examplesList.push(example['example']);
         });
 
@@ -190,7 +216,7 @@ export class SemanticWordDescription {
 
         var imageURLs = [];
 
-        this.apiResponse.images.forEach((image) => {
+        this.apiResponse_.images.forEach((image) => {
             imageURLs.push(image['url']);
         });
 
@@ -205,10 +231,10 @@ export class SemanticWordDescription {
          */
         this.initializationErrorChecking_();
 
-        var inSynsets = await this.proxy.getBabelnetSynsets(word, lang);
+        var inSynsets = await this.proxy_.getBabelnetSynsets(word, lang);
 
         for(var i = 0; i < inSynsets.length; i++){
-            if(inSynsets[i] == this.synsetID){
+            if(inSynsets[i] == this.synsetID_){
                 return true;
             }
         }
