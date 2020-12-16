@@ -1,11 +1,14 @@
-import { SemanticWordDescription } from './semantic_api.js'
+import { SemanticWordDescription, SemanticSentenceDescription } from './semantic_api.js'
 
 // 'park'
 // 'EN'
 // 'bn:00060690n'
 var word = null, wordLanguage = null, wordTargetLangs = ['EN'], meaningPos = 0, synsetID = 'bn:00060690n';
 var wordUut = new SemanticWordDescription(word, wordLanguage, wordTargetLangs, meaningPos, synsetID);
-  
+
+var sentence = 'Today is a good day for a trip.', sentenceLanguage = 'EN';
+var sentenceUut = new SemanticSentenceDescription(sentence, sentenceLanguage);
+
 function testWordInitialize(){
     // (res) is necessary to wait for the completion of the async method
     wordUut.initialize().then((res) => console.log('uut word: ', wordUut.lemma, '\nuut language: ', wordUut.wordLang, '\nuut synsetID: ', wordUut.synsetID,
@@ -56,3 +59,25 @@ function testCheckForCompatibility(){
     });
 }
 
+function testSentenceInitialize(){
+    sentenceUut.initialize().then((res) => console.log('Sentence: ', sentenceUut.sentence, '\nSentence language: ', sentenceUut.sentenceLang,
+                                                        '\nisInitialized: ', sentenceUut.isInitialized, '\nDisambiguated words: ', sentenceUut.disambiguatedWords));
+}
+
+function testSentenceInitializationErrorChecking(){
+    // Should throw and exception since initialize() hasn't been called
+    sentenceUut.getSemanticWordDescription();
+}
+
+function testGetSemanticWordDescription(){
+    var requiredLanguages = ['EN'];
+    sentenceUut.initialize().then((res) => {
+        var semWordDesc = sentenceUut.getSemanticWordDescription('Today', requiredLanguages);
+        if (semWordDesc == null){
+            console.log('Required word does not exist');
+            return;
+        }
+        semWordDesc.initialize().then((res) => console.log('uut word: ', semWordDesc.lemma, '\nuut language: ', semWordDesc.wordLang, '\nuut synsetID: ', semWordDesc.synsetID,
+                                               '\nuut availableLangs: ', semWordDesc.availableLangs, '\nuut meaningPos: ', semWordDesc.meaningPos)); 
+    });
+}
