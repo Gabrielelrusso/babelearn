@@ -71,6 +71,7 @@ function testGetLemma(){
         // Should work
         var lemma = wordUut.getLemma('EN');
         console.log('Lemma: ', lemma);
+        // try to add a language in the creation of the wordUut object above and query for the lemma in that language too
     });
 }
 
