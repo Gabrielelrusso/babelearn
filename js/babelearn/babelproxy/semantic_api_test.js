@@ -3,12 +3,16 @@ import { SemanticWordDescription, SemanticSentenceDescription } from './semantic
 // 'park'
 // 'EN'
 // 'bn:00060690n'
+// 'bn:00077462n'
 var word = null, wordLanguage = null, wordTargetLangs = ['EN'], meaningPos = 0, synsetID = 'bn:00060690n';
 var wordUut = new SemanticWordDescription(word, wordLanguage, wordTargetLangs, meaningPos, synsetID);
 
 var sentence = 'Today is a good day for a trip.', sentenceLanguage = 'EN';
 var sentenceUut = new SemanticSentenceDescription(sentence, sentenceLanguage);
 
+
+
+// SemanticWordDescription
 function testWordInitialize(){
     // (res) is necessary to wait for the completion of the async method
     wordUut.initialize().then((res) => console.log('uut word: ', wordUut.lemma_, '\nuut language: ', wordUut.wordLang_, '\nuut synsetID: ', wordUut.synsetID_,
@@ -69,6 +73,18 @@ function testGetLemma(){
         console.log('Lemma: ', lemma);
     });
 }
+
+function testCheckForEquality(){
+    wordUut.initialize().then((res) => {
+        sentenceUut.initialize().then((res1) => {
+            var wordDesc = sentenceUut.getSemanticWordDescription('Today', ['EN']);
+            var areEqual = wordUut.checkForEquality(wordDesc);
+            console.log('Equality: ', areEqual);
+        });
+    });
+}
+
+
 
 // SemanticSentenceDescription
 function testSentenceInitialize(){

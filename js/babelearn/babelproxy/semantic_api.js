@@ -248,5 +248,6 @@ export class SemanticWordDescription {
     checkForEquality(semanticWordDescription){
         // Controlla se i due ID sono uguali
         this.initializationErrorChecking_();
+        return semanticWordDescription.synsetID_ == this.synsetID_;
     }
 }
