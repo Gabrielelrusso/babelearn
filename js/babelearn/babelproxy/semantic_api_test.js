@@ -3,17 +3,16 @@ import { SemanticWordDescription } from './semantic_api.js'
 // 'park'
 // 'EN'
 // 'bn:00060690n'
-var word = null, language = null, targetLangs = ['EN'], meaningPos = 0, synsetID = 'bn:00060690n';
-
-var uut = new SemanticWordDescription(word, language, targetLangs, meaningPos, synsetID);
-        
-function testInitialize(){
+var word = null, wordLanguage = null, wordTargetLangs = ['EN'], meaningPos = 0, synsetID = 'bn:00060690n';
+var wordUut = new SemanticWordDescription(word, wordLanguage, wordTargetLangs, meaningPos, synsetID);
+  
+function testWordInitialize(){
     // (res) is necessary to wait for the completion of the async method
-    uut.initialize().then((res) => console.log('uut word: ', uut.lemma, '\nuut language: ', uut.wordLang, '\nuut synsetID: ', uut.synsetID,
-                                               '\nuut availableLangs: ', uut.availableLangs, '\nuut meaningPos: ', uut.meaningPos));
+    wordUut.initialize().then((res) => console.log('uut word: ', wordUut.lemma, '\nuut language: ', wordUut.wordLang, '\nuut synsetID: ', wordUut.synsetID,
+                                               '\nuut availableLangs: ', wordUut.availableLangs, '\nuut meaningPos: ', wordUut.meaningPos));
 }
 
-function testInitializationErrorChecking(){
+function testWordInitializationErrorChecking(){
     // uut.getMeaning();
     // uut.getExamples();
     // uut.getImages();
@@ -26,7 +25,7 @@ function testGetMeaning(){
     //uut.initialize().then((res) => console.log('meaning: ', uut.getMeaning('IT')));
 
     // Available lang
-    uut.initialize().then((res) => {var meaning = uut.getMeaning('EN'); console.log('meaning: ', meaning)});
+    wordUut.initialize().then((res) => {var meaning = wordUut.getMeaning('EN'); console.log('meaning: ', meaning)});
 }
 
 function testGetExamples(){
@@ -34,27 +33,26 @@ function testGetExamples(){
     //uut.initialize().then((res) => console.log('meaning: ', uut.getExamples('IT')));
 
     // Available lang
-    uut.initialize().then((res) => {var meaning = uut.getExamples('EN'); console.log('examples: ', meaning)});
+    wordUut.initialize().then((res) => {var meaning = wordUut.getExamples('EN'); console.log('examples: ', meaning)});
 }
 
 function testGetImages(){
-    uut.initialize().then((res) => {var imgUrls = uut.getImages(); console.log('image URLs: ', imgUrls)});
+    wordUut.initialize().then((res) => {var imgUrls = wordUut.getImages(); console.log('image URLs: ', imgUrls)});
 }
 
 function testCheckForCompatibility(){
-    uut.initialize().then((res) => {
+    wordUut.initialize().then((res) => {
         // Should return false
-        uut.checkForCompatibility('park', 'IT').then((res) => console.log('park - IT compatibility: ', res)); 
+        wordUut.checkForCompatibility('park', 'IT').then((res) => console.log('park - IT compatibility: ', res)); 
         
         // Should return false
-        uut.checkForCompatibility('parcheggio', 'EN').then((res) => console.log('parcheggio - EN compatibility: ', res)); 
+        wordUut.checkForCompatibility('parcheggio', 'EN').then((res) => console.log('parcheggio - EN compatibility: ', res)); 
 
         // Should return false
-        uut.checkForCompatibility('land', 'EN').then((res) => console.log('land -EN compatibility: ', res)); 
+        wordUut.checkForCompatibility('land', 'EN').then((res) => console.log('land -EN compatibility: ', res)); 
         
         // Should return true
-        uut.checkForCompatibility('park', 'EN').then((res) => console.log('park - EN compatibility: ', res)); 
+        wordUut.checkForCompatibility('park', 'EN').then((res) => console.log('park - EN compatibility: ', res)); 
     });
 }
 
-testCheckForCompatibility();
