@@ -11,7 +11,7 @@ var sentenceUut = new SemanticSentenceDescription(sentence, sentenceLanguage);
 
 function testWordInitialize(){
     // (res) is necessary to wait for the completion of the async method
-    wordUut.initialize().then((res) => console.log('uut word: ', wordUut.lemma, '\nuut language: ', wordUut.wordLang, '\nuut synsetID: ', wordUut.synsetID,
+    wordUut.initialize().then((res) => console.log('uut word: ', wordUut.lemma_, '\nuut language: ', wordUut.wordLang_, '\nuut synsetID: ', wordUut.synsetID_,
                                                '\nuut availableLangs: ', wordUut.availableLangs, '\nuut meaningPos: ', wordUut.meaningPos));
 }
 
@@ -59,6 +59,18 @@ function testCheckForCompatibility(){
     });
 }
 
+function testGetLemma(){
+    wordUut.initialize().then((res) => {
+        // Should throw an exception
+        //var lemma = wordUut.getLemma('PL');
+        //console.log('PL lemma', lemma);
+        // Should work
+        var lemma = wordUut.getLemma('EN');
+        console.log('Lemma: ', lemma);
+    });
+}
+
+// SemanticSentenceDescription
 function testSentenceInitialize(){
     sentenceUut.initialize().then((res) => console.log('Sentence: ', sentenceUut.sentence, '\nSentence language: ', sentenceUut.sentenceLang,
                                                         '\nisInitialized: ', sentenceUut.isInitialized, '\nDisambiguated words: ', sentenceUut.disambiguatedWords));
@@ -77,7 +89,10 @@ function testGetSemanticWordDescription(){
             console.log('Required word does not exist');
             return;
         }
-        semWordDesc.initialize().then((res) => console.log('uut word: ', semWordDesc.lemma, '\nuut language: ', semWordDesc.wordLang, '\nuut synsetID: ', semWordDesc.synsetID,
+        semWordDesc.initialize().then((res) => console.log('uut word: ', semWordDesc.lemma_, '\nuut language: ', semWordDesc.wordLang_, '\nuut synsetID: ', semWordDesc.synsetID_,
                                                '\nuut availableLangs: ', semWordDesc.availableLangs, '\nuut meaningPos: ', semWordDesc.meaningPos)); 
     });
 }
+
+
+// Call desired test function
