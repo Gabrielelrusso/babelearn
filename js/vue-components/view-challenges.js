@@ -17,14 +17,6 @@ var ViewChallenges = Vue.component('view-challenges', {
     <div  class="card mt-5 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
         <div class="card-header card-header-icon card-header-info">
             <div class="card-text">
-                <img class="img mx-auto my-auto no-shadow float-left"
-                    src="https://www.pngrepo.com/download/181385/left-arrow-arrows.png"
-                    alt="Card image cap"
-                    @click="$emit(\'change-view-event\',\'view-home\')"
-                    type="submit"
-                    style="max-height: 30px; max-width: 40px; background-color: transparent !important; cursor: pointer"
-                >
-
                 <h4 class="card-title text-center">Choose Your Challenge</h4>
             </div>
         </div>
@@ -133,7 +125,7 @@ var ViewChallenges = Vue.component('view-challenges', {
                     <div class="row h-25">
                         <div class="col-1 h-100 my-auto"></div>
                         <div class="col-10 h-100 my-auto text-center">
-                            <button type="button" class="btn btn-info btn-sm btn-round btn-block"
+                            <button type="button" class="btn btn-info btn-round btn-block"
                                 @click.prevent="$emit('create-challenge-event', getChosenChallengeIndex())"
                                 >START</button>
                         </div>

@@ -51,6 +51,26 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
                                 <i class="material-icons">done</i>
                                 </span>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row" v-if="challenge.answered && !challenge.rightAnswered">
+                        <div class="col-12 text-center">
+                            <div class="alert alert-danger d-inline-block text-center">
+                                <div class="container-fluid">
+                                    <div class="alert-icon">
+                                        <i class="material-icons">error_outline</i>
+                                    </div>
+                                    You used {{challenge.word}} in the following wrong sense
+                                </div>
+                            </div>
+                            <div class="card-text">
+                                <h4>{{ challenge.exercise.wrongAnswerInfo }}</h4>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
                             <div class="btn btn-info d-block btn-round" @click.prevent="$emit('submit-answer-event', getSubmittedAnswer()); cleanInput();">Submit</div>
                         </div>
                     </div>
