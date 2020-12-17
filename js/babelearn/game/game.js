@@ -23,10 +23,22 @@ export class Game {
       this.currentChallenge = this.challengeFactory.getNewChallenge(difficulty, type);
     }
 
+    /*
+     * starts a new Challenge. In particular, changes the current challenge with
+     * a new challenge according to the difficulty and type specified.
+     *
+     * @returns {Challenge} currentChallenge
+     */
     getCurrentChallenge(){
       return this.currentChallenge;
     }
 
+    /*
+     * the user
+     *
+     * @param {String} difficulty of the challenge to return.
+     * @returns {Boolean} true if the answer is correct, false otherwise.
+     */
     guess(user_answer){
       return this.currentChallenge.guess(user_answer);
     }
