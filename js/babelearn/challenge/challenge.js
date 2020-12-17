@@ -1,5 +1,6 @@
 /**
  * Abstract Base Class per le challenge.
+ * 
  */
 export class Challenge {
     constructor(word, wordLang, additionalLang){
@@ -8,21 +9,66 @@ export class Challenge {
             throw new TypeError('Abstract class Challenge cannot be instantiated directly.');
         }
 
-        // Verify that all the methods of the abstract class are implemented by subclasses
-        if(this.generate === undefined || this.guess === undefined || this.getSolution === undefined){
-            throw new TypeError('Classes extending the Challenge abstract class must implement all of her methods.'); 
-        }
-
         /** @private */
-        this.question_ = null;
-        
+        this.description_ = null;
+
         /** @private */
         this.solution_ = null;
+
+        /** @private */
+        this.word_ = word;
+
+        /** @private */
+        this.wordLang_ = wordLang;
+
+        /** @private */
+        this.additionalLang_ = additionalLang;
+
+        /** @private */
+        this.exercise_ = null;
+
+        /** @private */
+        this.wrongAnswerInfo_ = null;
     }
 
-    async generate(){}
+    /**
+     * Se una sottoclasse non implementa uno di questi metodi, non viene lanciata l'eccezione quando l'oggetto della sottoclasse
+     * viene creato (Javascript non lo supporta) ma viene lanciata quando si prova ad utilizzare il metodo non overloaded.
+     */
 
-    guess(answer){}
+    async generate(){
+        throw new TypeError('Subclasses of abstract class Challenge must provide an implementation for the generate() method.');
+    }
 
-    getSolution(){}
+    guess(answer){
+        throw new TypeError('Subclasses of abstract class Challenge must provide an implementation for the guess(answer) method.');
+    }
+
+    getDescription(){
+        return this.description_;
+    }
+    
+    getSolution(){
+        return this.solution_;
+    }
+
+    getWord(){
+        return this.word_;
+    }
+
+    getWordLang(){
+        return this.wordLang_;
+    }
+
+    getAdditionalLang(){
+        return this.additionalLang_;
+    }
+
+    getExercise(){
+        return this.exercise_;
+    }
+
+    getWrongAnswerInfo(){
+        return this.wrongAnswerInfo_;
+    }
 }
