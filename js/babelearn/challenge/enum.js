@@ -5,7 +5,7 @@ export const CHALLENGE_DIFFICULTY = Object.freeze({
 });
 
 export const CHALLENGE_TYPE = Object.freeze({
-    CHALLENGE_1:   Symbol("challenge-1"),
-    CHALLENGE_2:  Symbol("challenge-2"),
-    CHALLENGE_4: Symbol("challenge-4")
+    MEANING_FROM_EXAMPLE_CHALLENGE:   Symbol("meaning-from-example-challenge"),
+    EXAMPLE_FROM_MEANING_CHALLENGE:  Symbol("example-from-meaning-challenge"),
+    FOUR_IMAGES_ONE_WORD_CHALLENGE: Symbol("four-images-one-word-challenge")
 });

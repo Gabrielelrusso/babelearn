@@ -9,7 +9,7 @@ export class ChallengeFactory {
     constructor(){
         this.words = {
           EASY: ['play', 'work', 'left'],
-          MEDIUM: [''],
+          MEDIUM: [],
           HARD: []
         };
     }
@@ -37,12 +37,12 @@ export class ChallengeFactory {
         let gameWord = words[Math.floor(Math.random() * words.length)];
 
         switch(type){
-            case type.CHALLENGE_1:
-              return
-            case type.CHALLENGE_2:
-              return
-            case type.CHALLENGE_4:
-              return
+            case type.MEANING_FROM_EXAMPLE_CHALLENGE:
+              return new MeaningFromExampleChallenge();
+            case type.EXAMPLE_FROM_MEANING_CHALLENGE:
+              return new ExampleFromMeaningChallenge();
+            case type.FOUR_IMAGES_ONE_WORD_CHALLENGE:
+              return new FourImagesOneWordChallenge();
         }
 
         throw 'Type '+type+'does not exists.'
