@@ -13,6 +13,11 @@ export class Challenge {
             throw new TypeError('Classes extending the Challenge abstract class must implement all of her methods.'); 
         }
 
+        /** @private */
+        this.question_ = null;
+        
+        /** @private */
+        this.solution_ = null;
     }
 
     async generate(){}
