@@ -1,9 +1,9 @@
-import CHALLENGE_TYPE from './enum.js';
-import CHALLENGE_DIFFICULTY from './enum.js';
-import Challenge from './challenge.js'
-import ExampleFromMeaningChallenge from './example_from_meaning_challenge.js'
-import FourImagesOneWordChallenge from './four_images_one_word_challenge.js'
-import MeaningFromExampleChallenge from './meaning_from_example_challenge.js'
+import {CHALLENGE_TYPE} from './enum.js';
+import {CHALLENGE_DIFFICULTY} from './enum.js';
+import {Challenge} from './challenge.js'
+import {ExampleFromMeaningChallenge} from './example_from_meaning_challenge.js'
+import {FourImagesOneWordChallenge} from './four_images_one_word_challenge.js'
+import {MeaningFromExampleChallenge} from './meaning_from_example_challenge.js'
 /*
  * Implements a challenge factory according to the factory method pattern.
  */
@@ -18,8 +18,7 @@ export class ChallengeFactory {
     }
 
     /**
-     * Creates a list of BabelNet synset IDs from the response received by the BabelNet API.
-     * The synsets IDs are represented as strings.
+     * Creates and returns a new Challenge
      *
      * @param {CHALLENGE_DIFFICULTY} difficulty of the challenge to return.
      * @param {CHALLENGE_TYPE} type of the challenge to return.
@@ -50,6 +49,4 @@ export class ChallengeFactory {
 
         throw 'Type '+type+'does not exists.'
     }
-
-
 }
