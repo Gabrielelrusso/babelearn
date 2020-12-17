@@ -1,4 +1,4 @@
-import { BabelProxy } from './babelproxy.js'
+import { BabelProxy } from '../babelproxy.js'
 
 var proxyInstance = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
 
