@@ -1,4 +1,4 @@
-import { BabelProxy } from './babelproxy.js'
+import { BabelProxy } from '../babelproxy/babelproxy.js'
 
 // Convenience class for representing a custom exception
 export class NotInitializedError extends Error{}

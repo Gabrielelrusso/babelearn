@@ -1,4 +1,4 @@
-import { SemanticWordDescription, SemanticSentenceDescription } from './semantic_api.js'
+import { SemanticWordDescription, SemanticSentenceDescription } from '../semantic_api.js'
 
 // 'park'
 // 'EN'
@@ -113,3 +113,4 @@ function testGetSemanticWordDescription(){
 
 
 // Call desired test function
+testGetLemma();
