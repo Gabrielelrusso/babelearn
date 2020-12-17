@@ -8,8 +8,9 @@ export class Challenge {
             throw new TypeError('Abstract class Challenge cannot be instantiated directly.');
         }
 
-        if(this.generate === undefined){
-            throw new TypeError('Classes extending the Challenge abstract class'); 
+        // Verify that all the methods of the abstract class are implemented by subclasses
+        if(this.generate === undefined || this.guess === undefined || this.getSolution === undefined){
+            throw new TypeError('Classes extending the Challenge abstract class must implement all of her methods.'); 
         }
 
     }
