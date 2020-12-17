@@ -1,6 +1,9 @@
 import CHALLENGE_TYPE from './enum.js';
 import CHALLENGE_DIFFICULTY from './enum.js';
 import Challenge from './challenge.js'
+import ExampleFromMeaningChallenge from './example_from_meaning_challenge.js'
+import FourImagesOneWordChallenge from './four_images_one_word_challenge.js'
+import MeaningFromExampleChallenge from './meaning_from_example_challenge.js'
 /*
  * Implements a challenge factory according to the factory method pattern.
  */
