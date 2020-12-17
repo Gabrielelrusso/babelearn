@@ -30,6 +30,8 @@
     
         <h2><span class="attribs"><span class="type-signature"></span></span>BabelProxy<span class="signature">(apiKey)</span><span class="type-signature"></span></h2>
         
+            <div class="class-description">Implements a proxy towards the BabelNet and Babelfy HTTP APIs.</div>
+        
     
 </header>
 
@@ -38,6 +40,8 @@
     
         
 
+    
+    <h2>Constructor</h2>
     
 
     
@@ -138,7 +142,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="babelproxy.js.html">babelproxy.js</a>, <a href="babelproxy.js.html#line11">line 11</a>
+        <a href="babelproxy_babelproxy.js.html">babelproxy/babelproxy.js</a>, <a href="babelproxy_babelproxy.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -150,6 +154,11 @@
 </dl>
 
 
+
+<h5>Requires:</h5>
+<ul>
+    <li>module:axios</li>
+</ul>
 
 
 
@@ -174,7 +183,20 @@
     
 
     
+        <h3 class="subsection-title">Requires</h3>
 
+        <ul>
+            <li>module:axios</li>
+        </ul>
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="BabelProxy.html">BabelProxy</a></dt>
+            <dd></dd>
+        </dl>
     
 
     
@@ -194,7 +216,7 @@
     
 
     
-    <h4 class="name" id="getBabelfySynsets"><span class="type-signature">(async) </span>getBabelfySynsets<span class="signature">(sentence, language)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
+    <h4 class="name" id="getBabelfySynsets"><span class="type-signature">(async) </span>getBabelfySynsets<span class="signature">(sentence, language)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -318,7 +340,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="babelproxy.js.html">babelproxy.js</a>, <a href="babelproxy.js.html#line135">line 135</a>
+        <a href="babelproxy_babelproxy.js.html">babelproxy/babelproxy.js</a>, <a href="babelproxy_babelproxy.js.html#line144">line 144</a>
     </li></ul></dd>
     
 
@@ -341,13 +363,25 @@
 
 
 
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        an error if an error occurs during the GET request.
+    
+    </div>
+
+
+    
 
 
 <h5>Returns:</h5>
 
         
 <div class="param-desc">
-    A list of the retrieved synset IDs.
+    A mapping between each word of the sentence whose sense has been disambiguated and the corresponding synsetID, as {"word": word, "synsetID": synsetID}.
 </div>
 
 
@@ -358,7 +392,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Array.&lt;string></span>
+<span class="param-type">Object</span>
 
 
     </dd>
@@ -500,7 +534,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="babelproxy.js.html">babelproxy.js</a>, <a href="babelproxy.js.html#line47">line 47</a>
+        <a href="babelproxy_babelproxy.js.html">babelproxy/babelproxy.js</a>, <a href="babelproxy_babelproxy.js.html#line47">line 47</a>
     </li></ul></dd>
     
 
@@ -523,6 +557,18 @@
 
 
 
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        an error if an error occurs during the GET request.
+    
+    </div>
+
+
+    
 
 
 <h5>Returns:</h5>
@@ -558,7 +604,7 @@
     
 
     
-    <h4 class="name" id="getExamples"><span class="type-signature">(async) </span>getExamples<span class="signature">(synsetID)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
+    <h4 class="name" id="getSynsetInfo"><span class="type-signature">(async) </span>getSynsetInfo<span class="signature">(synsetID, targetLanguages)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -566,7 +612,7 @@
 
 
 <div class="description">
-    Retrieves all the examples associated to the BabelNet synset identified by the given ID.
+    Retrieves all the available informations regarding a given BabelNet synset.
 </div>
 
 
@@ -618,158 +664,22 @@
 
             
 
-            <td class="description last">The ID of the desired synset.</td>
+            <td class="description last">The identifier of the desired synset.</td>
         </tr>
 
     
-    </tbody>
-</table>
 
+        <tr>
+            
+                <td class="name"><code>targetLanguages</code></td>
+            
 
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="babelproxy.js.html">babelproxy.js</a>, <a href="babelproxy.js.html#line178">line 178</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    An array of examples.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
+            <td class="type">
+            
+                
 <span class="param-type">Array.&lt;string></span>
 
 
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getImages"><span class="type-signature">(async) </span>getImages<span class="signature">(synsetID)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Retrives all the image URLs associated to the given BabelNet synset.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>synsetID</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
             
             </td>
 
@@ -777,7 +687,7 @@
 
             
 
-            <td class="description last">The ID of the BabelNet synset to take the images from.</td>
+            <td class="description last">Languages desired for the language-dependent information (e.g. words usage examples).</td>
         </tr>
 
     
@@ -818,7 +728,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="babelproxy.js.html">babelproxy.js</a>, <a href="babelproxy.js.html#line222">line 222</a>
+        <a href="babelproxy_babelproxy.js.html">babelproxy/babelproxy.js</a>, <a href="babelproxy_babelproxy.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -841,13 +751,52 @@
 
 
 
+<h5>Throws:</h5>
+<ul>
+        <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        if too many target languages are given.
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">RangeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+    
+        <li>
+
+    <div class="param-desc">
+    
+        an error if an error occurs during the GET request.
+    
+    </div>
+
+</li>
+    </ul>
 
 
 <h5>Returns:</h5>
 
         
 <div class="param-desc">
-    An array of image URLs.
+    The data (so no headers) retuned by the API, in the same format as it's returned.
 </div>
 
 
@@ -858,201 +807,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Array.&lt;string></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getMainGloss"><span class="type-signature">(async) </span>getMainGloss<span class="signature">(synsetID, targetLanguage)</span><span class="type-signature"> &rarr; {string}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Retrieves the main gloss of the BabelNet synset identified by the given ID, in a desired language.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>synsetID</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">The ID of the synset whose main gloss will be retrieved.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>targetLanguage</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    EN
-                
-                </td>
-            
-
-            <td class="description last">The desired language for the returned gloss. Use two letters abbreviation, e.g. 'EN' for English.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="babelproxy.js.html">babelproxy.js</a>, <a href="babelproxy.js.html#line85">line 85</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The retrieved main gloss.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
+<span class="param-type">Object</span>
 
 
     </dd>
@@ -1080,13 +835,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BabelProxy.html">BabelProxy</a></li><li><a href="SemanticOracle.html">SemanticOracle</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BabelProxy.html">BabelProxy</a></li><li><a href="NotInitializedError.html">NotInitializedError</a></li><li><a href="SemanticSentenceDescription.html">SemanticSentenceDescription</a></li><li><a href="SemanticWordDescription.html">SemanticWordDescription</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sat Dec 12 2020 19:50:23 GMT+0100 (Ora standard dell’Europa centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Thu Dec 17 2020 18:21:41 GMT+0100 (Ora standard dell’Europa centrale)
 </footer>
 
 <script> prettyPrint(); </script>

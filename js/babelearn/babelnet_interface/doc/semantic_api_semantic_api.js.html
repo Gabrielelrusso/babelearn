@@ -1,4 +1,32 @@
-import { BabelProxy } from '../babelproxy/babelproxy.js'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: semantic_api/semantic_api.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: semantic_api/semantic_api.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { BabelProxy } from '../babelproxy/babelproxy.js'
 
 /**
  * Convenience class to represent a custom exception.
@@ -87,7 +115,7 @@ export class SemanticSentenceDescription {
         }
 
         // Loop over the available words
-        for(var i = 0; i < words.length; i++){
+        for(var i = 0; i &lt; words.length; i++){
             if(words[i] == word){
                 // When you find the required one, build a SemanticWordDescription object through her synsetID
                 return new SemanticWordDescription(null, null, targetLanguages, null, this.disambiguatedWords[i]['synsetID']);
@@ -123,16 +151,16 @@ export class SemanticWordDescription {
      */
     constructor(word=null, language=null, targetLangs=['EN'], meaningPos=null, synsetID=null){
         // synsetID or word AND language must be provided
-        if(synsetID == null && (word == null || language == null)){
+        if(synsetID == null &amp;&amp; (word == null || language == null)){
             throw new TypeError('The synset ID or the desired word and her language must be specified.');
         }
 
-        if (targetLangs == null || targetLangs.length > 4 || targetLangs.length < 1 || !Array.isArray(targetLangs)){
+        if (targetLangs == null || targetLangs.length > 4 || targetLangs.length &lt; 1 || !Array.isArray(targetLangs)){
             throw new RangeError('At least 1 and at most 4 target languages must be specified by passing an array of strings.');
         }
 
         // Unless the synsetID has been provided, also the meaningPos is mandatory
-        if ((synsetID == null && meaningPos == null) || meaningPos < 0){
+        if ((synsetID == null &amp;&amp; meaningPos == null) || meaningPos &lt; 0){
             throw new RangeError("'meaningPos' must be specified and must be an integer valued at least 0.");
         }
 
@@ -172,7 +200,7 @@ export class SemanticWordDescription {
         if(this.synsetID_ == null){
             // it was not provided in the constructor
             var synsetIDs = await this.proxy_.getBabelnetSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
-            if(synsetIDs.length <= this.meaningPos){
+            if(synsetIDs.length &lt;= this.meaningPos){
                 throw new RangeError('The required meaningPos is not availabe, try to provide a smaller value and perform the initialization again.');
             }
             this.synsetID_ = synsetIDs[this.meaningPos];
@@ -226,12 +254,12 @@ export class SemanticWordDescription {
      * @throws {TypeError} if the lemma is not available in the required language.
      */
     getLemma(targetLang){
-        if(targetLang == null || (this.wordLang_ != targetLang && !this.availableLangs.includes(targetLang))){
+        if(targetLang == null || (this.wordLang_ != targetLang &amp;&amp; !this.availableLangs.includes(targetLang))){
             throw new TypeError('Lemma not available in the required language.')
         }
 
         var senses = this.apiResponse_["senses"];
-        for(var i = 0; i < senses.length; i++){
+        for(var i = 0; i &lt; senses.length; i++){
             if(senses[i]['properties']['language'] == targetLang){
                 return senses[i]['properties']['simpleLemma'];
             }
@@ -254,7 +282,7 @@ export class SemanticWordDescription {
 
         // forEach does not work properly here
         var glosses = this.apiResponse_.glosses;
-        for(var i = 0; i < glosses.length; i++){
+        for(var i = 0; i &lt; glosses.length; i++){
             if(glosses[i]['language'] == lang){
                 console.log('found gloss') // DEBUG
                 return glosses[i]['gloss'];
@@ -323,7 +351,7 @@ export class SemanticWordDescription {
         var inSynsets = await this.proxy_.getBabelnetSynsets(word, lang);
 
         // Check if one of them is equal to the synsetID associated to this object
-        for(var i = 0; i < inSynsets.length; i++){
+        for(var i = 0; i &lt; inSynsets.length; i++){
             if(inSynsets[i] == this.synsetID_){
                 return true;
             }
@@ -344,4 +372,26 @@ export class SemanticWordDescription {
         this.initializationErrorChecking_();
         return semanticWordDescription.synsetID_ == this.synsetID_;
     }
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BabelProxy.html">BabelProxy</a></li><li><a href="NotInitializedError.html">NotInitializedError</a></li><li><a href="SemanticSentenceDescription.html">SemanticSentenceDescription</a></li><li><a href="SemanticWordDescription.html">SemanticWordDescription</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Thu Dec 17 2020 18:21:41 GMT+0100 (Ora standard dell’Europa centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
