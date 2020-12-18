@@ -3,6 +3,12 @@
 import { SemanticWordDescription } from "../babelnet_interface/semantic_api/semantic_api";
 
 /**
+ * Convenience class to represent the situation in which it's impossiblle to build a challenge obejct
+ * (e.g due to lack of different meanings for a certain word).
+ */
+export class ChallengeBuildFailedError extends Error{}
+
+/**
  * Abstract Base Class per le challenge.
  * 
  * gameLang è la lingua di gioco, cioè la lingua in cui l'utente ha scelto di giocare. La specifichiamo
