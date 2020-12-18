@@ -1,16 +1,18 @@
+/*jshint esversion: 8 */ 
+
 /**
  * Abstract Base Class per le challenge.
  * 
  */
 export class Challenge {
-    constructor(word, wordLang, additionalLang){
+    constructor(word, wordLang, additionalLang, description){
         // Verify that the class is not instantiated directly, but only thorugh subclasses
         if(this.constructor == Challenge){
             throw new TypeError('Abstract class Challenge cannot be instantiated directly.');
         }
 
         /** @private */
-        this.description_ = null;
+        this.description_ = description;
 
         /** @private */
         this.solution_ = null;
@@ -70,5 +72,17 @@ export class Challenge {
 
     getWrongAnswerInfo(){
         return this.wrongAnswerInfo_;
+    }
+
+    setSolution(solution){
+        this.solution_ = solution;
+    }
+
+    setExercise(exercise){
+        this.exercise_ = exercise;
+    }
+
+    setWrongAnswerInfo(info){
+        this.wrongAnswerInfo_ = info;
     }
 }
