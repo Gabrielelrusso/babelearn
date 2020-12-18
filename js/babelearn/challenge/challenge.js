@@ -70,7 +70,11 @@ export class Challenge {
     }
 
     async getWordInGameLang(){
-        let wordDescription = new SemanticWordDescription(this.word_, this.wordLang_, [this.gameLang_], 0, null);
+        /**
+         * The lemma is always the same, independently of the particular meaning it is used with, so there's no need to worry about the current
+         * meaning used (meaningPos).
+         */
+        let wordDescription = new SemanticWordDescription(this.word_, this.wordLang_, [this.gameLang_], null);
         var lemma;
         await wordDescription.initialize().then((res, lemma) => lemma = wordDescription.getLemma(this.gameLang_));
         return lemma;
