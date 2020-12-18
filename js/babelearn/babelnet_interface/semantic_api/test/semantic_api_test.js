@@ -1,11 +1,13 @@
+/*jshint esversion: 8 */ 
+
 import { SemanticWordDescription, SemanticSentenceDescription } from '../semantic_api.js'
 
 // 'park'
 // 'EN'
 // 'bn:00060690n'
 // 'bn:00077462n'
-var word = null, wordLanguage = null, wordTargetLangs = ['EN'], meaningPos = 0, synsetID = 'bn:00060690n';
-var wordUut = new SemanticWordDescription(word, wordLanguage, wordTargetLangs, meaningPos, synsetID);
+var word = null, wordLanguage = null, wordTargetLangs = ['EN'], synsetID = 'bn:00060690n';
+var wordUut = new SemanticWordDescription(word, wordLanguage, wordTargetLangs, synsetID);
 
 var sentence = 'Today is a good day for a trip.', sentenceLanguage = 'EN';
 var sentenceUut = new SemanticSentenceDescription(sentence, sentenceLanguage);

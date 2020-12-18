@@ -1,3 +1,5 @@
+/*jshint esversion: 8 */ 
+
 import { BabelProxy } from '../babelproxy/babelproxy.js'
 
 /**
@@ -90,7 +92,7 @@ export class SemanticSentenceDescription {
         for(var i = 0; i < words.length; i++){
             if(words[i] == word){
                 // When you find the required one, build a SemanticWordDescription object through her synsetID
-                return new SemanticWordDescription(null, null, targetLanguages, null, this.disambiguatedWords[i]['synsetID']);
+                return new SemanticWordDescription(null, null, targetLanguages, this.disambiguatedWords[i]['synsetID']);
             }
         }
     }
@@ -110,18 +112,12 @@ export class SemanticWordDescription {
      * @param {string} word The word whose semantic description will be built. Can be omitted if the synsetID is provided.
      * @param {string} language The language the given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English.
      * @param {string[]} targetLangs The languages in which language-dependent elements (lemma, examples, meaning) of this instance will be available. Use two letters abbreviation, e.g. 'EN' for English.
-     * @param {number} meaningPos This value allows to select different meanings of the same word: if you call different time this
-     *     method with the same value for all the parameters except this one, you will get each time a different meaning of the same word to be
-     *     associated to the {@link SemanticWordDescription} instance. If you don't have this necessity, just put it to zero, or even to null if you
-     *     provide the synsetID. In general, it must be a non-negative integer.
      * @param {string} synsetID The synsetID upon which the semantic word description encapsulated by this object will be built.
      *     Can be omitted if word and language are provided.
      * @throws {TypeError} if neither the synsetID nor word and language have been specified.
-     * @throws {RangeError} in the following cases:
-     *     - Target languages have not been specified, they are too many or they have not been provided as an array
-     *     - The synsetID has not been specified and meaningPos is null or meaningPos is a negative value.
+     * @throws {RangeError} if target languages have not been specified, they are too many or they have not been provided as an array
      */
-    constructor(word=null, language=null, targetLangs=['EN'], meaningPos=null, synsetID=null){
+    constructor(word=null, language=null, targetLangs=['EN'], synsetID=null){
         // synsetID or word AND language must be provided
         if(synsetID == null && (word == null || language == null)){
             throw new TypeError('The synset ID or the desired word and her language must be specified.');
@@ -129,11 +125,6 @@ export class SemanticWordDescription {
 
         if (targetLangs == null || targetLangs.length > 4 || targetLangs.length < 1 || !Array.isArray(targetLangs)){
             throw new RangeError('At least 1 and at most 4 target languages must be specified by passing an array of strings.');
-        }
-
-        // Unless the synsetID has been provided, also the meaningPos is mandatory
-        if ((synsetID == null && meaningPos == null) || meaningPos < 0){
-            throw new RangeError("'meaningPos' must be specified and must be an integer valued at least 0.");
         }
 
         /** @private */
@@ -145,21 +136,26 @@ export class SemanticWordDescription {
         /** @private */
         this.lemma_ = word;
 
-        /** @private */
-        this.wordLang_ = language; // language 'word' is expressed into
-
-        this.availableLangs = targetLangs;
-        this.meaningPos = meaningPos;
-        this.isInitialized = false;
+        /** 
+         * This value allows to select different meanings of the same word: it's used by the nextMeaning() method.
+         * @private 
+         * */
+        this.meaningPos_ = 0;
 
         /** @private */
         this.apiResponse_ = null; // Google style conventions require to set all of the fields in the constructor
+
+        /** @private */
+        this.maxMeaningPos_ = null;
+
+        this.wordLang_ = language; // language 'word' is expressed into
+        this.availableLangs = targetLangs;        
+        this.isInitialized = false;
     }
 
     /**
      * Actually populates this object's member variables with the data received by the BabelNet API.
-     * 
-     * @throws {RangeError} is the meaningPos specified in the constructor exceeds the available meanings for the given lemma.
+     *
      */
     async initialize(){
         /**
@@ -172,10 +168,8 @@ export class SemanticWordDescription {
         if(this.synsetID_ == null){
             // it was not provided in the constructor
             var synsetIDs = await this.proxy_.getBabelnetSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
-            if(synsetIDs.length <= this.meaningPos){
-                throw new RangeError('The required meaningPos is not availabe, try to provide a smaller value and perform the initialization again.');
-            }
-            this.synsetID_ = synsetIDs[this.meaningPos];
+            this.maxMeaningPos_ = synsetIDs.length;
+            this.synsetID_ = synsetIDs[this.meaningPos_];
         }
         else{
             isSynsetIdGiven = true;
@@ -190,6 +184,28 @@ export class SemanticWordDescription {
         }
 
         this.isInitialized = true;
+    }
+
+    /**
+     * Controllare se esiste un altro synsetID associato a questa parola.
+     */
+    hasAnotherMeaning(){
+        return this.maxMeaningPos_ > this.meaningPos_;
+    }
+
+    /**
+     * Carica in quest'oggetto il significato successivo di questa parola.
+     * 
+     * @throws {RangeError} if no new meaning is available for the word encapsulated by this object.
+     */
+    async nextMeaning(){
+        if(this.hasAnotherMeaning()){
+            this.meaningPos_ += 1;
+            await this.initialize();
+        }
+        else{
+            throw new RangeError('No new meaning is available for this word.');
+        }
     }
 
     /**
