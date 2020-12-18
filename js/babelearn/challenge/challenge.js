@@ -1,11 +1,18 @@
-/*jshint esversion: 8 */ 
+/*jshint esversion: 8 */
+import { SemanticWordDescription } from "../babelnet_interface/semantic_api/semantic_api";
+
+ 
 
 /**
  * Abstract Base Class per le challenge.
  * 
+ * gameLang è la lingua di gioco, cioè la lingua in cui l'utente ha scelto di giocare. La specifichiamo
+ * perché noi gestiamo sempre le parole in inglese (è più semplice per noi), però la roba sull'interfaccia
+ * la mettiamo nella lingua scelta dall'utente.
+ * additionalLang invece server per la challenge 3.
  */
 export class Challenge {
-    constructor(word, wordLang, additionalLang, description){
+    constructor(word, wordLang, gameLang, additionalLang, description){
         // Verify that the class is not instantiated directly, but only thorugh subclasses
         if(this.constructor == Challenge){
             throw new TypeError('Abstract class Challenge cannot be instantiated directly.');
@@ -22,6 +29,9 @@ export class Challenge {
 
         /** @private */
         this.wordLang_ = wordLang;
+
+        /** @private */
+        this.gameLang_ = gameLang;
 
         /** @private */
         this.additionalLang_ = additionalLang;
@@ -58,8 +68,17 @@ export class Challenge {
         return this.word_;
     }
 
+    getWordInGameLang(){
+        let wordDescription = new SemanticWordDescription(this.word_, this.wordLang_, [this.gameLang_], 0, null);
+        return wordDescription.getLemma(this.gameLang_);
+    }
+
     getWordLang(){
         return this.wordLang_;
+    }
+
+    getGameLang(){
+        return this.gameLang_;
     }
 
     getAdditionalLang(){
