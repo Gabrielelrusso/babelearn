@@ -69,9 +69,11 @@ export class Challenge {
         return this.word_;
     }
 
-    getWordInGameLang(){
+    async getWordInGameLang(){
         let wordDescription = new SemanticWordDescription(this.word_, this.wordLang_, [this.gameLang_], 0, null);
-        return wordDescription.getLemma(this.gameLang_);
+        var lemma;
+        await wordDescription.initialize().then((res, lemma) => lemma = wordDescription.getLemma(this.gameLang_));
+        return lemma;
     }
 
     getWordLang(){
