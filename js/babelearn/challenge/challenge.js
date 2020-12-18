@@ -1,8 +1,8 @@
-/*jshint esversion: 8 */ 
+/*jshint esversion: 8 */
 
 /**
  * Abstract Base Class per le challenge.
- * 
+ *
  */
 export class Challenge {
     constructor(word, wordLang, additionalLang, description){
@@ -27,10 +27,12 @@ export class Challenge {
         this.additionalLang_ = additionalLang;
 
         /** @private */
-        this.exercise_ = null;
+        this.exercise_ = {
+          'main': null,
+          'options': [],
+          'wrong-answer-info': null,
+        };
 
-        /** @private */
-        this.wrongAnswerInfo_ = null;
     }
 
     /**
@@ -49,7 +51,7 @@ export class Challenge {
     getDescription(){
         return this.description_;
     }
-    
+
     getSolution(){
         return this.solution_;
     }
@@ -66,23 +68,31 @@ export class Challenge {
         return this.additionalLang_;
     }
 
-    getExercise(){
-        return this.exercise_;
+    getExerciseWrongAnswerInfo(){
+        return this.exercise_["wrong-answer-info"];
     }
 
-    getWrongAnswerInfo(){
-        return this.wrongAnswerInfo_;
+    getExerciseOptions(){
+      return this.exercise_["options"];
+    }
+
+    getExerciseMain(){
+      return this.exercise_["main"];
+    }
+
+    setExerciseOptions(options){
+      this.exercise_["options"] = options;
+    }
+
+    setExerciseMain(main){
+      this.exercise_["main"] = main;
     }
 
     setSolution(solution){
         this.solution_ = solution;
     }
 
-    setExercise(exercise){
-        this.exercise_ = exercise;
-    }
-
-    setWrongAnswerInfo(info){
-        this.wrongAnswerInfo_ = info;
+    setExerciseWrongAnswerInfo(info){
+        this.exercise_["wrong-answer-info"] = info;
     }
 }
