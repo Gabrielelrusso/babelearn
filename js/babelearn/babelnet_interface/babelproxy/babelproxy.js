@@ -122,14 +122,20 @@ export class BabelProxy {
      * @param {string[]} outArray The array in which the Objects must be returned.
      * @private
      */
-    createSynsetsListFromBabelfy_(sentence, apiResponse, outArray){
+    async createSynsetsListFromBabelfy_(sentence, apiResponse, outArray){
         //console.log('Creating synsets from Babelfy'); // DEBUG
 
         apiResponse.forEach((disambiguatedWord) => {
+            /*
             var unitStart = disambiguatedWord["charFragment"]["start"];
             var unitEnd = disambiguatedWord["charFragment"]["end"];
             outArray.push({"word": sentence.slice(unitStart, unitEnd+1), "synsetID": disambiguatedWord["babelSynsetID"]});
+            */
+           var synsetInfo = await this.getSynsetInfo(disambiguatedWord["babelSynsetID"]);
+           outArray.push({"word": synsetInfo.senses[0].simpleLemma, "synsetID": disambiguatedWord["babelSynsetID"]});
         });
+
+        console.log('Done creating disambiguation dictionary');
     }
 
     /**
@@ -154,7 +160,7 @@ export class BabelProxy {
             await axios.get(
                 this.babelfyDisambiguationServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {this.createSynsetsListFromBabelfy_(sentence, response.data, synsetIDs);});
+            ).then((response) => await (this.createSynsetsListFromBabelfy_(sentence, response.data, synsetIDs)));
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
