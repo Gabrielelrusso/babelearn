@@ -1,3 +1,5 @@
+/*jshint esversion: 8 */
+
 /**
  * Implements a proxy towards the BabelNet and Babelfy HTTP APIs.
  *
@@ -117,7 +119,9 @@ export class BabelProxy {
 
     /**
      * Creates a list of mappings {"word": word, "synsetID": synsetID}, mapping each word of the given
-     * sentence whose sense has been disambiguated to the corresponding synsetID.
+     * sentence whose sense has been disambiguated to the corresponding synsetID. The reported word is not the
+     * one used in the sentence, but the lemma corresponding to the synsetID which the Babelfy API has mapped
+     * to the word used in the sentence.
      *
      * @param {Object} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
      * @param {string[]} outArray The array in which the Objects must be returned.
@@ -126,15 +130,25 @@ export class BabelProxy {
     async createSynsetsListFromBabelfy_(sentence, apiResponse, outArray){
         //console.log('Creating synsets from Babelfy'); // DEBUG
 
+        for(var i = 0; i < apiResponse.length; i++){
+            var disambiguatedWord = apiResponse[i];
+            await this.getSynsetInfo(disambiguatedWord["babelSynsetID"]).then((synsetInfo) => 
+                outArray.push({"word": synsetInfo["senses"][0]["properties"]["simpleLemma"], "synsetID": disambiguatedWord["babelSynsetID"]})
+           );
+        }
+
+        /*
         apiResponse.forEach((disambiguatedWord) => {
-            /*
+            
             var unitStart = disambiguatedWord["charFragment"]["start"];
             var unitEnd = disambiguatedWord["charFragment"]["end"];
             outArray.push({"word": sentence.slice(unitStart, unitEnd+1), "synsetID": disambiguatedWord["babelSynsetID"]});
-            */
-           var synsetInfo = await this.getSynsetInfo(disambiguatedWord["babelSynsetID"]);
-           outArray.push({"word": synsetInfo.senses[0].simpleLemma, "synsetID": disambiguatedWord["babelSynsetID"]});
+            
+           this.getSynsetInfo(disambiguatedWord["babelSynsetID"]).then((res) => 
+                outArray.push({"word": res["senses"][0]["simpleLemma"], "synsetID": disambiguatedWord["babelSynsetID"]})
+           );
         });
+        */
 
         console.log('Done creating disambiguation dictionary');
     }
@@ -161,13 +175,19 @@ export class BabelProxy {
             await axios.get(
                 this.babelfyDisambiguationServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => await (this.createSynsetsListFromBabelfy_(sentence, response.data, synsetIDs)));
+            ).then((response) => 
+                /**
+                 * se metto la chiamata a createSynsetsList in una funzione anonima e dopo metto una print si rompe la sincronizzazione, mentre
+                 * così sembra di no.
+                 */
+                this.createSynsetsListFromBabelfy_(sentence, response.data, synsetIDs)
+                ); 
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
             return;
         }
-        console.log('done disambiguation'); // DEBUG
+        console.log('Done disambiguation, found:\n', synsetIDs); // DEBUG
 
         return synsetIDs;
     }
