@@ -60,7 +60,10 @@ export class ExampleFromMeaningChallenge extends Challenge{
         await semanticSentenceDescription.initialize().then((res) => {
           userSemanticWordDescription = semanticSentenceDescription.getSemanticWordDescription(this.getWord(), [this.getGameLang()]);
         });
-
+        if(userSemanticWordDescription == null){
+          console.log("user Semantic Word Description is null");
+          return false;
+        }
         await userSemanticWordDescription.initialize().then((res) => {
         });
 
@@ -69,7 +72,6 @@ export class ExampleFromMeaningChallenge extends Challenge{
             let exerciseWrongAnswerInfo = userSemanticWordDescription.getMeaning(this.getGameLang());
             this.setExerciseWrongAnswerInfo(exerciseWrongAnswerInfo);
         }
-
         return correctAnswer;
     }
 

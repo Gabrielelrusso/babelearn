@@ -1,4 +1,4 @@
-/*jshint esversion: 8 */ 
+/*jshint esversion: 8 */
 
 import { BabelProxy } from '../babelproxy/babelproxy.js'
 
@@ -11,14 +11,14 @@ export class NotInitializedError extends Error{}
  * Represents the semantic description of a certain sentence in a certain language. It uses a {@link BabelProxy} instance
  * in order to disambiguate the sense of the words used in the sentence using the Babelfy API and stores the synsetIDs associated to those words.
  * Since full initialization requires Internet access, the bulding process of an instance of this class is split in two parts,
- * to allow to defer the time-consuming Internet communication to when it's more appropriate for the API user. When the object is built 
+ * to allow to defer the time-consuming Internet communication to when it's more appropriate for the API user. When the object is built
  * the information necessary to the disambiguation is stored, but for the disambiguation to actually happen it's necessary to call the initialize()
  * method on the instance, so it must be called before using any other method or accessing any property of the instance.
  */
 export class SemanticSentenceDescription {
     /**
      * Stores the information necessary for the disambiguation process to succeed.
-     * 
+     *
      * @param {string} sentence The sentence to analyze.
      * @param {string} language The language the given sentence is expressed into. Use two letters abbreviation, e.g. 'EN' for English.
      * @throws {TypeError} if sentence or language are not specified.
@@ -49,7 +49,7 @@ export class SemanticSentenceDescription {
 
     /**
      * Checks if the instance has been initialized before using any other method on her.
-     * 
+     *
      * @private
      * @throws {NotInitializedError} if initialize() has not been called on this instance.
      */
@@ -63,7 +63,7 @@ export class SemanticSentenceDescription {
      * Returns a {@link SemanticWordDescription} object encapsulating the meaning found by Babelfy for the given
      * word of the sentence associated to this object.
      * The returned SemanticWordDescription object must be initialized before being used.
-     * 
+     *
      * @param {string} word The word of the sentence associated to this object whose meaning, if found, will be encapsulated in the returned object.
      * @param {string[]} targetLanguages The languages to associate to the returned {@link SemanticWordDescription}. Use two letters abbreviation, e.g. 'EN' for English.
      * @returns {SemanticWordDescription} A {@link SemanticWordDescription} encapsulating the given word and her meaning in the sentence associated to this {@link SemanticSentenceDescription}.
@@ -108,7 +108,7 @@ export class SemanticSentenceDescription {
 export class SemanticWordDescription {
     /**
      * Default parameters here are only for documentation purposes.
-     * 
+     *
      * @param {string} word The word whose semantic description will be built. Can be omitted if the synsetID is provided.
      * @param {string} language The language the given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English.
      * @param {string[]} targetLangs The languages in which language-dependent elements (lemma, examples, meaning) of this instance will be available. Use two letters abbreviation, e.g. 'EN' for English.
@@ -136,9 +136,9 @@ export class SemanticWordDescription {
         /** @private */
         this.lemma_ = word;
 
-        /** 
+        /**
          * This value allows to select different meanings of the same word: it's used by the nextMeaning() method.
-         * @private 
+         * @private
          * */
         this.meaningPos_ = 0;
 
@@ -149,7 +149,7 @@ export class SemanticWordDescription {
         this.maxMeaningPos_ = null;
 
         this.wordLang_ = language; // language 'word' is expressed into
-        this.availableLangs = targetLangs;        
+        this.availableLangs = targetLangs;
         this.isInitialized = false;
     }
 
@@ -162,12 +162,15 @@ export class SemanticWordDescription {
          * When a synsetID is given, the information regarding the lemma and her language is taken by the first sense available
          * in the response received by the BabelNet API. This flag is used to understand whether this must be done.
          */
-        var isSynsetIdGiven = false; 
+        var isSynsetIdGiven = false;
 
         // The synsetID, if specified, is the preferred method to build the instance
         if(this.synsetID_ == null){
             // it was not provided in the constructor
             var synsetIDs = await this.proxy_.getBabelnetSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
+            console.log("wordLang: ",this.wordLang_);
+            console.log("lemma: ", this.lemma_);
+            console.log("synset IDs: ",synsetIDs);
             this.maxMeaningPos_ = synsetIDs.length;
             this.synsetID_ = synsetIDs[this.meaningPos_];
         }
@@ -176,7 +179,7 @@ export class SemanticWordDescription {
         }
 
         this.apiResponse_ = await this.proxy_.getSynsetInfo(this.synsetID_, this.availableLangs);
-        
+
         if(isSynsetIdGiven){
             // Init wordLang and lemma to the values of the first sense in the response
             this.wordLang_ = this.apiResponse_["senses"][0]["properties"]["language"];
@@ -195,7 +198,7 @@ export class SemanticWordDescription {
 
     /**
      * Carica in quest'oggetto il significato successivo di questa parola.
-     * 
+     *
      * @throws {RangeError} if no new meaning is available for the word encapsulated by this object.
      */
     async nextMeaning(){
@@ -210,7 +213,7 @@ export class SemanticWordDescription {
 
     /**
      * Checks if the instance has been initialized before using any other method on her.
-     * 
+     *
      * @private
      * @throws {NotInitializedError} if initialize() has not been called on this instance.
      */
@@ -223,7 +226,7 @@ export class SemanticWordDescription {
     /**
      * Convenience method used by the methods which received a desired language as a parameter to check if that
      * language is available for this semantic word description.
-     * 
+     *
      * @param {string} lang Desired language. Use two letters abbreviation, e.g. 'EN' for English.
      * @private
      * @throws {TypeError} if the required language is not available.
@@ -236,7 +239,7 @@ export class SemanticWordDescription {
 
     /**
      * Retrieves the first lemma in the required language associated to this {@link SemanticWordDescription}.
-     * 
+     *
      * @param {string} targetLang Language of the retrieved lemma. Must be one of the languages specified when this object was built. Use two letters abbreviation, e.g. 'EN' for English.
      * @returns {string} The first lemma in the required language associated to this {@link SemanticWordDescription}.
      * @throws {TypeError} if the lemma is not available in the required language.
@@ -256,7 +259,7 @@ export class SemanticWordDescription {
 
     /**
      * Retrieves the meaning of the word associated to this SemanticWordDescription, in the required language.
-     * 
+     *
      * @param {string} lang Language of the retrieved meaning. Must be one of the languages specified when this object was built. Use two letters abbreviation, e.g. 'EN' for English.
      * @returns {string} The meaning of the word associated to this SemanticWordDescription, in the required language.
      *     If no valid meaning is available, returns null.
@@ -266,7 +269,7 @@ export class SemanticWordDescription {
     getMeaning(lang){
         this.initializationErrorChecking_();
 
-        this.desiredLangValidation_(lang); 
+        this.desiredLangValidation_(lang);
 
         // forEach does not work properly here
         var glosses = this.apiResponse_.glosses;
@@ -283,7 +286,7 @@ export class SemanticWordDescription {
 
     /**
      * Retrieves usage examples for the word associated to this SemanticWordDescription, in the required language.
-     * 
+     *
      * @param {string} lang The language the examples will be expressed into. Must be one of the languages specified when this object was built. Use two letters abbreviation, e.g. 'EN' for English.
      * @returns {string[]} All the examples available in the required language. Can be an empty list if no example is found.
      * @throws {NotInitializedError} if initialize() has not been called on this instance.
@@ -304,7 +307,7 @@ export class SemanticWordDescription {
 
     /**
      * Retrieves images associated to the word linked to this SemanticWordDescription.
-     * 
+     *
      * @returns {string[]} An array containing the URLs of the images. Returned array could be empty if no image is found.
      * @throws {NotInitializedError} if initialize() has not been called on this instance.
      */
@@ -323,11 +326,11 @@ export class SemanticWordDescription {
     /**
      * Checks if a word in a given language is compatible with the word associated to this semantic word description.
      * The term "compatible" is used instead of "equal" because the comparison is based on the existence of a synsetID
-     * associated to the given word which is equal to the synsetID associated to this object, but, if for example the 
+     * associated to the given word which is equal to the synsetID associated to this object, but, if for example the
      * given word is extracted from a sentence without prior disambiguation, that word could have been used in that
      * sentence with a meaning different from the meaning of the word associated to this object.
-     * 
-     * @param {string} word 
+     *
+     * @param {string} word
      * @param {string} lang Can be any language (but it must be supported by the BabelNet API). Use two letters abbreviation, e.g. 'EN' for English.
      * @returns {boolean} True if the words are compatible.
      * @throws {NotInitializedError} if initialize() has not been called on this instance.
@@ -350,7 +353,7 @@ export class SemanticWordDescription {
 
     /**
      * Check if two words are equal (same lemma and meaning).
-     * 
+     *
      * @param {SemanticWordDescription} semanticWordDescription The word to compare with the one associated to this object.
      * @returns {boolean} True if the words associated to this object and the given one are equal (same lemma and meaning).
      * @throws {NotInitializedError} if initialize() has not been called on this instance.
@@ -358,6 +361,8 @@ export class SemanticWordDescription {
     checkForEquality(semanticWordDescription){
         // Check if the synsetIDs are equal
         this.initializationErrorChecking_();
+        console.log("my synsetID: ", this.synsetID_);
+        console.log("other synsetID: ", semanticWordDescription.synsetID_);
         return semanticWordDescription.synsetID_ == this.synsetID_;
     }
 }

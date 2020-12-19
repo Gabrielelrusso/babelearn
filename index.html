@@ -82,9 +82,17 @@
 <script src="js/vue-components/view-challenge-4.js"></script>
 <script src="js/vue-components/success-modal.js"></script>
 <script src="js/vue-components/failure-modal.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="module" src="js/babelearn/babelearn.js"></script>
 
-<script>
+<script type="module">
 
+import {ExampleFromMeaningChallenge} from "./js/babelearn/challenge/example_from_meaning_challenge.js";
+
+let exampleFromMeaningChallenge = new ExampleFromMeaningChallenge('play', 'EN','EN');
+exampleFromMeaningChallenge.generate((res) =>{
+
+});
 
 var vm = new Vue({
   el: '#app',
@@ -97,22 +105,23 @@ var vm = new Vue({
     },
     game: {
       language:'english',
-      challenge: {
-        'word':'basil',
-        'description':'Given a word and a sentence in which it is used, the user has to identify the right meaning in the used context.',
-        'exercise':{
-          'main':'What\'s the color of happiness?',
-          'options':[
-            'Cheese is very good when you lick it from the spoon',
-            'Carnival trees are way too high to climb when you\'re drunk',
-            'Elemental essence is all you need to cast powerful spells',
-          ],
-          'wrongAnswerInfo': 'Gloss of the wrong sense is here',
-          'answer':'Elemental essence is all you need to cast powerful spells'
-        },
-        'answered':false,
-        'rightAnswered':false
-      }
+      challenge: exampleFromMeaningChallenge,
+      // challenge: {
+      //   'word':'basil',
+      //   'description':'Given a word and a sentence in which it is used, the user has to identify the right meaning in the used context.',
+      //   'exercise':{
+      //     'main':'What\'s the color of happiness?',
+      //     'options':[
+      //       'Cheese is very good when you lick it from the spoon',
+      //       'Carnival trees are way too high to climb when you\'re drunk',
+      //       'Elemental essence is all you need to cast powerful spells',
+      //     ],
+      //     'wrongAnswerInfo': 'Gloss of the wrong sense is here',
+      //     'answer':'Elemental essence is all you need to cast powerful spells'
+      //   },
+      //   'answered':false,
+      //   'rightAnswered':false
+      // }
     }
   },
   components: {
@@ -156,20 +165,26 @@ var vm = new Vue({
     createChallenge(chosenChallengeIndex){
         console.log("challenge "+chosenChallengeIndex+" has been created.");
         let challengeViewName = this.challengeTypeToViewName[chosenChallengeIndex];
+        this.game.challenge.answered = false;
+        this.game.challenge.rightAnswered = false;
+        console.log("Challenge: ", this.game.challenge);
         this.swapComponent(challengeViewName);
     },
     guessAnswer(userInput){
       console.log("user input: ",userInput);
       this.game.challenge.answered = true;
-      if(true){ // if answer_is_correct
-        this.game.challenge.rightAnswered = true;
-        this.showSuccessMenu();
-      }
-      else {
-        this.game.challenge.rightAnswered = false;
-        this.showFailureMenu();
-      }
-
+      let correctAnswer = false;
+      this.game.challenge.guess(userInput).then((res) => {
+          correctAnswer = res;
+          if(correctAnswer){ // if answer_is_correct
+              this.game.challenge.rightAnswered = true;
+              this.showSuccessMenu();
+          }
+          else {
+              this.game.challenge.rightAnswered = false;
+              this.showFailureMenu();
+          }
+        })
     }
 
   }

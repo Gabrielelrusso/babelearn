@@ -1,6 +1,6 @@
 /**
  * Implements a proxy towards the BabelNet and Babelfy HTTP APIs.
- * 
+ *
  * @requires axios
  */
 export class BabelProxy {
@@ -17,15 +17,15 @@ export class BabelProxy {
     /**
      * Creates a list of BabelNet synset IDs from the response received by the BabelNet API.
      * The synsets IDs are represented as strings.
-     * 
+     *
      * @param {Object} apiResponse The data as returned by the BabelNet HTTP API, in JSON format.
      * @param {string[]} outArray The array in which the synset IDs must be returned.
      * @private
      */
     createSynsetsList_(apiResponse, outArray){
         //console.log('creating synsets array'); // DEBUG
-        
-        /* 
+
+        /*
         * apiResponse is an array of dictionaries which in turn contain synset-related information,
         * and we are interested in getting the id of each synset.
         */
@@ -36,29 +36,29 @@ export class BabelProxy {
 
     /**
      * Retrieves the IDs af all the BabelNet synsets denoted by a given word.
-     * It's an async method, so it returns a Promise object, while in the method it waits for the HTTP request to 
+     * It's an async method, so it returns a Promise object, while in the method it waits for the HTTP request to
      * be completed.
-     * 
+     *
      * @param {string} word The word for which BabelNet syntes will be retrieved.
      * @param {string} language The language the given word belongs to. Use two letters abbreviation, e.g. 'EN' for English.
      * @returns {string[]} A list of the retrived synset IDs.
      * @throws an error if an error occurs during the GET request.
      */
     async getBabelnetSynsets(word, language){
-        var get_params = { 
+        var get_params = {
             'lemma' : word,
             'searchLang' : language,
             'key' : this.apiKey
         };
 
         var synsetIDs = [];
-        
+
         /*
         * await causes the function to return the actual data only after that a (positive or negative) result has been
         * obtained from the HTTP request (it "stops" the execution flow on the request and its callbacks, without actually
         * stopping the execution thread).
         */
-        
+
         try{
             await axios.get(
                 this.babelnetSynsetsByWordServiceUrl + '?',
@@ -67,17 +67,18 @@ export class BabelProxy {
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
+            console.log("ERROR: ", err);
             return;
         }
 
         console.log('returning synsets array'); // DEBUG
-    
+
         return synsetIDs;
     }
 
     /**
      * Retrieves all the available informations regarding a given BabelNet synset.
-     * 
+     *
      * @param {string} synsetID The identifier of the desired synset.
      * @param {string[]} targetLanguages Languages desired for the language-dependent information (e.g. words usage examples).
      * @returns {Object} The data (so no headers) retuned by the API, in the same format as it's returned.
@@ -89,11 +90,11 @@ export class BabelProxy {
             throw new RangeError('BabelNet API accepts at most 4 different languages');
         }
         var get_params = new URLSearchParams();
-        
+
         get_params.append('id', synsetID);
         get_params.append('key', this.apiKey);
         targetLanguages.forEach((language) => {
-            get_params.append('targetLang', language);    
+            get_params.append('targetLang', language);
         });
 
         var apiResponse;
@@ -117,7 +118,7 @@ export class BabelProxy {
     /**
      * Creates a list of mappings {"word": word, "synsetID": synsetID}, mapping each word of the given
      * sentence whose sense has been disambiguated to the corresponding synsetID.
-     * 
+     *
      * @param {Object} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
      * @param {string[]} outArray The array in which the Objects must be returned.
      * @private
@@ -135,7 +136,7 @@ export class BabelProxy {
     /**
      * Retrieves the synsets associated to the words in the given sentence which the Babelfy API is able to
      * disambiguate.
-     * 
+     *
      * @param {string} sentence The sentence to query the API for.
      * @param {string} language The language the sentence is expressed into. Use two-letters abbreviations, e.g. 'EN' for English.
      * @returns {Object} A mapping between each word of the sentence whose sense has been disambiguated and the corresponding synsetID, as {"word": word, "synsetID": synsetID}.

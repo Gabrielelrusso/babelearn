@@ -1,6 +1,6 @@
 /*jshint esversion: 8 */
 
-import { SemanticWordDescription } from "../babelnet_interface/semantic_api/semantic_api";
+import { SemanticWordDescription } from "../babelnet_interface/semantic_api/semantic_api.js";
 
 /**
  * Convenience class to represent the situation in which it's impossiblle to build a challenge obejct
@@ -10,7 +10,7 @@ export class ChallengeBuildFailedError extends Error{}
 
 /**
  * Abstract Base Class per le challenge.
- * 
+ *
  * gameLang è la lingua di gioco, cioè la lingua in cui l'utente ha scelto di giocare. La specifichiamo
  * perché noi gestiamo sempre le parole in inglese (è più semplice per noi), però la roba sull'interfaccia
  * la mettiamo nella lingua scelta dall'utente.

@@ -6,6 +6,11 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
   props:{
     challenge:Object
   },
+  watch: {
+      challenge: function(newChallenge, oldChallenge) {
+          this.challenge = newChallenge;
+      }
+  },
   methods: {
       getSubmittedAnswer(){
           let answer = $("#answer-input").val();
@@ -13,6 +18,11 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
       },
       cleanInput(){
           $("#answer-input").val("");
+      },
+      showExerciseWrongAnswerInfo(){
+          let show = this.challenge.answered == true && this.challenge.rightAnswered == false;
+          console.log("show exercise wrong answer info: ", show);
+          return  show;
       }
   },
   template: `
@@ -25,7 +35,7 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
         <div class="card-body d-flex flex-column align-items-center">
             <div class="row  mt-3">
                 <div class="col-12">
-                    <h4>{{ challenge.description }}</h4>
+                    <h4>{{ challenge.getDescription() }}</h4>
                     <hr>
                 </div>
             </div>
@@ -34,12 +44,13 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
                     <div class="row">
                       <div class="col-12">
                           <h6>YOU ARE PLAYING WITH THE WORD</h6>
-                          <h3><strong class="text-info">{{ challenge.word }}</strong></h3>
+                          <h3><strong class="text-info">{{ challenge.getWord() }}</strong></h3>
                       </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-1">
                         <div class="col-12">
-                            <h3>{{ challenge.exercise.main }}</h3>
+                            <h6>WITH MEANING OF</h6>
+                            <h3>{{ challenge.getExerciseMain()}}</h3>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -53,18 +64,18 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
                             </div>
                         </div>
                     </div>
-                    <div class="row" v-if="challenge.answered && !challenge.rightAnswered">
+                    <div class="row">
                         <div class="col-12 text-center">
                             <div class="alert alert-danger d-inline-block text-center">
                                 <div class="container-fluid">
                                     <div class="alert-icon">
                                         <i class="material-icons">error_outline</i>
                                     </div>
-                                    You used {{challenge.word}} in the following wrong sense
+                                    You used {{challenge.getWord()}} in the following wrong sense
                                 </div>
                             </div>
                             <div class="card-text">
-                                <h4>{{ challenge.exercise.wrongAnswerInfo }}</h4>
+                                <h4>{{ challenge.getExerciseWrongAnswerInfo()}}</h4>
                             </div>
                         </div>
 
