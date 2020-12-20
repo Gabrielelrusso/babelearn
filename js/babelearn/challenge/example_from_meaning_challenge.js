@@ -5,6 +5,9 @@ import {SemanticWordDescription} from "../babelnet_interface/semantic_api/semant
 import {SemanticSentenceDescription} from "../babelnet_interface/semantic_api/semantic_api.js";
 import {ChallengeBuildFailedError} from './challenge.js';
 
+/**
+ * Challenge 2.
+ */
 export class ExampleFromMeaningChallenge extends Challenge{
     constructor(word, wordLang, gameLang) {
         console.log("EXAMPLE FROM MEANING HAS BEEN CREATED.");
@@ -62,24 +65,12 @@ export class ExampleFromMeaningChallenge extends Challenge{
 
     async guess(answer) {
         let semanticSentenceDescription = new SemanticSentenceDescription(answer, this.getGameLang());
-        let userSemanticWordDescription = null;
+        var correctAnswer = false;
+
         await semanticSentenceDescription.initialize().then((res) => {
-          userSemanticWordDescription = semanticSentenceDescription.getSemanticWordDescription(this.getWord(), [this.getGameLang()]);
-        });
-        if(userSemanticWordDescription == null){
-          console.log("user Semantic Word Description is null");
-          return false;
-        }
-        await userSemanticWordDescription.initialize().then((res) => {
+            correctAnswer = semanticSentenceDescription.checkForUsage(this.semanticWordDescription);
         });
 
-        let correctAnswer = this.semanticWordDescription.checkForEquality(userSemanticWordDescription);
-        if(!correctAnswer){
-            let exerciseWrongAnswerInfo = userSemanticWordDescription.getMeaning(this.getGameLang());
-            this.setExerciseWrongAnswerInfo(exerciseWrongAnswerInfo);
-        }
         return correctAnswer;
     }
-
-
 }
