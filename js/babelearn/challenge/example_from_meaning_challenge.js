@@ -1,7 +1,9 @@
-import {Challenge} from './challenge.js'
+/*jshint esversion: 8 */ 
+
+import {Challenge} from './challenge.js';
 import {SemanticWordDescription} from "../babelnet_interface/semantic_api/semantic_api.js";
 import {SemanticSentenceDescription} from "../babelnet_interface/semantic_api/semantic_api.js";
-import {ChallengeBuildFailedError} from './challenge.js'
+import {ChallengeBuildFailedError} from './challenge.js';
 
 export class ExampleFromMeaningChallenge extends Challenge{
     constructor(word, wordLang, gameLang) {
