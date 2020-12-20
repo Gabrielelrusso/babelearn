@@ -19,6 +19,9 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
       cleanInput(){
           $("#answer-input").val("");
       },
+      showWrongAnswerInfo: function(){
+        return this.challenge.answered && !this.challenge.rightAnswered;
+      }
   },
   template: `
     <div  class="card mt-5 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
@@ -30,7 +33,7 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
         <div class="card-body d-flex flex-column align-items-center">
             <div class="row  mt-3">
                 <div class="col-12">
-                    <h4>{{ challenge.getDescription() }}</h4>
+                    <h4>{{ challenge.main.getDescription() }}</h4>
                     <hr>
                 </div>
             </div>
@@ -39,13 +42,13 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
                     <div class="row">
                       <div class="col-12">
                           <h6>YOU ARE PLAYING WITH THE WORD</h6>
-                          <h3><strong class="text-info">{{ challenge.getWord() }}</strong></h3>
+                          <h3><strong class="text-info">{{ challenge.main.getWord() }}</strong></h3>
                       </div>
                     </div>
                     <div class="row mt-1">
                         <div class="col-12">
                             <h6>WITH MEANING OF</h6>
-                            <h3>{{ challenge.getExerciseMain()}}</h3>
+                            <h3>{{ challenge.main.getExerciseMain()}}</h3>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -59,25 +62,25 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="showWrongAnswerInfo()">
                         <div class="col-12 text-center">
                             <div class="alert alert-danger d-inline-block text-center">
                                 <div class="container-fluid">
                                     <div class="alert-icon">
                                         <i class="material-icons">error_outline</i>
                                     </div>
-                                    You used {{challenge.getWord()}} in the following wrong sense
+                                    You used {{challenge.main.getWord()}} in the following wrong sense
                                 </div>
                             </div>
                             <div class="card-text">
-                                <h4>{{ challenge.getExerciseWrongAnswerInfo()}}</h4>
+                                <h4>{{ challenge.main.getExerciseWrongAnswerInfo()}}</h4>
                             </div>
                         </div>
 
                     </div>
                     <div class="row mt-3">
                         <div class="col-12">
-                            <div class="btn btn-info d-block btn-round" @click.prevent="$emit('submit-answer-event', getSubmittedAnswer()); cleanInput();">Submit</div>
+                            <div class="btn btn-info d-block btn-round" @click.prevent="$emit('submit-answer-event', getSubmittedAnswer()); cleanInput(); answered=true">Submit</div>
                         </div>
                     </div>
                 </div>

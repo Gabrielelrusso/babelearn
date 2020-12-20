@@ -105,7 +105,12 @@ var vm = new Vue({
     },
     game: {
       language:'english',
-      challenge: exampleFromMeaningChallenge,
+      challenge: {
+        main: exampleFromMeaningChallenge,
+        answered: false,
+        rightAnswered: false,
+      },
+
       // challenge: {
       //   'word':'basil',
       //   'description':'Given a word and a sentence in which it is used, the user has to identify the right meaning in the used context.',
@@ -162,7 +167,7 @@ var vm = new Vue({
         keyboard:false,
       });
     },
-    createChallenge(chosenChallengeIndex){
+    createChallenge: function(chosenChallengeIndex){
         console.log("challenge "+chosenChallengeIndex+" has been created.");
         let challengeViewName = this.challengeTypeToViewName[chosenChallengeIndex];
         this.game.challenge.answered = false;
@@ -170,20 +175,20 @@ var vm = new Vue({
         console.log("Challenge: ", this.game.challenge);
         this.swapComponent(challengeViewName);
     },
-    guessAnswer(userInput){
+    guessAnswer: function(userInput){
       console.log("user input: ",userInput);
-      this.game.challenge.answered = true;
+      this.game['challenge']['answered'] = true;
       let correctAnswer = false;
-      this.game.challenge.guess(userInput).then((res) => {
+      this.game.challenge.main.guess(userInput).then((res) => {
           correctAnswer = res;
-          if(correctAnswer){ // if answer_is_correct
+          if(correctAnswer == true){ // if answer_is_correct
               this.game.challenge.rightAnswered = true;
-              this.showSuccessMenu();
+              // this.showSuccessMenu();
           }
           else {
               this.game.challenge.rightAnswered = false;
-              this.showFailureMenu();
-              console.log("correct answer: ", this.game.challenge.getSolution());
+              // this.showFailureMenu();
+              console.log("correct answer: ", this.game.challenge.main.getSolution());
           }
         })
     }
