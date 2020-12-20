@@ -1,8 +1,8 @@
-/*jshint esversion: 8 */ 
+/*jshint esversion: 8 */
 
-import {CHALLENGE_TYPE} from './enum.js';
-import {CHALLENGE_DIFFICULTY} from './enum.js';
-import {ChallengeFactory} from './challenge_factory.js';
+import {CHALLENGE_TYPE} from '../challenge/enum.js';
+import {CHALLENGE_DIFFICULTY} from '../challenge/enum.js';
+import {ChallengeFactory} from '../challenge/challenge_factory.js';
 
 /*
  * Implements the game class.
