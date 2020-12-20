@@ -12,6 +12,7 @@ export class MeaningFromExampleChallenge extends Challenge{
      * 
      * @param {*} word 
      * @param {*} wordLang 
+     * @param {*} gameLang
      * @throws {TypeError} if word or wordLang are not specified.
      */
     constructor(word, wordLang, gameLang){
@@ -84,6 +85,11 @@ export class MeaningFromExampleChallenge extends Challenge{
         // Settare solution ed exercise
         this.setExerciseMain(this.gameWordFirstMeaning.getExamples()[0]); // the first example surely exists
         this.setExerciseOptions([this.gameWordFirstMeaning.getMeaning(), this.gameWordSecondMeaning.getMeaning(), this.gameWordThirdMeaning.getMeaning()]);
+
+        // Shuffle options in the way suggested here: https://flaviocopes.com/how-to-shuffle-array-javascript/
+        //this.exercise_.options = this.exercise_.options.sort(() => Math.random - 0.5);
+        this.setExerciseOptions(this.getExerciseOptions().sort(() => Math.random - 0.5)); 
+
         // wrong-answer-info non ce l'ho
         
         this.setSolution(this.gameWordFirstMeaning.getMeaning());
@@ -91,7 +97,7 @@ export class MeaningFromExampleChallenge extends Challenge{
 
     guess(answer){
         // Bring everything to lower case since 'answer' come from front-end
-        return (answer.toLowerCase() === this.gameWordFirstMeaning.getMeaning().toLowerCase());
+        return (answer.toLowerCase() === this.getSolution().toLowerCase());
     }
 
 }
