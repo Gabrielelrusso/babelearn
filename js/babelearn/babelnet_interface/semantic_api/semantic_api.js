@@ -60,6 +60,16 @@ export class SemanticSentenceDescription {
     }
 
     /**
+     * Checks if the given word has been used in this sentence (with the sence associated to the {@link SemanticWordDescription} which
+     * encapsulates the word).
+     * 
+     * @param {SemanticWordDescription} word 
+     */
+    checkForUsage(word){
+
+    }
+
+    /**
      * Returns a {@link SemanticWordDescription} object encapsulating the meaning found by Babelfy for the given
      * word of the sentence associated to this object.
      * The returned SemanticWordDescription object must be initialized before being used.
