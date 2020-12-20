@@ -19,11 +19,6 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
       cleanInput(){
           $("#answer-input").val("");
       },
-      showExerciseWrongAnswerInfo(){
-          let show = this.challenge.answered == true && this.challenge.rightAnswered == false;
-          console.log("show exercise wrong answer info: ", show);
-          return  show;
-      }
   },
   template: `
     <div  class="card mt-5 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
