@@ -64,8 +64,17 @@ export class SemanticSentenceDescription {
      * encapsulates the word).
      * 
      * @param {SemanticWordDescription} word 
+     * @throws {NotInitializedError} if initialize() has not been called on this instance.
      */
-    checkForUsage(word){
+    checkForUsage(semanticWordDescription){
+        this.initializationErrorChecking_();
+
+        var synsetIDs = [];
+        this.disambiguatedWords.forEach((element) => {
+            synsetIDs.push(element['synsetID']);
+        });
+
+        return synsetIDs.includes(semanticWordDescription.synsetID_);
 
     }
 
@@ -161,6 +170,12 @@ export class SemanticWordDescription {
         this.wordLang_ = language; // language 'word' is expressed into
         this.availableLangs = targetLangs;
         this.isInitialized = false;
+
+        /**
+         * Wheter on a call to initialize() a re-initialization must be forced (e.g. to change meaning).
+         * @private
+         */
+        this.reinit_ = false;
     }
 
     /**
@@ -173,9 +188,9 @@ export class SemanticWordDescription {
          * in the response received by the BabelNet API. This flag is used to understand whether this must be done.
          */
         var isSynsetIdGiven = false;
-
+        
         // The synsetID, if specified, is the preferred method to build the instance
-        if(this.synsetID_ == null){
+        if(this.synsetID_ == null || this.reinit_){
             // it was not provided in the constructor
             var synsetIDs = await this.proxy_.getBabelnetSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
             console.log("wordLang: ",this.wordLang_);
@@ -190,13 +205,14 @@ export class SemanticWordDescription {
 
         this.apiResponse_ = await this.proxy_.getSynsetInfo(this.synsetID_, this.availableLangs);
 
-        if(isSynsetIdGiven){
+        if(isSynsetIdGiven && !this.reinit_){
             // Init wordLang and lemma to the values of the first sense in the response
             this.wordLang_ = this.apiResponse_["senses"][0]["properties"]["language"];
             this.lemma_ = this.apiResponse_["senses"][0]["properties"]["simpleLemma"];
         }
 
         this.isInitialized = true;
+        this.reinit_ = false;
     }
 
     /**
@@ -214,6 +230,7 @@ export class SemanticWordDescription {
     async nextMeaning(){
         if(this.hasAnotherMeaning()){
             this.meaningPos_ += 1;
+            this.reinit_ = true;
             await this.initialize();
         }
         else{

@@ -130,25 +130,11 @@ export class BabelProxy {
     async createSynsetsListFromBabelfy_(sentence, apiResponse, outArray){
         //console.log('Creating synsets from Babelfy'); // DEBUG
 
-        for(var i = 0; i < apiResponse.length; i++){
-            var disambiguatedWord = apiResponse[i];
-            await this.getSynsetInfo(disambiguatedWord["babelSynsetID"]).then((synsetInfo) => 
-                outArray.push({"word": synsetInfo["senses"][0]["properties"]["simpleLemma"], "synsetID": disambiguatedWord["babelSynsetID"]})
-           );
-        }
-
-        /*
         apiResponse.forEach((disambiguatedWord) => {
-            
             var unitStart = disambiguatedWord["charFragment"]["start"];
             var unitEnd = disambiguatedWord["charFragment"]["end"];
             outArray.push({"word": sentence.slice(unitStart, unitEnd+1), "synsetID": disambiguatedWord["babelSynsetID"]});
-            
-           this.getSynsetInfo(disambiguatedWord["babelSynsetID"]).then((res) => 
-                outArray.push({"word": res["senses"][0]["simpleLemma"], "synsetID": disambiguatedWord["babelSynsetID"]})
-           );
         });
-        */
 
         console.log('Done creating disambiguation dictionary');
     }
