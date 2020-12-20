@@ -1,3 +1,5 @@
+/*jshint esversion: 8 */ 
+
 import {CHALLENGE_TYPE} from './enum.js';
 import {CHALLENGE_DIFFICULTY} from './enum.js';
 import {ChallengeFactory} from './challenge_factory.js';
@@ -39,8 +41,9 @@ export class Game {
      * @param {String} difficulty of the challenge to return.
      * @returns {Boolean} true if the answer is correct, false otherwise.
      */
-    guess(user_answer){
-      return this.currentChallenge.guess(user_answer);
+    async guess(userAnswer){
+      var correctAnswer = await this.currentChallenge.guess(userAnswer);
+      return correctAnswer;
     }
 
     getSolution(){
