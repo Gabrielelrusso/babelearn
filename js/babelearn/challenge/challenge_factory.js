@@ -22,31 +22,46 @@ export class ChallengeFactory {
      *
      * @param {CHALLENGE_DIFFICULTY} difficulty of the challenge to return.
      * @param {CHALLENGE_TYPE} type of the challenge to return.
+     * @param {string} gameLang, language in which the challenge are created .
      * @returns {Challenge}
      */
-    getNewChallenge(difficulty, type){
+    getNewChallenge(difficulty, type, gameLang){
         let words = [];
 
         switch(difficulty){
-            case difficulty.EASY:
+            case CHALLENGE_DIFFICULTY.EASY:
+              console.log("the chosen difficulty is easy");
               words = this.words.EASY;
-            case difficulty.MEDIUM:
+              break;
+            case CHALLENGE_DIFFICULTY.MEDIUM:
+              console.log("the chosen difficulty is medium");
               words = this.words.MEDIUM;
-            case difficulty.HARD:
+              break;
+            case CHALLENGE_DIFFICULTY.HARD:
+              console.log("the chosen difficulty is hard");
               words = this.words.HARD;
+              break;
+            default:
+              throw 'Difficulty '+difficulty.toString()+' does not exists.';
         }
+
+
+        console.log("THE LIST OF WORDS IS: ", words);
 
         let gameWord = words[Math.floor(Math.random() * words.length)];
+        console.log("THE WORD SELECTED IS: ", gameWord);
 
         switch(type){
-            case type.MEANING_FROM_EXAMPLE_CHALLENGE:
-              return new MeaningFromExampleChallenge();
-            case type.EXAMPLE_FROM_MEANING_CHALLENGE:
-              return new ExampleFromMeaningChallenge();
-            case type.FOUR_IMAGES_ONE_WORD_CHALLENGE:
-              return new FourImagesOneWordChallenge();
+            case CHALLENGE_TYPE.MEANING_FROM_EXAMPLE_CHALLENGE:
+              return new MeaningFromExampleChallenge(gameWord, 'EN', gameLang);
+            case CHALLENGE_TYPE.EXAMPLE_FROM_MEANING_CHALLENGE:
+              return new ExampleFromMeaningChallenge(gameWord, 'EN', gameLang);
+            case CHALLENGE_TYPE.FOUR_IMAGES_ONE_WORD_CHALLENGE:
+              return new FourImagesOneWordChallenge(gameWord, 'EN', gameLang);
+            default:
+             throw 'Type '+type.toString()+' does not exists.'
         }
 
-        throw 'Type '+type+'does not exists.'
+
     }
 }

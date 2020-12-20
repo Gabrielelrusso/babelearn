@@ -285,7 +285,7 @@ export class SemanticWordDescription {
         var glosses = this.apiResponse_.glosses;
         for(var i = 0; i < glosses.length; i++){
             if(glosses[i]['language'] == lang){
-                console.log('found gloss') // DEBUG
+                console.log('found gloss: ', glosses[i]['gloss']); // DEBUG
                 return glosses[i]['gloss'];
             }
         }
@@ -311,7 +311,7 @@ export class SemanticWordDescription {
         this.apiResponse_.examples.forEach((example) => {
             examplesList.push(example['example']);
         });
-
+        console.log("examples found with lang(",lang,"): ", examplesList);
         return examplesList;
     }
 
