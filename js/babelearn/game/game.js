@@ -1,6 +1,6 @@
-import {CHALLENGE_TYPE} from './enum.js';
-import {CHALLENGE_DIFFICULTY} from './enum.js';
-import {ChallengeFactory} from './challenge_factory.js';
+import {CHALLENGE_TYPE} from '../challenge/enum.js';
+import {CHALLENGE_DIFFICULTY} from '../challenge/enum.js';
+import {ChallengeFactory} from '../challenge/challenge_factory.js';
 /*
  * Implements the game class.
  */
@@ -10,6 +10,7 @@ export class Game {
         this.score = 0;
         this.currentChallenge = null;
         this.challengeFactory = new ChallengeFactory();
+        this.gameLang = 'EN';
     }
 
     /*
@@ -20,7 +21,7 @@ export class Game {
      * @param {CHALLENGE_TYPE} type of the challenge to return.
      */
     startNewChallenge(difficulty, type){
-      this.currentChallenge = this.challengeFactory.getNewChallenge(difficulty, type);
+      this.currentChallenge = this.challengeFactory.getNewChallenge(difficulty, type, this.getGameLang());
     }
 
     /*
@@ -45,5 +46,13 @@ export class Game {
 
     getSolution(){
       return this.currentChallenge.getSolution();
+    }
+
+    getGameLang(){
+      return this.gameLang;
+    }
+
+    setGameLang(gameLang){
+      this.gameLang = gameLang;
     }
 }

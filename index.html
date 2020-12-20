@@ -83,13 +83,21 @@
 <script src="js/vue-components/success-modal.js"></script>
 <script src="js/vue-components/failure-modal.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script type="module" src="js/babelearn/babelearn.js"></script>
+<!--<script type="module" src="js/babelearn/babelearn.js"></script>-->
 
 <script type="module">
 
-import {ExampleFromMeaningChallenge} from "./js/babelearn/challenge/example_from_meaning_challenge.js";
+import {CHALLENGE_TYPE} from './js/babelearn/challenge/enum.js';
+import {CHALLENGE_DIFFICULTY} from './js/babelearn/challenge/enum.js';
+import {ChallengeFactory} from "./js/babelearn/challenge/challenge_factory.js";
+import {Game} from "./js/babelearn/game/game.js"
 
-let exampleFromMeaningChallenge = new ExampleFromMeaningChallenge('play', 'EN','EN');
+//
+let game = new Game();
+game.setGameLang('EN');
+game.startNewChallenge(CHALLENGE_DIFFICULTY.EASY, CHALLENGE_TYPE.EXAMPLE_FROM_MEANING_CHALLENGE);
+let exampleFromMeaningChallenge = game.getCurrentChallenge();
+
 exampleFromMeaningChallenge.generate((res) =>{
 
 });
@@ -183,11 +191,11 @@ var vm = new Vue({
           correctAnswer = res;
           if(correctAnswer == true){ // if answer_is_correct
               this.game.challenge.rightAnswered = true;
-              // this.showSuccessMenu();
+              this.showSuccessMenu();
           }
           else {
               this.game.challenge.rightAnswered = false;
-              // this.showFailureMenu();
+              this.showFailureMenu();
               console.log("correct answer: ", this.game.challenge.main.getSolution());
           }
         })
