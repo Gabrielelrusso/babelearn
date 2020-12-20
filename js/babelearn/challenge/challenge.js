@@ -59,7 +59,7 @@ export class Challenge {
         throw new TypeError('Subclasses of abstract class Challenge must provide an implementation for the generate() method.');
     }
 
-    guess(answer){
+    async guess(answer){
         throw new TypeError('Subclasses of abstract class Challenge must provide an implementation for the guess(answer) method.');
     }
 
