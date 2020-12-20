@@ -11,7 +11,7 @@ export class ChallengeFactory {
 
     constructor(){
         this.words = {
-          EASY: ['play', 'work', 'left'],
+          EASY: ['left', 'left', 'left'],
           MEDIUM: [],
           HARD: []
         };

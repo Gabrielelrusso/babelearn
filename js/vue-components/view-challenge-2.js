@@ -80,7 +80,7 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
                     </div>
                     <div class="row mt-3">
                         <div class="col-12">
-                            <div class="btn btn-info d-block btn-round" @click.prevent="$emit('submit-answer-event', getSubmittedAnswer()); cleanInput(); answered=true">Submit</div>
+                            <div class="btn btn-info d-block btn-round" @click.prevent="$emit('submit-answer-event', getSubmittedAnswer()); cleanInput();">Submit</div>
                         </div>
                     </div>
                 </div>
