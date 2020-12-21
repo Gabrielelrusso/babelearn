@@ -147,7 +147,7 @@ export class SemanticWordDescription {
         }
 
         /** @private */
-        this.proxy_ = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
+        this.proxy_ = new BabelProxy('eb5b7486-687a-4768-9cbd-1f6cd7f7590f');
 
         /** @private */
         this.synsetID_ = synsetID;
@@ -188,9 +188,12 @@ export class SemanticWordDescription {
          * in the response received by the BabelNet API. This flag is used to understand whether this must be done.
          */
         var isSynsetIdGiven = false;
+
+        console.log('Initializing with ', this.meaningPos_, ' meaning pos and ', this.synsetID_, ' synsetID');
         
         // The synsetID, if specified, is the preferred method to build the instance
         if(this.synsetID_ == null || this.reinit_){
+            console.log('re-calling API');
             // it was not provided in the constructor
             var synsetIDs = await this.proxy_.getBabelnetSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
             console.log("wordLang: ",this.wordLang_);
@@ -219,7 +222,7 @@ export class SemanticWordDescription {
      * Controllare se esiste un altro synsetID associato a questa parola.
      */
     hasAnotherMeaning(){
-        return this.maxMeaningPos_ > this.meaningPos_;
+        return this.maxMeaningPos_ - 1 > this.meaningPos_;
     }
 
     /**

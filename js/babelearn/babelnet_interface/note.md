@@ -39,7 +39,7 @@ Per il momento comunque ho implementato il metodo assumendo che ad ogni parola s
 - Controllare nel costruttore che language sia nel formato consentito ('EN', 'IT' etc.) e sia tra i linguaggi supportati.  
 Fare lo stesso controllo per targetLanguages in getSemanticWordDescription.
 
-## Modifiche prioritarie
+## Todo importanti
 
-- SemanticSentenceDescription riceve una SemanticWordDescription e controlla se nella frase è stata usata una parola con synsetID della SemanticWordDescription
-- In next di SemanticWordDescription, quando richiamiamo l'initialize, il synsetID risulta sempre given, perché l'abbiamo settato quando abbiamo trovato il primo senso
+- Aggiustare sincronizzazione in meaning from example ed in four images one word (questione di nextMeaning()).
+- agganciare altre challenge e lingua al front-end

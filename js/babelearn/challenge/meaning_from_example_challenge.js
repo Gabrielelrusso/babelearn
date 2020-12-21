@@ -33,15 +33,22 @@ export class MeaningFromExampleChallenge extends Challenge{
      */
     async generate(){
         this.gameWordFirstMeaning =  new SemanticWordDescription(this.getWord(), this.getWordLang(), [this.getGameLang()], null);
+        var retry = false;
         await this.gameWordFirstMeaning.initialize().then((res) => {
-            while(
-                (this.gameWordFirstMeaning.getMeaning == null ||
-                this.gameWordFirstMeaning.getExamples.length == 0) &&
-                this.gameWordFirstMeaning.hasAnotherMeaning()
-            ){
-                this.gameWordFirstMeaning.nextMeaning();
+            if(this.gameWordFirstMeaning.getMeaning == null ||
+                this.gameWordFirstMeaning.getExamples.length == 0)
+            {
+                retry = true;
             }
         });
+
+        while(
+            (this.gameWordFirstMeaning.getMeaning == null ||
+            this.gameWordFirstMeaning.getExamples.length == 0) &&
+            this.gameWordFirstMeaning.hasAnotherMeaning()
+        ){
+            this.gameWordFirstMeaning.nextMeaning();
+        }
 
         if(this.gameWordFirstMeaning.getMeaning == null || this.gameWordFirstMeaning.getExamples.length == 0){
             throw new ChallengeBuildFailedError('Unable to build MeaningFromExampleChallenge');
