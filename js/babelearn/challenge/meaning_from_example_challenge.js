@@ -33,60 +33,46 @@ export class MeaningFromExampleChallenge extends Challenge{
      */
     async generate(){
         this.gameWordFirstMeaning =  new SemanticWordDescription(this.getWord(), this.getWordLang(), [this.getGameLang()], null);
-        var retry = false;
-        await this.gameWordFirstMeaning.initialize().then((res) => {
-            if(this.gameWordFirstMeaning.getMeaning == null ||
-                this.gameWordFirstMeaning.getExamples.length == 0)
-            {
-                retry = true;
+        await this.gameWordFirstMeaning.initialize().then((res) => {});
+
+        console.log("Ho aspettato la initialize per il primo meaning della game word");
+
+        while(this.gameWordFirstMeaning.getMeaning == null || this.gameWordFirstMeaning.getExamples.length == 0){
+            if(this.gameWordFirstMeaning.hasAnotherMeaning()){
+                await this.gameWordFirstMeaning.nextMeaning().then((res) => {});
+                console.log('Ho aspettato la next meaning per il primo meaning della game word');
             }
-        });
-
-        while(
-            (this.gameWordFirstMeaning.getMeaning == null ||
-            this.gameWordFirstMeaning.getExamples.length == 0) &&
-            this.gameWordFirstMeaning.hasAnotherMeaning()
-        ){
-            this.gameWordFirstMeaning.nextMeaning();
-        }
-
-        if(this.gameWordFirstMeaning.getMeaning == null || this.gameWordFirstMeaning.getExamples.length == 0){
-            throw new ChallengeBuildFailedError('Unable to build MeaningFromExampleChallenge');
+            else{
+                throw new ChallengeBuildFailedError('Unable to build MeaningFromExampleChallenge');
+            }            
         }
 
         this.gameWordSecondMeaning = new SemanticWordDescription(this.getWord(), this.getWordLang(), [this.getGameLang()], null);
-        await this.gameWordSecondMeaning.initialize().then((res) => {
-            while(
-                (this.gameWordSecondMeaning.getMeaning == null ||
-                this.gameWordSecondMeaning.checkForEquality(this.gameWordFirstMeaning)) && 
-                this.gameWordSecondMeaning.hasAnotherMeaning()
-            ){
-                this.gameWordSecondMeaning.nextMeaning();
-            }
-        });
+        await this.gameWordSecondMeaning.initialize().then((res) => {});
 
-        if(this.gameWordSecondMeaning.getMeaning == null || this.gameWordSecondMeaning.checkForEquality(this.gameWordFirstMeaning)){
-            throw new ChallengeBuildFailedError('Unable to build MeaningFromExampleChallenge');
+        while(this.gameWordSecondMeaning.getMeaning == null || this.gameWordSecondMeaning.checkForEquality(this.gameWordFirstMeaning)){
+            if(this.gameWordSecondMeaning.hasAnotherMeaning()){
+                await this.gameWordSecondMeaning.nextMeaning().then((res) => {});
+            }
+            else{
+                throw new ChallengeBuildFailedError('Unable to build MeaningFromExampleChallenge');
+            }
         }
 
         this.gameWordThirdMeaning = new SemanticWordDescription(this.getWord(), this.getWordLang(), [this.getGameLang()], null);
-        await this.gameWordThirdMeaning.initialize().then((res) => {
-            while(
-                (this.gameWordThirdMeaning.getMeaning == null ||
-                this.gameWordThirdMeaning.checkForEquality(this.gameWordFirstMeaning) ||
-                this.gameWordThirdMeaning.checkForEquality(this.gameWordSecondMeaning)) &&
-                this.gameWordThirdMeaning.hasAnotherMeaning()
-            ){
-                this.gameWordThirdMeaning.nextMeaning();
-            }
-        });
+        await this.gameWordThirdMeaning.initialize().then((res) => {});
 
-        if(
-            this.gameWordThirdMeaning.getMeaning == null ||
+        while(this.gameWordThirdMeaning.getMeaning == null ||
             this.gameWordThirdMeaning.checkForEquality(this.gameWordFirstMeaning) ||
             this.gameWordThirdMeaning.checkForEquality(this.gameWordSecondMeaning)
         ){
-            throw new ChallengeBuildFailedError('Unable to build MeaningFromExampleChallenge');
+            if(this.gameWordThirdMeaning.hasAnotherMeaning()){
+                await this.gameWordThirdMeaning.nextMeaning().then((res) => {});
+            }
+            else{
+                throw new ChallengeBuildFailedError('Unable to build MeaningFromExampleChallenge');
+            }
+            
         }
 
         // Settare solution ed exercise
