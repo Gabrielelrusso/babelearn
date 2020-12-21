@@ -32,7 +32,7 @@ export class SemanticSentenceDescription {
         this.sentenceLang = language;
 
         /** @private */
-        this.proxy_ = new BabelProxy('86994456-f309-4bce-8e40-838b9284a220');
+        this.proxy_ = new BabelProxy('8c7346f4-59f1-41c8-a031-6369f4d9f711');
 
         this.isInitialized = false;
         this.disambiguatedWords = null; // Google style conventions require to set all of the fields in the constructor
@@ -62,8 +62,8 @@ export class SemanticSentenceDescription {
     /**
      * Checks if the given word has been used in this sentence (with the sence associated to the {@link SemanticWordDescription} which
      * encapsulates the word).
-     * 
-     * @param {SemanticWordDescription} word 
+     *
+     * @param {SemanticWordDescription} word
      * @throws {NotInitializedError} if initialize() has not been called on this instance.
      */
     checkForUsage(semanticWordDescription){
@@ -147,7 +147,8 @@ export class SemanticWordDescription {
         }
 
         /** @private */
-        this.proxy_ = new BabelProxy('eb5b7486-687a-4768-9cbd-1f6cd7f7590f');
+        this.proxy_ = new BabelProxy('8c7346f4-59f1-41c8-a031-6369f4d9f711');
+
 
         /** @private */
         this.synsetID_ = synsetID;
@@ -190,7 +191,7 @@ export class SemanticWordDescription {
         var isSynsetIdGiven = false;
 
         console.log('Initializing with ', this.meaningPos_, ' meaning pos and ', this.synsetID_, ' synsetID');
-        
+
         // The synsetID, if specified, is the preferred method to build the instance
         if(this.synsetID_ == null || this.reinit_){
             console.log('re-calling API');
@@ -201,12 +202,15 @@ export class SemanticWordDescription {
             console.log("synset IDs: ",synsetIDs);
             this.maxMeaningPos_ = synsetIDs.length;
             this.synsetID_ = synsetIDs[this.meaningPos_];
+            console.log("synsetIDs[", this.meaningPos_,"]: ", this.synsetID_);
         }
         else{
             isSynsetIdGiven = true;
         }
 
-        this.apiResponse_ = await this.proxy_.getSynsetInfo(this.synsetID_, this.availableLangs);
+        await this.proxy_.getSynsetInfo(this.synsetID_, this.availableLangs).then((res)=>{
+          this.apiResponse_ = res;
+        });
 
         if(isSynsetIdGiven && !this.reinit_){
             // Init wordLang and lemma to the values of the first sense in the response
@@ -305,7 +309,7 @@ export class SemanticWordDescription {
         var glosses = this.apiResponse_.glosses;
         for(var i = 0; i < glosses.length; i++){
             if(glosses[i]['language'] == lang){
-                console.log('found gloss: ', glosses[i]['gloss']); // DEBUG
+                // console.log('found gloss: ', glosses[i]['gloss']); // DEBUG
                 return glosses[i]['gloss'];
             }
         }
@@ -331,7 +335,13 @@ export class SemanticWordDescription {
         this.apiResponse_.examples.forEach((example) => {
             examplesList.push(example['example']);
         });
-        console.log("examples found with lang(",lang,"): ", examplesList);
+        if(this.apiResponse_['senses'][0]['properties']['synsetID']['id'] == "bn:13784328v"){
+          console.log("API RESPONSE: ", this.apiResponse_);
+          console.log("examples found with lang(",lang,"): ", examplesList);
+        }else{
+          console.log(this.apiResponse_['senses'][0]['properties']['synsetID']['id']);
+        }
+
         return examplesList;
     }
 
