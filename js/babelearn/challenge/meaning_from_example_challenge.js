@@ -1,17 +1,17 @@
-/*jshint esversion: 8 */ 
+/*jshint esversion: 8 */
 
 import {Challenge, ChallengeBuildFailedError} from './challenge.js';
 import {SemanticWordDescription} from '../babelnet_interface/semantic_api/semantic_api.js';
 
 /**
  * Challenge 1.
- * 
+ *
  */
 export class MeaningFromExampleChallenge extends Challenge{
     /**
-     * 
-     * @param {*} word 
-     * @param {*} wordLang 
+     *
+     * @param {*} word
+     * @param {*} wordLang
      * @param {*} gameLang
      * @throws {TypeError} if word or wordLang are not specified.
      */
@@ -26,6 +26,7 @@ export class MeaningFromExampleChallenge extends Challenge{
         this.gameWordFirstMeaning = null;
         this.gameWordSecondMeaning = null;
         this.gameWordThirdMeaning = null;
+        console.log("The Lang Of The Challenge Created Is: ", gameLang);
     }
 
     /**
@@ -37,20 +38,20 @@ export class MeaningFromExampleChallenge extends Challenge{
 
         console.log("Ho aspettato la initialize per il primo meaning della game word");
 
-        while(this.gameWordFirstMeaning.getMeaning == null || this.gameWordFirstMeaning.getExamples.length == 0){
+        while(this.gameWordFirstMeaning.getMeaning(this.getGameLang()) == null || this.gameWordFirstMeaning.getExamples(this.getGameLang()).length == 0){
             if(this.gameWordFirstMeaning.hasAnotherMeaning()){
                 await this.gameWordFirstMeaning.nextMeaning().then((res) => {});
                 console.log('Ho aspettato la next meaning per il primo meaning della game word');
             }
             else{
                 throw new ChallengeBuildFailedError('Unable to build MeaningFromExampleChallenge');
-            }            
+            }
         }
 
         this.gameWordSecondMeaning = new SemanticWordDescription(this.getWord(), this.getWordLang(), [this.getGameLang()], null);
         await this.gameWordSecondMeaning.initialize().then((res) => {});
 
-        while(this.gameWordSecondMeaning.getMeaning == null || this.gameWordSecondMeaning.checkForEquality(this.gameWordFirstMeaning)){
+        while(this.gameWordSecondMeaning.getMeaning(this.getGameLang()) == null || this.gameWordSecondMeaning.checkForEquality(this.gameWordFirstMeaning)){
             if(this.gameWordSecondMeaning.hasAnotherMeaning()){
                 await this.gameWordSecondMeaning.nextMeaning().then((res) => {});
             }
@@ -62,7 +63,7 @@ export class MeaningFromExampleChallenge extends Challenge{
         this.gameWordThirdMeaning = new SemanticWordDescription(this.getWord(), this.getWordLang(), [this.getGameLang()], null);
         await this.gameWordThirdMeaning.initialize().then((res) => {});
 
-        while(this.gameWordThirdMeaning.getMeaning == null ||
+        while(this.gameWordThirdMeaning.getMeaning(this.getGameLang()) == null ||
             this.gameWordThirdMeaning.checkForEquality(this.gameWordFirstMeaning) ||
             this.gameWordThirdMeaning.checkForEquality(this.gameWordSecondMeaning)
         ){
@@ -72,23 +73,23 @@ export class MeaningFromExampleChallenge extends Challenge{
             else{
                 throw new ChallengeBuildFailedError('Unable to build MeaningFromExampleChallenge');
             }
-            
+
         }
 
         // Settare solution ed exercise
-        this.setExerciseMain(this.gameWordFirstMeaning.getExamples()[0]); // the first example surely exists
-        this.setExerciseOptions([this.gameWordFirstMeaning.getMeaning(), this.gameWordSecondMeaning.getMeaning(), this.gameWordThirdMeaning.getMeaning()]);
+        this.setExerciseMain(this.gameWordFirstMeaning.getExamples(this.getGameLang())[0]); // the first example surely exists
+        this.setExerciseOptions([this.gameWordFirstMeaning.getMeaning(this.getGameLang()), this.gameWordSecondMeaning.getMeaning(this.getGameLang()), this.gameWordThirdMeaning.getMeaning(this.getGameLang())]);
 
         // Shuffle options in the way suggested here: https://flaviocopes.com/how-to-shuffle-array-javascript/
         //this.exercise_.options = this.exercise_.options.sort(() => Math.random - 0.5);
-        this.setExerciseOptions(this.getExerciseOptions().sort(() => Math.random - 0.5)); 
+        this.setExerciseOptions(this.getExerciseOptions().sort(() => Math.random() - 0.5));
 
         // wrong-answer-info non ce l'ho
-        
-        this.setSolution(this.gameWordFirstMeaning.getMeaning());
+
+        this.setSolution(this.gameWordFirstMeaning.getMeaning(this.getGameLang()));
     }
 
-    guess(answer){
+    async guess(answer){
         // Bring everything to lower case since 'answer' come from front-end
         return (answer.toLowerCase() === this.getSolution().toLowerCase());
     }

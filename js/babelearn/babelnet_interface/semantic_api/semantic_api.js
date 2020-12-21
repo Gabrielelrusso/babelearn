@@ -210,6 +210,7 @@ export class SemanticWordDescription {
 
         await this.proxy_.getSynsetInfo(this.synsetID_, this.availableLangs).then((res)=>{
           this.apiResponse_ = res;
+          console.log("RESPONSE: ", this.apiResponse_);
         });
 
         if(isSynsetIdGiven && !this.reinit_){
@@ -267,6 +268,7 @@ export class SemanticWordDescription {
      */
     desiredLangValidation_(lang){
         if(!this.availableLangs.includes(lang)){
+            console.log(lang," is not available");
             throw new TypeError('The requested language is not available.');
         }
     }
@@ -335,7 +337,7 @@ export class SemanticWordDescription {
         this.apiResponse_.examples.forEach((example) => {
             examplesList.push(example['example']);
         });
-        if(this.apiResponse_['senses'][0]['properties']['synsetID']['id'] == "bn:13784328v"){
+        if(this.apiResponse_['senses'].length > 0 && this.apiResponse_['senses'][0]['properties']['synsetID']['id'] == "bn:13784328v"){
           console.log("API RESPONSE: ", this.apiResponse_);
           console.log("examples found with lang(",lang,"): ", examplesList);
         }else{

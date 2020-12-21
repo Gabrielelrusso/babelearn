@@ -50,7 +50,8 @@ export class BabelProxy {
         var get_params = {
             'lemma' : word,
             'searchLang' : language,
-            'key' : this.apiKey
+            'key' : this.apiKey,
+            'timeout': 60
         };
 
         var synsetIDs = [];
@@ -65,7 +66,10 @@ export class BabelProxy {
             await axios.get(
                 this.babelnetSynsetsByWordServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => this.createSynsetsList_(response, synsetIDs));
+            ).then((response) => {
+              this.createSynsetsList_(response, synsetIDs);
+              console.log("SERVER RESPONSE: ", response);
+            });
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -161,13 +165,13 @@ export class BabelProxy {
             await axios.get(
                 this.babelfyDisambiguationServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => 
+            ).then((response) =>
                 /**
                  * se metto la chiamata a createSynsetsList in una funzione anonima e dopo metto una print si rompe la sincronizzazione, mentre
                  * così sembra di no.
                  */
                 this.createSynsetsListFromBabelfy_(sentence, response.data, synsetIDs)
-                ); 
+                );
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
