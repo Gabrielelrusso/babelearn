@@ -14,6 +14,7 @@ export class BabelProxy {
         this.babelnetSynsetsByWordServiceUrl = "https://babelnet.io/v5/getSynsetIds";
         this.babelnetSynsetsInfoByIDServiceUrl = "https://babelnet.io/v5/getSynset";
         this.babelfyDisambiguationServiceUrl = "https://babelfy.io/v1/disambiguate";
+        this.REQUEST_TIMEOUT = 5000; // ms
     }
 
     /**
@@ -51,7 +52,7 @@ export class BabelProxy {
             'lemma' : word,
             'searchLang' : language,
             'key' : this.apiKey,
-            'timeout': 60
+            'timeout': this.REQUEST_TIMEOUT
         };
 
         var synsetIDs = [];
@@ -102,6 +103,7 @@ export class BabelProxy {
         targetLanguages.forEach((language) => {
             get_params.append('targetLang', language);
         });
+        get_params.append('timeout', this.REQUEST_TIMEOUT);
 
         var apiResponse;
 
@@ -156,7 +158,8 @@ export class BabelProxy {
         var get_params = {
             'text' : sentence,
             'lang' : language,
-            'key' : this.apiKey
+            'key' : this.apiKey,
+            'timeout': this.REQUEST_TIMEOUT
         };
 
         var synsetIDs = [];
