@@ -9,7 +9,6 @@ var ViewChallenges = Vue.component('view-challenges', {
   methods: {
       getChosenChallengeIndex(){
         let chosenChallengeIndex = $('div.carousel-item.active').index();
-        console.log("user has chosen challenge with index: ", chosenChallengeIndex);
         return chosenChallengeIndex;
       },
   },

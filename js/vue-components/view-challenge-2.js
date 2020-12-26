@@ -10,7 +10,6 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
   watch: {
       challenge: function(newChallenge, oldChallenge) {
           this.challenge = newChallenge;
-          console.log("event on challenge: ",this.challenge);
       }
 
   },

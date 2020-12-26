@@ -151,9 +151,7 @@ var vm = new Vue({
       await this.createChallengeOfDifficultyAndType(CHALLENGE_DIFFICULTY.EASY, challengeType);
     },
     setLanguage: function(language){
-      console.log("CHOSEN LANGUAGE: ", language);
       this.game.setGameLang(language);
-      console.log(language);
     },
     showSuccessMenu: function () {
       $('#successModal').modal({
@@ -177,7 +175,6 @@ var vm = new Vue({
     createChallengeOfDifficultyAndType: async function(challengeDifficulty,challengeType){
       this.game.startNewChallenge(challengeDifficulty, challengeType);
       await this.generateCurrentChallenge().then((res) => {
-        console.log("challenge ",challengeType," generated");
         let challengeViewName = this.getViewNameFromChallengeType(challengeType);
         this.game_metadata.answered = false;
         this.game_metadata.rightAnswered = false;
@@ -190,7 +187,6 @@ var vm = new Vue({
       });
     },
     guessAnswer: function(userInput){
-      console.log("user input: ",userInput);
       this.game_metadata.answered = true;
       let correctAnswer = false;
       this.game.getCurrentChallenge().guess(userInput).then((res) => {
@@ -202,7 +198,6 @@ var vm = new Vue({
           else {
               this.game_metadata.rightAnswered = false;
               this.showFailureMenu();
-              console.log("correct answer: ", this.game.getCurrentChallenge().getSolution());
           }
         })
     }
