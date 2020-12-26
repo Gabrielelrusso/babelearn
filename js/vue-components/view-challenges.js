@@ -8,10 +8,10 @@ var ViewChallenges = Vue.component('view-challenges', {
   },
   methods: {
       getChosenChallengeIndex(){
-        let chosenChallengeIndex = $('div.carousel-item.active').index() + 1;
-        console.log("user has chosen challenge: ", chosenChallengeIndex);
+        let chosenChallengeIndex = $('div.carousel-item.active').index();
+        console.log("user has chosen challenge with index: ", chosenChallengeIndex);
         return chosenChallengeIndex;
-      }
+      },
   },
   template: `
     <div  class="card mt-5 mx-auto d-flex" style="min-height: 80vh; width: 60vw">

@@ -46,12 +46,13 @@
         </failure-modal>
 
         <component
-         v-bind:challenge="game.challenge"
-         @change-language-event="setLanguage"
-         @change-view-event="swapComponent"
-         @create-challenge-event="createChallenge"
-         @submit-answer-event="guessAnswer"
-         v-bind:is="currentComponent"
+          v-bind:challenge="game.currentChallenge"
+          v-bind:game_metadata="game_metadata"
+          @change-language-event="setLanguage"
+          @change-view-event="swapComponent"
+          @create-challenge-event="createChallenge"
+          @submit-answer-event="guessAnswer"
+          v-bind:is="currentComponent"
         >
 
         </component>
@@ -93,49 +94,23 @@ import {ChallengeFactory} from "./js/babelearn/challenge/challenge_factory.js";
 import {Game} from "./js/babelearn/game/game.js"
 
 
-let game = new Game();
-game.setGameLang('EN');
-game.startNewChallenge(CHALLENGE_DIFFICULTY.EASY, CHALLENGE_TYPE.MEANING_FROM_EXAMPLE_CHALLENGE);
-// let exampleFromMeaningChallenge = game.getCurrentChallenge();
-let meaningFromExampleChallenge = game.getCurrentChallenge();
-
-meaningFromExampleChallenge.generate().then((res) =>{
-
-});
-
 var vm = new Vue({
   el: '#app',
   data: {
     currentComponent: 'view-home',
-    challengeTypeToViewName:{
-      '1':'view-challenge-1',
-      '2':'view-challenge-2',
-      '3':'view-challenge-4',
+    challengeIndexToType:{
+      0: CHALLENGE_TYPE.MEANING_FROM_EXAMPLE_CHALLENGE,
+      1: CHALLENGE_TYPE.EXAMPLE_FROM_MEANING_CHALLENGE,
+      2: CHALLENGE_TYPE.FOUR_IMAGES_ONE_WORD_CHALLENGE,
     },
-    game: {
-      challenge: {
-        main: meaningFromExampleChallenge,
-        answered: false,
-        rightAnswered: false,
-      },
-
-      // challenge: {
-      //   'word':'basil',
-      //   'description':'Given a word and a sentence in which it is used, the user has to identify the right meaning in the used context.',
-      //   'exercise':{
-      //     'main':'What\'s the color of happiness?',
-      //     'options':[
-      //       'Cheese is very good when you lick it from the spoon',
-      //       'Carnival trees are way too high to climb when you\'re drunk',
-      //       'Elemental essence is all you need to cast powerful spells',
-      //     ],
-      //     'wrongAnswerInfo': 'Gloss of the wrong sense is here',
-      //     'answer':'Elemental essence is all you need to cast powerful spells'
-      //   },
-      //   'answered':false,
-      //   'rightAnswered':false
-      // }
+    game: null,
+    game_metadata:{
+      'answered': false,
+      'rightAnswered': false,
     }
+  },
+  created: function(){
+    this.startGame();
   },
   components: {
     'view-home': ViewHome,
@@ -147,6 +122,16 @@ var vm = new Vue({
     'failure-modal': FailureModal
   },
   methods: {
+    getViewNameFromChallengeType: function(type){
+      switch(type){
+        case CHALLENGE_TYPE.MEANING_FROM_EXAMPLE_CHALLENGE:
+          return 'view-challenge-1';
+        case CHALLENGE_TYPE.EXAMPLE_FROM_MEANING_CHALLENGE:
+          return 'view-challenge-2';
+        case CHALLENGE_TYPE.FOUR_IMAGES_ONE_WORD_CHALLENGE:
+          return 'view-challenge-4';
+      }
+    },
     swapComponent: function(component) {
       this.currentComponent = component;
     },
@@ -161,7 +146,7 @@ var vm = new Vue({
     },
     setLanguage: function(language){
       console.log("CHOSEN LANGUAGE: ", language);
-      game.setGameLang(language);
+      this.game.setGameLang(language);
       console.log(language);
     },
     showSuccessMenu: function () {
@@ -176,28 +161,34 @@ var vm = new Vue({
         keyboard:false,
       });
     },
-    createChallenge: function(chosenChallengeIndex){
-        console.log("challenge "+chosenChallengeIndex+" has been created.");
-        let challengeViewName = this.challengeTypeToViewName[chosenChallengeIndex];
-        this.game.challenge.answered = false;
-        this.game.challenge.rightAnswered = false;
-        console.log("Challenge: ", this.game.challenge);
+    startGame: function(){
+      this.game = new Game();
+    },
+    createChallenge: function(challengeIndex){
+      let challengeType = this.challengeIndexToType[challengeIndex];
+      this.game.startNewChallenge(CHALLENGE_DIFFICULTY.EASY, challengeType);
+      this.game.getCurrentChallenge().generate().then((res) =>{
+        console.log("challenge ",challengeType," generated");
+        let challengeViewName = this.getViewNameFromChallengeType(challengeType);
+        this.game_metadata.answered = false;
+        this.game_metadata.rightAnswered = false;
         this.swapComponent(challengeViewName);
+      });
     },
     guessAnswer: function(userInput){
       console.log("user input: ",userInput);
-      this.game['challenge']['answered'] = true;
+      this.game_metadata.answered = true;
       let correctAnswer = false;
-      this.game.challenge.main.guess(userInput).then((res) => {
+      this.game.getCurrentChallenge().guess(userInput).then((res) => {
           correctAnswer = res;
           if(correctAnswer == true){ // if answer_is_correct
-              this.game.challenge.rightAnswered = true;
+              this.game_metadata.rightAnswered = true;
               this.showSuccessMenu();
           }
           else {
-              this.game.challenge.rightAnswered = false;
+              this.game_metadata.rightAnswered = false;
               this.showFailureMenu();
-              console.log("correct answer: ", this.game.challenge.main.getSolution());
+              console.log("correct answer: ", this.game.getCurrentChallenge().getSolution());
           }
         })
     }

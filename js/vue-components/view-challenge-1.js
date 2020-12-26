@@ -15,7 +15,7 @@ var ViewChallenge1 = Vue.component('view-challenge-1', {
         <div class="card-body d-flex flex-column align-items-center">
             <div class="row mt-3">
                 <div class="col-12">
-                    <h4>{{ challenge.main.getDescription()}}</h4>
+                    <h4>{{ challenge.getDescription()}}</h4>
                     <hr>
                 </div>
             </div>
@@ -24,18 +24,18 @@ var ViewChallenge1 = Vue.component('view-challenge-1', {
                     <div class="row">
                       <div class="col-12">
                           <h6>YOU ARE PLAYING WITH THE WORD</h6>
-                          <h3><strong class="text-info">{{ challenge.main.getWord()}}</strong></h3>
+                          <h3><strong class="text-info">{{ challenge.getWord()}}</strong></h3>
                       </div>
                     </div>
                     <div class="row mt-5">
                         <div class="col-12">
-                            <h3>{{ challenge.main.getExerciseMain()}}</h3>
+                            <h3>{{ challenge.getExerciseMain()}}</h3>
                         </div>
                     </div>
                     <div class="row mt-5">
                         <div class="col-12 text-center">
                             <ul class="nav nav-pills justify-content-center nav-pills-warning w-100"  role="tablist">
-                                <li v-for="(option, index) in challenge.main.getExerciseOptions()" class="nav-item w-25">
+                                <li v-for="(option, index) in challenge.getExerciseOptions()" class="nav-item w-25">
                                   <div class="btn-link w-100 nav-link"  data-toggle="tab">
                                       <table class="h-100">
                                         <tbody>
