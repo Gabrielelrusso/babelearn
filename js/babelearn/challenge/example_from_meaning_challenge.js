@@ -10,10 +10,6 @@ import {ChallengeBuildFailedError} from './challenge.js';
  */
 export class ExampleFromMeaningChallenge extends Challenge{
     constructor(word, wordLang, gameLang) {
-        console.log("EXAMPLE FROM MEANING HAS BEEN CREATED.");
-        console.log("WORD: ", word);
-        console.log("WORD LANG: ", wordLang);
-        console.log("GAME LANG: ", gameLang);
         const description = "Given a word and its meaning, write a sentence that uses the word in the right context. \n";
         super(word, wordLang, gameLang,null, description);
         this.semanticWordDescription = null;
@@ -21,10 +17,10 @@ export class ExampleFromMeaningChallenge extends Challenge{
 
     async generate(){
         this.semanticWordDescription = new SemanticWordDescription(this.getWord(), this.getWordLang(), [this.getGameLang()], null);
-        
+
         await this.semanticWordDescription.initialize().then((res) => {});
 
-        while(this.semanticWordDescription.getExamples(this.getWordLang()).length <= 0 || 
+        while(this.semanticWordDescription.getExamples(this.getWordLang()).length <= 0 ||
               this.semanticWordDescription.getMeaning(this.getWordLang()) == null){
           if(this.semanticWordDescription.hasAnotherMeaning()){
             await this.semanticWordDescription.nextMeaning().then((res) => {});

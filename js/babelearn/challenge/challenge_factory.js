@@ -30,26 +30,23 @@ export class ChallengeFactory {
 
         switch(difficulty){
             case CHALLENGE_DIFFICULTY.EASY:
-              console.log("the chosen difficulty is easy");
+              console.log("The difficulty chosen is easy");
               words = this.words.EASY;
               break;
             case CHALLENGE_DIFFICULTY.MEDIUM:
-              console.log("the chosen difficulty is medium");
+              console.log("The difficulty chosen is medium");
               words = this.words.MEDIUM;
               break;
             case CHALLENGE_DIFFICULTY.HARD:
-              console.log("the chosen difficulty is hard");
+              console.log("The difficulty chosen is hard");
               words = this.words.HARD;
               break;
             default:
               throw 'Difficulty '+difficulty.toString()+' does not exists.';
         }
 
-
-        console.log("THE LIST OF WORDS IS: ", words);
-
         let gameWord = words[Math.floor(Math.random() * words.length)];
-        console.log("THE WORD SELECTED IS: ", gameWord);
+        console.log("You're playing with: ", gameWord);
 
         switch(type){
             case CHALLENGE_TYPE.MEANING_FROM_EXAMPLE_CHALLENGE:

@@ -30,7 +30,6 @@ export class FourImagesOneWordChallenge extends Challenge{
         this.gameWordSemanticDescription = new SemanticWordDescription(this.getWord(), this.getWordLang(), [this.getGameLang()], null);
 
         await this.gameWordSemanticDescription.initialize().then((res) => {
-          console.log("game word semantic description initialized");
         });
 
         var images = this.gameWordSemanticDescription.getImages(); // return value is always != null

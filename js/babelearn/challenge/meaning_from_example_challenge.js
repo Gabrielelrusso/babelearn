@@ -26,7 +26,6 @@ export class MeaningFromExampleChallenge extends Challenge{
         this.gameWordFirstMeaning = null;
         this.gameWordSecondMeaning = null;
         this.gameWordThirdMeaning = null;
-        console.log("The Lang Of The Challenge Created Is: ", gameLang);
     }
 
     /**
@@ -36,12 +35,9 @@ export class MeaningFromExampleChallenge extends Challenge{
         this.gameWordFirstMeaning =  new SemanticWordDescription(this.getWord(), this.getWordLang(), [this.getGameLang()], null);
         await this.gameWordFirstMeaning.initialize().then((res) => {});
 
-        console.log("Ho aspettato la initialize per il primo meaning della game word");
-
         while(this.gameWordFirstMeaning.getMeaning(this.getGameLang()) == null || this.gameWordFirstMeaning.getExamples(this.getGameLang()).length == 0){
             if(this.gameWordFirstMeaning.hasAnotherMeaning()){
                 await this.gameWordFirstMeaning.nextMeaning().then((res) => {});
-                console.log('Ho aspettato la next meaning per il primo meaning della game word');
             }
             else{
                 throw new ChallengeBuildFailedError('Unable to build MeaningFromExampleChallenge');
