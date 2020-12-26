@@ -103,6 +103,11 @@ var vm = new Vue({
       1: CHALLENGE_TYPE.EXAMPLE_FROM_MEANING_CHALLENGE,
       2: CHALLENGE_TYPE.FOUR_IMAGES_ONE_WORD_CHALLENGE,
     },
+    challengeViewToType:{
+      'view-challenge-1': CHALLENGE_TYPE.MEANING_FROM_EXAMPLE_CHALLENGE,
+      'view-challenge-2': CHALLENGE_TYPE.EXAMPLE_FROM_MEANING_CHALLENGE,
+      'view-challenge-4': CHALLENGE_TYPE.FOUR_IMAGES_ONE_WORD_CHALLENGE,
+    },
     game: null,
     game_metadata:{
       'answered': false,
@@ -141,8 +146,9 @@ var vm = new Vue({
     goToChallengesMenu: function(){
       this.swapComponent('view-challenges');
     },
-    playAgain: function(){
-
+    playAgain: async function(){
+      let challengeType = this.challengeViewToType[this.currentComponent];
+      await this.createChallengeOfDifficultyAndType(CHALLENGE_DIFFICULTY.EASY, challengeType);
     },
     setLanguage: function(language){
       console.log("CHOSEN LANGUAGE: ", language);
@@ -164,15 +170,23 @@ var vm = new Vue({
     startGame: function(){
       this.game = new Game();
     },
-    createChallenge: function(challengeIndex){
+    createChallenge: async function(challengeIndex){
       let challengeType = this.challengeIndexToType[challengeIndex];
-      this.game.startNewChallenge(CHALLENGE_DIFFICULTY.EASY, challengeType);
-      this.game.getCurrentChallenge().generate().then((res) =>{
+      await this.createChallengeOfDifficultyAndType(CHALLENGE_DIFFICULTY.EASY, challengeType);
+    },
+    createChallengeOfDifficultyAndType: async function(challengeDifficulty,challengeType){
+      this.game.startNewChallenge(challengeDifficulty, challengeType);
+      await this.generateCurrentChallenge().then((res) => {
         console.log("challenge ",challengeType," generated");
         let challengeViewName = this.getViewNameFromChallengeType(challengeType);
         this.game_metadata.answered = false;
         this.game_metadata.rightAnswered = false;
         this.swapComponent(challengeViewName);
+      });
+    },
+    async generateCurrentChallenge(){
+      await this.game.getCurrentChallenge().generate().then((res) =>{
+
       });
     },
     guessAnswer: function(userInput){

@@ -15,7 +15,7 @@ var ViewChallenge1 = Vue.component('view-challenge-1', {
         <div class="card-body d-flex flex-column align-items-center">
             <div class="row mt-3">
                 <div class="col-12">
-                    <h4>{{ challenge.getDescription()}}</h4>
+                    <h4>{{ challenge.getDescription() }}</h4>
                     <hr>
                 </div>
             </div>

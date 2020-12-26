@@ -1,4 +1,4 @@
-/*jshint esversion: 8 */ 
+/*jshint esversion: 8 */
 
 import {Challenge, ChallengeBuildFailedError} from './challenge.js';
 import {SemanticWordDescription} from '../babelnet_interface/semantic_api/semantic_api.js';
@@ -8,11 +8,11 @@ import {SemanticWordDescription} from '../babelnet_interface/semantic_api/semant
  */
 export class FourImagesOneWordChallenge extends Challenge{
     /**
-     * 
-     * 
-     * @param {*} word 
-     * @param {*} wordLang 
-     * @param {*} gameLang 
+     *
+     *
+     * @param {*} word
+     * @param {*} wordLang
+     * @param {*} gameLang
      * @throws {TypeError} if word or wordLang are not specified.
      */
     constructor(word, wordLang, gameLang){
@@ -23,14 +23,15 @@ export class FourImagesOneWordChallenge extends Challenge{
         var description = 'Look at the four images and identify the word they represent.';
         super(word, wordLang, gameLang, null, description);
 
-        this.gameImages = null; // null instead of empty to distinguish not initialized from no images available
         this.NUM_GAME_IMAGES = 4;
     }
 
     async generate(){
-        this.gameWordSemanticDescription = new SemanticWordDescription(this.getWord(), this.getWordLang, [this.getGameLang], null);
-        
-        await this.gameWordSemanticDescription.initialize().then((res) => {});
+        this.gameWordSemanticDescription = new SemanticWordDescription(this.getWord(), this.getWordLang(), [this.getGameLang()], null);
+
+        await this.gameWordSemanticDescription.initialize().then((res) => {
+          console.log("game word semantic description initialized");
+        });
 
         var images = this.gameWordSemanticDescription.getImages(); // return value is always != null
         while(images.length < this.NUM_GAME_IMAGES){
@@ -40,20 +41,20 @@ export class FourImagesOneWordChallenge extends Challenge{
             }
             else{
                 throw new ChallengeBuildFailedError('Unable to build FourImagesOneWordChallenge');
-            }   
+            }
         }
-        
+
         var start = Math.round(Math.random()*images.length) - this.NUM_GAME_IMAGES;
         // if there is only the number of images needed, start could be less than zero
         if (start < 0){
             start = 0;
         }
 
-        this.gameImages = images.slice(start, start+this.NUM_GAME_IMAGES); // slice() excludes upper limit
-
+        let gameImages = images.slice(start, start+this.NUM_GAME_IMAGES); // slice() excludes upper limit
+        this.setExerciseOptions(gameImages);
         /**
          * Set one of the possible solutions, e.g. to eventually show it to the user, but guess(answer) method will
-         * also accept synonyms of the game word. 
+         * also accept synonyms of the game word.
          */
         this.setSolution(this.gameWordSemanticDescription.getLemma(this.getGameLang()));
     }

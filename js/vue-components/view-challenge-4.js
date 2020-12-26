@@ -25,7 +25,7 @@ var ViewChallenge4 = Vue.component('view-challenge-4', {
         <div class="card-body d-flex flex-column align-items-center">
             <div class="row  mt-3">
                 <div class="col-12">
-                    <h4>{{ challenge.description }}</h4>
+                    <h4>{{ challenge.getDescription() }}</h4>
                     <hr>
                 </div>
             </div>
@@ -38,7 +38,7 @@ var ViewChallenge4 = Vue.component('view-challenge-4', {
                                     <div class="d-flex justify-content-center align-items-center h-100">
                                         <div class="card h-100 w-100" style="box-shadow: none;">
                                             <img class="img rounded mx-auto my-auto no-shadow"
-                                                src="https://images.photowall.com/products/55279/desert-sand-dunes.jpg?h=699&q=85"
+                                                :src="challenge.getExerciseOptions()[0]"
                                                 alt="Card image cap"
                                                 type="submit"
                                                 style="max-height: 95%; max-width:95%; background-color: transparent !important; cursor: pointer"
@@ -52,7 +52,7 @@ var ViewChallenge4 = Vue.component('view-challenge-4', {
                                     <div class="d-flex justify-content-center align-items-center h-100">
                                         <div class="card h-100" style="box-shadow: none;">
                                             <img class="img rounded mx-auto my-auto no-shadow"
-                                                src="https://images.theconversation.com/files/307544/original/file-20191217-58292-121izfm.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop"
+                                                :src="challenge.getExerciseOptions()[1]"
                                                 alt="Card image cap"
                                                 type="submit"
                                                 style="max-height: 95%; max-width:95%; background-color: transparent !important; cursor: pointer"
@@ -68,7 +68,7 @@ var ViewChallenge4 = Vue.component('view-challenge-4', {
                                     <div class="d-flex justify-content-center align-items-center h-100">
                                         <div class="card h-100 w-100" style="box-shadow: none;">
                                             <img class="img rounded mx-auto my-auto no-shadow"
-                                                src="https://media.istockphoto.com/photos/starfish-on-the-summer-beach-summer-background-tropical-sand-beach-picture-id1151025999"
+                                                :src="challenge.getExerciseOptions()[2]"
                                                 alt="Card image cap"
                                                 type="submit"
                                                 style="max-height: 95%; max-width:95%; background-color: transparent !important; cursor: pointer"
@@ -82,7 +82,7 @@ var ViewChallenge4 = Vue.component('view-challenge-4', {
                                     <div class="d-flex justify-content-center align-items-center h-100">
                                         <div class="card h-100" style="box-shadow: none;">
                                             <img class="img rounded mx-auto my-auto no-shadow"
-                                                src="https://www.elsevier.com/__data/assets/image/0008/199205/Chemistry-summer-image.jpg"
+                                                :src="challenge.getExerciseOptions()[3]"
                                                 alt="Card image cap"
                                                 type="submit"
                                                 style="max-height: 95%; max-width:95%; background-color: transparent !important; cursor: pointer"
