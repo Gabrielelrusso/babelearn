@@ -21,62 +21,20 @@ export class ExampleFromMeaningChallenge extends Challenge{
 
     async generate(){
         this.semanticWordDescription = new SemanticWordDescription(this.getWord(), this.getWordLang(), [this.getGameLang()], null);
-        let hasSolution = false;
-        let hasGloss = false;
-        let solution = "";
-        let gloss = "";
-        let solutions = [];
+        
+        await this.semanticWordDescription.initialize().then((res) => {});
 
-        await this.semanticWordDescription.initialize().then((res) => {
-
-          solutions = this.semanticWordDescription.getExamples(this.getWordLang());
-
-          if (solutions.length > 0) {
-            hasSolution = true;
-            solution = solutions[0];
-          } else {
-            hasSolution = false;
-            solution = null;
-          }
-
-          gloss = this.semanticWordDescription.getMeaning(this.getWordLang());
-          if (gloss.length > 0) {
-            hasGloss = true;
-          } else {
-            hasGloss = false;
-          }
-        });
-
-
-
-        while(!hasSolution || !hasGloss){
+        while(this.semanticWordDescription.getExamples(this.getWordLang()).length <= 0 || 
+              this.semanticWordDescription.getMeaning(this.getWordLang()) == null){
           if(this.semanticWordDescription.hasAnotherMeaning()){
-            await this.semanticWordDescription.nextMeaning().then((res) => {
-                solutions = this.semanticWordDescription.getExamples(this.getWordLang());
-
-                if (solutions.length > 0) {
-                  hasSolution = true;
-                  solution = solutions[0];
-                } else {
-                  hasSolution = false;
-                  solution = null;
-                }
-
-                gloss = this.semanticWordDescription.getMeaning(this.getWordLang());
-                if (gloss.length > 0) {
-                  hasGloss = true;
-                } else {
-                  hasGloss = false;
-                }
-            });
-            }else{
-                throw new ChallengeBuildFailedError();
-            }
-
+            await this.semanticWordDescription.nextMeaning().then((res) => {});
+          }else{
+              throw new ChallengeBuildFailedError();
+          }
         }
 
-        this.setSolution(solution);
-        this.setExerciseMain(gloss);
+        this.setSolution(this.semanticWordDescription.getExamples(this.getWordLang())[0]);
+        this.setExerciseMain(this.semanticWordDescription.getMeaning(this.getWordLang()));
     }
 
     async guess(answer) {
