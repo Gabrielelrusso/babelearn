@@ -29,22 +29,20 @@ export class FourImagesOneWordChallenge extends Challenge{
 
     async generate(){
         this.gameWordSemanticDescription = new SemanticWordDescription(this.getWord(), this.getWordLang, [this.getGameLang], null);
-        var images = null;
-        await this.gameWordSemanticDescription.initialize().then((res) => {
-            images = this.gameWordSemanticDescription.getImages(); // return value is always != null
-            while(
-                    images.length < this.NUM_GAME_IMAGES && 
-                    this.gameWordSemanticDescription.hasAnotherMeaning()
-                ){
-                    this.gameWordSemanticDescription.nextMeaning();
-                    images = this.gameWordSemanticDescription.getImages();
+        
+        await this.gameWordSemanticDescription.initialize().then((res) => {});
+
+        var images = this.gameWordSemanticDescription.getImages(); // return value is always != null
+        while(images.length < this.NUM_GAME_IMAGES){
+            if(this.gameWordSemanticDescription.hasAnotherMeaning()){
+                await this.gameWordSemanticDescription.nextMeaning().then((res) => {});
+                images = this.gameWordSemanticDescription.getImages();
             }
-        });
-
-        if(images.length < this.NUM_GAME_IMAGES){
-            throw new ChallengeBuildFailedError('Unable to build FourImagesOneWordChallenge');
+            else{
+                throw new ChallengeBuildFailedError('Unable to build FourImagesOneWordChallenge');
+            }   
         }
-
+        
         var start = Math.round(Math.random()*images.length) - this.NUM_GAME_IMAGES;
         // if there is only the number of images needed, start could be less than zero
         if (start < 0){
