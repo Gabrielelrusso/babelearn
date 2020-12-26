@@ -41,7 +41,5 @@ Fare lo stesso controllo per targetLanguages in getSemanticWordDescription.
 
 ## Todo importanti
 
-- Sistemare codice generate() in example from meaning
 - agganciare altre challenge e lingua al front-end
-- capire parametri get axios per fargli prendere tutti i synsetID
 - la challenge1 non funziona nelle altre lingue
