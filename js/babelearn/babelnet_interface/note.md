@@ -41,5 +41,5 @@ Fare lo stesso controllo per targetLanguages in getSemanticWordDescription.
 
 ## Todo importanti
 
-- Aggiustare sincronizzazione in meaning from example ed in four images one word (questione di nextMeaning()).
 - agganciare altre challenge e lingua al front-end
+- la challenge1 non funziona nelle altre lingue
