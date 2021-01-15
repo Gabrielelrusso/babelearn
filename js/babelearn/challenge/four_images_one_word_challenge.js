@@ -32,7 +32,7 @@ export class FourImagesOneWordChallenge extends Challenge{
         await this.gameWordSemanticDescription.initialize().then((res) => {
         });
 
-        var images = this.gameWordSemanticDescription.getImages(); // return value is always != null
+        var images = this.gameWordSemanticDescription.getGoogleImages(); // return value is always != null
         while(images.length < this.NUM_GAME_IMAGES){
             if(this.gameWordSemanticDescription.hasAnotherMeaning()){
                 await this.gameWordSemanticDescription.nextMeaning().then((res) => {});

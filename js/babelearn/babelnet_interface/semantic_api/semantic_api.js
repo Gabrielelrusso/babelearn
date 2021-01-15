@@ -186,8 +186,8 @@ export class SemanticWordDescription {
     }
 
     /**
-     * 
-     * @param {*} word 
+     *
+     * @param {*} word
      * @private
      */
     async getGoogleImages_(word){
@@ -201,11 +201,14 @@ export class SemanticWordDescription {
         var googleImages = [];
 
         try{
-            await axios.get(
-                googleImageSeachUrl + '?',
-                {params: getParams}
-            ).then((response) => 
-                response.images_results.forEach((image) => 
+            await axios({
+              headers: {"Access-Control-Allow-Origin": "*"},
+              url: googleImageSeachUrl + '?',
+              method: 'get',
+              responseType: 'json',
+              params: getParams
+            }).then((response) =>
+                response.images_results.forEach((image) =>
                     googleImages.append(image.original)
                 )
             );
@@ -260,7 +263,7 @@ export class SemanticWordDescription {
         }
 
         // at this point, lemma is surely initialized
-        this.googleImages_ = await this.getGoogleImages_(this.lemma_).then((res) => {}); 
+        this.googleImages_ = await this.getGoogleImages_(this.lemma_).then((res) => {});
 
         this.isInitialized = true;
         this.reinit_ = false;
