@@ -177,6 +177,46 @@ export class SemanticWordDescription {
          * @private
          */
         this.reinit_ = false;
+
+        /**
+         * List of image URLs from Google image search API
+         * @private
+         */
+        this.googleImages_ = null;
+    }
+
+    /**
+     * 
+     * @param {*} word 
+     * @private
+     */
+    async getGoogleImages_(word){
+        var getParams = {
+            'q': word,
+            'tbm': 'isch',
+            'ijn': 0
+        };
+
+        var googleImageSeachUrl = 'https://serpapi.com/search.json';
+        var googleImages = [];
+
+        try{
+            await axios.get(
+                googleImageSeachUrl + '?',
+                {params: getParams}
+            ).then((response) => 
+                response.images_results.forEach((image) => 
+                    googleImages.append(image.original)
+                )
+            );
+        }catch(err){
+            // An exception is already thrown by get, so don't throw anything else here, simply
+            // stop execution flow
+            console.log('Error during get from Google image search API: ', err);
+            return;
+        }
+
+        return googleImages;
     }
 
     /**
@@ -218,6 +258,9 @@ export class SemanticWordDescription {
             this.wordLang_ = this.apiResponse_["senses"][0]["properties"]["language"];
             this.lemma_ = this.apiResponse_["senses"][0]["properties"]["simpleLemma"];
         }
+
+        // at this point, lemma is surely initialized
+        this.googleImages_ = await this.getGoogleImages_(this.lemma_).then((res) => {}); 
 
         this.isInitialized = true;
         this.reinit_ = false;
@@ -363,6 +406,12 @@ export class SemanticWordDescription {
         });
 
         return imageURLs;
+    }
+
+    getGoogleImages(){
+        this.initializationErrorChecking_();
+
+        return this.googleImages_;
     }
 
     /**
