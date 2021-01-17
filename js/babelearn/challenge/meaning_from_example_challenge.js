@@ -32,7 +32,15 @@ export class MeaningFromExampleChallenge extends Challenge{
      * @throws {ChallengeBuildFailedError} if it's unable to build the challenge.
      */
     async generate(){
-        this.gameWordFirstMeaning =  new SemanticWordDescription(this.getWord(), this.getWordLang(), ['EN', this.getGameLang()], null);
+        var isGameLanguageEnglish = false;
+        if(this.getGameLang() == 'EN'){
+          isGameLanguageEnglish = true;
+        }
+        var targetLangs = [this.getGameLang()];
+        if(!isGameLanguageEnglish){
+          targetLangs.push('EN');
+        }
+        this.gameWordFirstMeaning =  new SemanticWordDescription(this.getWord(), this.getWordLang(), targetLangs, null);
         await this.gameWordFirstMeaning.initialize().then((res) => {});
 
         while(this.gameWordFirstMeaning.getMeaning('EN') == null || this.gameWordFirstMeaning.getExamples('EN').length == 0){
@@ -44,7 +52,7 @@ export class MeaningFromExampleChallenge extends Challenge{
             }
         }
 
-        this.gameWordSecondMeaning = new SemanticWordDescription(this.getWord(), this.getWordLang(), ['EN', this.getGameLang()], null);
+        this.gameWordSecondMeaning = new SemanticWordDescription(this.getWord(), this.getWordLang(), targetLangs, null);
         await this.gameWordSecondMeaning.initialize().then((res) => {});
 
         while(this.gameWordSecondMeaning.getMeaning('EN') == null || this.gameWordSecondMeaning.checkForEquality(this.gameWordFirstMeaning)){
@@ -56,7 +64,7 @@ export class MeaningFromExampleChallenge extends Challenge{
             }
         }
 
-        this.gameWordThirdMeaning = new SemanticWordDescription(this.getWord(), this.getWordLang(), ['EN', this.getGameLang()], null);
+        this.gameWordThirdMeaning = new SemanticWordDescription(this.getWord(), this.getWordLang(), targetLangs, null);
         await this.gameWordThirdMeaning.initialize().then((res) => {});
 
         while(this.gameWordThirdMeaning.getMeaning('EN') == null ||
@@ -72,13 +80,25 @@ export class MeaningFromExampleChallenge extends Challenge{
 
         }
 
-        // Settare solution ed exercise
-        let exerciseMain = await this.translateSentence('EN', this.getGameLang(), this.gameWordFirstMeaning.getExamples('EN')[0]);
-        let exerciseOption1 = await this.translateSentence('EN', this.getGameLang(), this.gameWordFirstMeaning.getMeaning('EN'));
-        console.log("First Meaning: ",this.gameWordFirstMeaning.getMeaning('EN')+"spazio");
-        let exerciseOption2 = await this.translateSentence('EN', this.getGameLang(), this.gameWordSecondMeaning.getMeaning('EN'));
-        let exerciseOption3 = await this.translateSentence('EN', this.getGameLang(), this.gameWordThirdMeaning.getMeaning('EN'));
-
+        // These need to be declared here, otherwise they'll go out of scope
+        var exerciseMain = null;
+        var exerciseOption1 = null;
+        var exerciseOption2 = null;
+        var exerciseOption3 = null;
+        if(!isGameLanguageEnglish){
+          exerciseMain = await this.translateSentence('EN', this.getGameLang(), this.gameWordFirstMeaning.getExamples('EN')[0]);
+          exerciseOption1 = await this.translateSentence('EN', this.getGameLang(), this.gameWordFirstMeaning.getMeaning('EN'));
+          console.log("First Meaning: ",this.gameWordFirstMeaning.getMeaning('EN')+"spazio");
+          exerciseOption2 = await this.translateSentence('EN', this.getGameLang(), this.gameWordSecondMeaning.getMeaning('EN'));
+          exerciseOption3 = await this.translateSentence('EN', this.getGameLang(), this.gameWordThirdMeaning.getMeaning('EN'));
+        }
+        else{
+          exerciseMain = this.gameWordFirstMeaning.getExamples('EN')[0];
+          exerciseOption1 = this.gameWordFirstMeaning.getMeaning('EN');
+          exerciseOption2 = this.gameWordSecondMeaning.getMeaning('EN');
+          exerciseOption3 = this.gameWordThirdMeaning.getMeaning('EN');
+        }
+        
         this.setExerciseMain(exerciseMain); // the first example surely exists
         this.setExerciseOptions([exerciseOption1, exerciseOption2, exerciseOption3]);
 
