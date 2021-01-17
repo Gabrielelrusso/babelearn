@@ -191,27 +191,46 @@ export class SemanticWordDescription {
      * @private
      */
     async getGoogleImages_(word){
+        /*
         var getParams = {
             'q': word,
             'tbm': 'isch',
             'ijn': 0
         };
+        */
+        var getParams = new URLSearchParams();
+
+        getParams.append('q', word);
+        getParams.append('tbm', 'isch');
+        getParams.append('ijn', 0);
 
         var googleImageSeachUrl = 'https://serpapi.com/search.json';
         var googleImages = [];
 
         try{
+            
             await axios({
-              headers: {"Access-Control-Allow-Origin": "*"},
-              url: googleImageSeachUrl + '?',
-              method: 'get',
-              responseType: 'json',
-              params: getParams
+                headers: {"Access-Control-Allow-Origin": "*"},
+                url: googleImageSeachUrl,
+                method: 'get',
+                responseType: 'json',
+                params: getParams
             }).then((response) =>
                 response.images_results.forEach((image) =>
                     googleImages.append(image.original)
                 )
             );
+            
+           /*
+            await axios.get(
+            googleImageSeachUrl,
+            {params: getParams}
+            ).then((response) => 
+                response.images_results.forEach((image) => 
+                    googleImages.append(image.original)
+                )
+            );
+            */
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -239,7 +258,7 @@ export class SemanticWordDescription {
         if(this.synsetID_ == null || this.reinit_){
             console.log('re-calling API');
             // it was not provided in the constructor
-            var synsetIDs = await this.proxy_.getBabelnetSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
+            var synsetIDs = await this.proxy_.getSensesSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
             console.log("wordLang: ",this.wordLang_);
             console.log("lemma: ", this.lemma_);
             console.log("synset IDs: ",synsetIDs);
