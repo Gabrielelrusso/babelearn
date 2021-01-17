@@ -149,7 +149,7 @@ export class SemanticWordDescription {
         }
 
         /** @private */
-        this.proxy_ = new BabelProxy('7cb3603a-46cb-4bca-8e7c-56f62244b039');
+        this.proxy_ = new BabelProxy('98ad6b15-c4ed-42c8-bffe-e165fc332424');
 
 
         /** @private */
@@ -274,6 +274,7 @@ export class SemanticWordDescription {
 
         await this.proxy_.getSynsetInfo(this.synsetID_, this.availableLangs).then((res)=>{
           this.apiResponse_ = res;
+          console.log("available langs: ", this.availableLangs);
           console.log("RESPONSE: ", this.apiResponse_);
         });
 

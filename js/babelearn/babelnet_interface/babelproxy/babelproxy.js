@@ -131,7 +131,7 @@ export class BabelProxy {
      * @throws {RangeError} if too many target languages are given.
      * @throws an error if an error occurs during the GET request.
      */
-    async getSynsetInfo(synsetID, targetLanguages = ['EN']){
+    async getSynsetInfo(synsetID, targetLanguages){
         if(targetLanguages.length > 4){
             throw new RangeError('BabelNet API accepts at most 4 different languages');
         }

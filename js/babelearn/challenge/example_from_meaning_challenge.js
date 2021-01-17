@@ -20,20 +20,31 @@ export class ExampleFromMeaningChallenge extends Challenge{
 
         await this.semanticWordDescription.initialize().then((res) => {});
 
-        while(this.semanticWordDescription.getExamples(this.getWordLang()).length <= 0 ||
-              this.semanticWordDescription.getMeaning(this.getWordLang()) == null){
+        while(this.semanticWordDescription.getMeaning(this.getGameLang()) == null){
           if(this.semanticWordDescription.hasAnotherMeaning()){
             await this.semanticWordDescription.nextMeaning().then((res) => {});
           }else{
               throw new ChallengeBuildFailedError();
           }
         }
+        // while(this.semanticWordDescription.getExamples(this.getGameLang()).length <= 0 ||
+        //       this.semanticWordDescription.getMeaning(this.getGameLang()) == null){
+        //   if(this.semanticWordDescription.hasAnotherMeaning()){
+        //     await this.semanticWordDescription.nextMeaning().then((res) => {});
+        //   }else{
+        //       throw new ChallengeBuildFailedError();
+        //   }
+        // }
 
-        this.setSolution(this.semanticWordDescription.getExamples(this.getWordLang())[0]);
-        this.setExerciseMain(this.semanticWordDescription.getMeaning(this.getWordLang()));
+        //this.setSolution(this.semanticWordDescription.getExamples(this.getGameLang())[0]);
+        this.setExerciseMain(this.semanticWordDescription.getMeaning(this.getGameLang()));
     }
 
-    async guess(answer) {
+  getWordInGameLang() {
+    return this.semanticWordDescription.getLemma(this.getGameLang());
+  }
+
+  async guess(answer) {
         let semanticSentenceDescription = new SemanticSentenceDescription(answer, this.getGameLang());
         let correctAnswer = false;
 
