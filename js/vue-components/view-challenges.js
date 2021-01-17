@@ -44,13 +44,13 @@ var ViewChallenges = Vue.component('view-challenges', {
                                                     <div class="d-flex flex-row">
                                                     <div class="d-flex flex-column align-center flex-wrap">
                                                         <img class="card-img-top mx-auto my-auto"
-                                                            src="img/test/testImage.jpeg"
+                                                            src="img/challenges/choice.png"
                                                             alt="Card image cap"
                                                             style="max-height: 200px; max-width: 200px"
                                                         >
-                                                            <h5 class="card-title text-info text-center d-inline-block">Challenge Three</h5>
+                                                            <h5 class="card-title text-info text-center d-inline-block">What's the right meaning?</h5>
                                                             <div class="card-body">
-                                                                <div class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                                                                <div class="card-text">Given a word and a usage example, identify the meaning of the word in the provided usage context.</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -65,13 +65,13 @@ var ViewChallenges = Vue.component('view-challenges', {
                                                     <div class="d-flex flex-row">
                                                     <div class="d-flex flex-column align-center flex-wrap">
                                                         <img class="card-img-top mx-auto my-auto"
-                                                            src="img/test/testImage.jpeg"
+                                                            src="img/challenges/notes.png"
                                                             alt="Card image cap"
                                                             style="max-height: 200px; max-width: 200px"
                                                         >
-                                                            <h5 class="card-title text-info text-center d-inline-block">Challenge Two</h5>
+                                                            <h5 class="card-title text-info text-center d-inline-block">Creative writing!</h5>
                                                             <div class="card-body">
-                                                                <div class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                                                                <div class="card-text">Given a word and its meaning, write a sentence that uses the word in the right context.</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -86,13 +86,13 @@ var ViewChallenges = Vue.component('view-challenges', {
                                                     <div class="d-flex flex-row">
                                                     <div class="d-flex flex-column align-center flex-wrap">
                                                         <img class="card-img-top mx-auto my-auto"
-                                                            src="img/test/testImage.jpeg"
+                                                            src="img/challenges/gallery.png"
                                                             alt="Card image cap"
                                                             style="max-height: 200px; max-width: 200px"
                                                         >
-                                                            <h5 class="card-title text-info text-center d-inline-block">Challenge Three</h5>
+                                                            <h5 class="card-title text-info text-center d-inline-block">Four images, one word!</h5>
                                                             <div class="card-body">
-                                                                <div class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                                                                <div class="card-text">Look at the four images and identify the word they represent.</div>
                                                             </div>
                                                         </div>
                                                     </div>
