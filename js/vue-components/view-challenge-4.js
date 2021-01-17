@@ -16,7 +16,7 @@ var ViewChallenge4 = Vue.component('view-challenge-4', {
       }
   },
   template: `
-    <div  class="card mt-3 w-100 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
+    <div  class="card mt-3 w-100 d-flex" style="min-height: 80vh; width: 60vw">
         <div class="card-header card-header-icon card-header-info">
             <div class="card-text">
                 <h4 class="card-title text-xl-center">Four images, one word!</h4>
