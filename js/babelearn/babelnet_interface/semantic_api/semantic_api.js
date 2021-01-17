@@ -185,6 +185,13 @@ export class SemanticWordDescription {
          * @private
          */
         this.googleImages_ = null;
+
+        /**
+         * Cache for synset IDS
+         * 
+         * @private
+         */
+        this.synsetIDs_ = null;
     }
 
     /**
@@ -257,10 +264,10 @@ export class SemanticWordDescription {
         console.log('Initializing with ', this.meaningPos_, ' meaning pos and ', this.synsetID_, ' synsetID');
 
         // The synsetID, if specified, is the preferred method to build the instance
-        if(this.synsetID_ == null || this.reinit_){
+        if(this.synsetID_ == null){
             console.log('re-calling API');
             // it was not provided in the constructor
-            var synsetIDs = await this.proxy_.getSensesSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
+            this.synsetIDs_ = await this.proxy_.getSensesSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
             console.log("wordLang: ",this.wordLang_);
             console.log("lemma: ", this.lemma_);
             console.log("synset IDs: ",synsetIDs);
@@ -270,6 +277,10 @@ export class SemanticWordDescription {
         }
         else{
             isSynsetIdGiven = true;
+        }
+
+        if(this.reinit_){
+            this.synsetID_ = this.synsetIDs_[this.meaningPos_];
         }
 
         await this.proxy_.getSynsetInfo(this.synsetID_, this.availableLangs).then((res)=>{
