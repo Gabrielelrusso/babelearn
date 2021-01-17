@@ -9,7 +9,7 @@ var ViewChallenge1 = Vue.component('view-challenge-1', {
     <div  class="card mt-5 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
         <div class="card-header card-header-icon card-header-info">
             <div class="card-text">
-                <h4 class="card-title text-xl-center">Challenge 1</h4>
+                <h4 class="card-title text-xl-center">What's the right meaning?</h4>
             </div>
         </div>
         <div class="card-body d-flex flex-column align-items-center">

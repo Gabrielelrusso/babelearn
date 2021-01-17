@@ -61,7 +61,7 @@ var ViewChallenges = Vue.component('view-challenges', {
                                                     >
 
                                                         <img class="text-center mx-auto"
-                                                            src="img/challenges/notes.png"
+                                                            src="img/challenges/papyrus.png"
                                                             alt="Card image cap"
                                                             style="max-height: 200px; max-width: 200px"
                                                         >
