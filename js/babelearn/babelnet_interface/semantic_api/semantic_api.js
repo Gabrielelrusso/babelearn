@@ -32,7 +32,9 @@ export class SemanticSentenceDescription {
         this.sentenceLang = language;
 
         /** @private */
-        this.proxy_ = new BabelProxy('8c7346f4-59f1-41c8-a031-6369f4d9f711');
+        const key = 'eb5b7486-687a-4768-9cbd-1f6cd7f7590f';
+        this.proxy_ = new BabelProxy(key);
+        console.log("Your key is: ", this.proxy_.apiKey);
 
         this.isInitialized = false;
         this.disambiguatedWords = null; // Google style conventions require to set all of the fields in the constructor
@@ -208,7 +210,7 @@ export class SemanticWordDescription {
         var googleImages = [];
 
         try{
-            
+
             await axios({
                 headers: {"Access-Control-Allow-Origin": "*"},
                 url: googleImageSeachUrl,
@@ -220,13 +222,13 @@ export class SemanticWordDescription {
                     googleImages.append(image.original)
                 )
             );
-            
+
            /*
             await axios.get(
             googleImageSeachUrl,
             {params: getParams}
-            ).then((response) => 
-                response.images_results.forEach((image) => 
+            ).then((response) =>
+                response.images_results.forEach((image) =>
                     googleImages.append(image.original)
                 )
             );
@@ -282,7 +284,7 @@ export class SemanticWordDescription {
         }
 
         // at this point, lemma is surely initialized
-        this.googleImages_ = await this.getGoogleImages_(this.lemma_).then((res) => {});
+        //this.googleImages_ = await this.getGoogleImages_(this.lemma_).then((res) => {});
 
         this.isInitialized = true;
         this.reinit_ = false;

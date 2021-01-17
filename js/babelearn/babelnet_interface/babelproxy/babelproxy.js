@@ -85,11 +85,12 @@ export class BabelProxy {
     }
 
     createSynsetsListFromSenses_(apiResponse, outArray){
+        console.log("API RESPONSE: ", apiResponse);
         apiResponse.data.forEach(element => {
             outArray.push(element.properties.synsetID.id);
         });
     }
-    
+
     async getSensesSynsets(word, language){
         var get_params = {
             'lemma' : word,
