@@ -14,6 +14,7 @@ export class BabelProxy {
         this.babelnetSynsetsByWordServiceUrl = "https://babelnet.io/v5/getSynsetIds";
         this.babelnetSynsetsInfoByIDServiceUrl = "https://babelnet.io/v5/getSynset";
         this.babelfyDisambiguationServiceUrl = "https://babelfy.io/v1/disambiguate";
+        this.babelnetSensesByWord = 'https://babelnet.io/v5/getSenses';
         this.REQUEST_TIMEOUT = 5000; // ms
     }
 
@@ -83,8 +84,45 @@ export class BabelProxy {
         return synsetIDs;
     }
 
+    createSynsetsListFromSenses_(apiResponse, outArray){
+        apiResponse.data.forEach(element => {
+            outArray.push(element.properties.synsetID.id);
+        });
+    }
+    
+    async getSensesSynsets(word, language){
+        var get_params = {
+            'lemma' : word,
+            'searchLang' : language,
+            'key' : this.apiKey,
+            'timeout': this.REQUEST_TIMEOUT
+        };
+
+        var synsetIDs = [];
+
+        try{
+            await axios.get(
+                this.babelnetSensesByWord,
+                {params: get_params}
+            ).then((response) => {
+              this.createSynsetsListFromSenses_(response, synsetIDs);
+            //   console.log("SERVER RESPONSE: ", response);
+            });
+        }catch(err){
+            // An exception is already thrown by get, so don't throw anything else here, simply
+            // stop execution flow
+            console.log("ERROR: ", err);
+            return;
+        }
+
+        console.log("Synset IDs from senses:\n", synsetIDs); // DEBUG
+
+        return synsetIDs;
+
+    }
+
     /**
-     * Retrieves all the available informations regarding a given BabelNet synset.
+     * Retrieves all the available information regarding a given BabelNet synset.
      *
      * @param {string} synsetID The identifier of the desired synset.
      * @param {string[]} targetLanguages Languages desired for the language-dependent information (e.g. words usage examples).
