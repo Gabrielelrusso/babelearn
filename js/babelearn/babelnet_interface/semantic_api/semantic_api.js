@@ -32,7 +32,7 @@ export class SemanticSentenceDescription {
         this.sentenceLang = language;
 
         /** @private */
-        const key = '13ddafed-299e-4e2e-a044-b2bc7fedb92a';
+        const key = 'a35c7c44-37db-42c6-90c1-b8f7dbc78cfb';
         this.proxy_ = new BabelProxy(key);
         console.log("Your key is: ", this.proxy_.apiKey); // DEBUG
 
@@ -156,7 +156,7 @@ export class SemanticWordDescription {
         }
 
         /** @private */
-        const key = 'bd7e6cc2-731f-4eed-89ad-7a14e4f29d95';
+        const key = 'a35c7c44-37db-42c6-90c1-b8f7dbc78cfb';
         this.proxy_ = new BabelProxy(key);
 
 
@@ -374,8 +374,7 @@ export class SemanticWordDescription {
      * @throws {TypeError} if the lemma is not available in the required language.
      */
     getLemma(targetLang){
-        this.initializationErrorChecking_();
-
+      this.initializationErrorChecking_();
         if(targetLang == null || (this.wordLang_ != targetLang && !this.availableLangs.includes(targetLang))){
             throw new TypeError('Lemma not available in the required language.');
         }
