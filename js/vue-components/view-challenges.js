@@ -20,12 +20,12 @@ var ViewChallenges = Vue.component('view-challenges', {
             </div>
         </div>
 
-        <div class="card-body h-100 align-items-center d-flex justify-content-center mt-3">
+        <div class="card-body h-100 mt-3">
             <div class="row h-100">
                 <div class="col-12 h-100">
                     <div class="row h-75">
-                        <div class="col-2 h-100 my-auto"></div>
-                        <div class="col-8 h-100 my-auto">
+                        <div class="col-2 h-100"></div>
+                        <div class="col-8 h-100">
                             <div class="row h-100">
                                 <div class="col-1 h-100 my-auto mx-auto">
                                     <a class="carousel-control-prev" href="#challengesCarousel" role="button" data-slide="prev">
@@ -33,69 +33,60 @@ var ViewChallenges = Vue.component('view-challenges', {
                                         <span class="sr-only">Previous</span>
                                     </a>
                                 </div>
-                                <div class="col-10 h-100 my-auto mx-auto">
+                                <div class="col-10">
                                     <div id="challengesCarousel" class="carousel slide h-100 my-auto" data-ride="carousel">
-                                        <div class="carousel-inner h-100 my-auto">
-                                            <div class="carousel-item active h-100 mx-auto my-auto">
-                                                <div class="card h-100 mx-auto"
+                                        <div class="carousel-inner w-100 h-100 my-auto">
+                                            <div class="carousel-item active my-auto w-100 h-100">
+                                                <div class="card mx-auto text-center"
                                                     role="tab" data-toggle="tab"
-                                                    style="box-shadow: none;"
+                                                    style="box-shadow: none; min-height: 350px"
                                                     >
-                                                    <div class="d-flex flex-row">
-                                                    <div class="d-flex flex-column align-center flex-wrap">
-                                                        <img class="card-img-top mx-auto my-auto"
+
+                                                        <img class="text-center mx-auto"
                                                             src="img/challenges/choice.png"
                                                             alt="Card image cap"
                                                             style="max-height: 200px; max-width: 200px"
                                                         >
-                                                            <h5 class="card-title text-info text-center d-inline-block">What's the right meaning?</h5>
-                                                            <div class="card-body">
-                                                                <div class="card-text">Given a word and a usage example, identify the meaning of the word in the provided usage context.</div>
-                                                            </div>
+                                                        <h5 class="card-title text-info text-center">What's the right meaning?</h5>
+                                                        <div class="card-body">
+                                                            <div class="card-text text-center">Given a word and a usage example, identify the meaning of the word in the provided usage context.</div>
                                                         </div>
-                                                    </div>
 
                                                 </div>
                                             </div>
-                                            <div class="carousel-item h-100 mx-auto my-auto">
-                                                <div class="card h-100 mx-auto"
+                                            <div class="carousel-item w-100 h-100">
+                                                <div class="card mx-auto text-center"
                                                     role="tab" data-toggle="tab"
-                                                    style="box-shadow: none;"
+                                                    style="box-shadow: none; min-height: 350px"
                                                     >
-                                                    <div class="d-flex flex-row">
-                                                    <div class="d-flex flex-column align-center flex-wrap">
-                                                        <img class="card-img-top mx-auto my-auto"
-                                                            src="img/challenges/notes.png"
+
+                                                        <img class="text-center mx-auto"
+                                                            src="img/challenges/papyrus.png"
                                                             alt="Card image cap"
                                                             style="max-height: 200px; max-width: 200px"
                                                         >
-                                                            <h5 class="card-title text-info text-center d-inline-block">Creative writing!</h5>
-                                                            <div class="card-body">
-                                                                <div class="card-text">Given a word and its meaning, write a sentence that uses the word in the right context.</div>
-                                                            </div>
+                                                        <h5 class="card-title text-info text-center">Creative writing!</h5>
+                                                        <div class="card-body">
+                                                            <div class="card-text text-center">Given a word and its meaning, write a sentence that uses the word in the right context.</div>
                                                         </div>
-                                                    </div>
 
                                                 </div>
                                             </div>
-                                            <div class="carousel-item h-100 mx-auto my-auto">
-                                                <div class="card h-100 mx-auto"
+                                            <div class="carousel-item w-100 h-100">
+                                                <div class="card mx-auto text-center"
                                                     role="tab" data-toggle="tab"
-                                                    style="box-shadow: none;"
+                                                    style="box-shadow: none; min-height: 350px"
                                                     >
-                                                    <div class="d-flex flex-row">
-                                                    <div class="d-flex flex-column align-center flex-wrap">
-                                                        <img class="card-img-top mx-auto my-auto"
+
+                                                        <img class="text-center mx-auto"
                                                             src="img/challenges/gallery.png"
                                                             alt="Card image cap"
                                                             style="max-height: 200px; max-width: 200px"
                                                         >
-                                                            <h5 class="card-title text-info text-center d-inline-block">Four images, one word!</h5>
-                                                            <div class="card-body">
-                                                                <div class="card-text">Look at the four images and identify the word they represent.</div>
-                                                            </div>
+                                                        <h5 class="card-title text-info text-center">Four images, one word!</h5>
+                                                        <div class="card-body">
+                                                            <div class="card-text text-center">Look at the four images and identify the word they represent.</div>
                                                         </div>
-                                                    </div>
 
                                                 </div>
                                             </div>
