@@ -85,7 +85,7 @@ export class BabelProxy {
     }
 
     createSynsetsListFromSenses_(apiResponse, outArray){
-        console.log("API RESPONSE: ", apiResponse);
+        // console.log("API RESPONSE: ", apiResponse);
         apiResponse.data.forEach(element => {
             outArray.push(element.properties.synsetID.id);
         });
@@ -106,8 +106,9 @@ export class BabelProxy {
                 this.babelnetSensesByWord,
                 {params: get_params}
             ).then((response) => {
+              console.log("GET-SENSES RESPONSE: ", response);
               this.createSynsetsListFromSenses_(response, synsetIDs);
-            //   console.log("SERVER RESPONSE: ", response);
+
             });
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
@@ -116,7 +117,7 @@ export class BabelProxy {
             return;
         }
 
-        console.log("Synset IDs from senses:\n", synsetIDs); // DEBUG
+        // console.log("Synset IDs from senses:\n", synsetIDs); // DEBUG
 
         return synsetIDs;
 
@@ -157,7 +158,7 @@ export class BabelProxy {
             return;
         }
 
-        console.log('returning synset info'); // DEBUG
+        // console.log('returning synset info'); // DEBUG
 
         return apiResponse;
     }

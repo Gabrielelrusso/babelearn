@@ -32,7 +32,7 @@ export class SemanticSentenceDescription {
         this.sentenceLang = language;
 
         /** @private */
-        const key = 'eb5b7486-687a-4768-9cbd-1f6cd7f7590f';
+        const key = '13ddafed-299e-4e2e-a044-b2bc7fedb92a';
         this.proxy_ = new BabelProxy(key);
         console.log("Your key is: ", this.proxy_.apiKey);
 
@@ -149,7 +149,8 @@ export class SemanticWordDescription {
         }
 
         /** @private */
-        this.proxy_ = new BabelProxy('eb5b7486-687a-4768-9cbd-1f6cd7f7590f');
+        const key = '13ddafed-299e-4e2e-a044-b2bc7fedb92a';
+        this.proxy_ = new BabelProxy(key);
 
 
         /** @private */
@@ -185,6 +186,13 @@ export class SemanticWordDescription {
          * @private
          */
         this.googleImages_ = null;
+
+        /**
+         * Cache for synset IDS
+         *
+         * @private
+         */
+        this.synsetIDs_ = null;
     }
 
     /**
@@ -257,25 +265,31 @@ export class SemanticWordDescription {
         console.log('Initializing with ', this.meaningPos_, ' meaning pos and ', this.synsetID_, ' synsetID');
 
         // The synsetID, if specified, is the preferred method to build the instance
-        if(this.synsetID_ == null || this.reinit_){
-            console.log('re-calling API');
+        if(this.synsetID_ == null){
+            // console.log('re-calling API');
             // it was not provided in the constructor
-            var synsetIDs = await this.proxy_.getSensesSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
+            this.synsetIDs_ = await this.proxy_.getSensesSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
+            this.synsetIDs_ = this.synsetIDs_.slice(0, 50);
+            console.log("numero di synset ID: ", this.synsetIDs_.length);
             console.log("wordLang: ",this.wordLang_);
             console.log("lemma: ", this.lemma_);
-            console.log("synset IDs: ",synsetIDs);
-            this.maxMeaningPos_ = synsetIDs.length;
-            this.synsetID_ = synsetIDs[this.meaningPos_];
-            console.log("synsetIDs[", this.meaningPos_,"]: ", this.synsetID_);
+            // console.log("synset IDs: ",synsetIDs);
+            this.maxMeaningPos_ = this.synsetIDs_.length;
+            this.synsetID_ = this.synsetIDs_[this.meaningPos_];
+            // console.log("synsetIDs[", this.meaningPos_,"]: ", this.synsetID_);
         }
         else{
             isSynsetIdGiven = true;
         }
 
+        if(this.reinit_){
+            this.synsetID_ = this.synsetIDs_[this.meaningPos_];
+        }
+
         await this.proxy_.getSynsetInfo(this.synsetID_, this.availableLangs).then((res)=>{
           this.apiResponse_ = res;
-          console.log("available langs: ", this.availableLangs);
-          console.log("RESPONSE: ", this.apiResponse_);
+          // console.log("available langs: ", this.availableLangs);
+          // console.log("RESPONSE: ", this.apiResponse_);
         });
 
         if(isSynsetIdGiven && !this.reinit_){
@@ -409,7 +423,7 @@ export class SemanticWordDescription {
           console.log("API RESPONSE: ", this.apiResponse_);
           console.log("examples found with lang(",lang,"): ", examplesList);
         }else{
-          console.log(this.apiResponse_['senses'][0]['properties']['synsetID']['id']);
+          // console.log(this.apiResponse_['senses'][0]['properties']['synsetID']['id']);
         }
 
         return examplesList;
@@ -477,8 +491,8 @@ export class SemanticWordDescription {
     checkForEquality(semanticWordDescription){
         // Check if the synsetIDs are equal
         this.initializationErrorChecking_();
-        console.log("my synsetID: ", this.synsetID_);
-        console.log("other synsetID: ", semanticWordDescription.synsetID_);
+        // console.log("my synsetID: ", this.synsetID_);
+        // console.log("other synsetID: ", semanticWordDescription.synsetID_);
         return semanticWordDescription.synsetID_ == this.synsetID_;
     }
 }
