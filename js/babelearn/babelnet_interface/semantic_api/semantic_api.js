@@ -9,7 +9,7 @@ export class NotInitializedError extends Error{}
 
 /**
  * Represents the semantic description of a certain sentence in a certain language. It uses a {@link BabelProxy} instance
- * in order to disambiguate the sense of the words used in the sentence using the Babelfy API and stores the synsetIDs associated to those words.
+ * in order to disambiguate the sense of the words used in the sentence using the Babelfy API.
  * Since full initialization requires Internet access, the bulding process of an instance of this class is split in two parts,
  * to allow to defer the time-consuming Internet communication to when it's more appropriate for the API user. When the object is built
  * the information necessary to the disambiguation is stored, but for the disambiguation to actually happen it's necessary to call the initialize()
@@ -34,15 +34,15 @@ export class SemanticSentenceDescription {
         /** @private */
         const key = '13ddafed-299e-4e2e-a044-b2bc7fedb92a';
         this.proxy_ = new BabelProxy(key);
-        console.log("Your key is: ", this.proxy_.apiKey);
+        console.log("Your key is: ", this.proxy_.apiKey); // DEBUG
 
         this.isInitialized = false;
         this.disambiguatedWords = null; // Google style conventions require to set all of the fields in the constructor
     }
 
     /**
-     * Performs the actual disambiguation and stores the result as a mapping {word: synsetID}, for each word in the
-     * sentence associated to the instance whose sense the Babelfy API was able to disambiguate.
+     * Performs the actual disambiguation, and stores the result as a mapping {word: synsetID} for each word in the
+     * sentence associated to this object whose sense the Babelfy API was able to disambiguate.
      */
     async initialize(){
         this.disambiguatedWords = await this.proxy_.getBabelfySynsets(this.sentence, this.sentenceLang);
@@ -62,13 +62,18 @@ export class SemanticSentenceDescription {
     }
 
     /**
-     * Checks if the given word has been used in this sentence (with the sence associated to the {@link SemanticWordDescription} which
+     * Checks if a given word has been used in this sentence (with the sense associated to the {@link SemanticWordDescription} which
      * encapsulates the word).
      *
-     * @param {SemanticWordDescription} word
+     * @param {SemanticWordDescription} word The semantic description of the word to check for usage.
      * @throws {NotInitializedError} if initialize() has not been called on this instance.
      */
     checkForUsage(semanticWordDescription){
+        /**
+         * Checks if the synset ID associated to the given SemanticWordDescription is the same as one of the synset IDs
+         * disambiguated by Babelfy for this sentence.
+         */
+
         this.initializationErrorChecking_();
 
         var synsetIDs = [];
@@ -84,17 +89,19 @@ export class SemanticSentenceDescription {
      * Returns a {@link SemanticWordDescription} object encapsulating the meaning found by Babelfy for the given
      * word of the sentence associated to this object.
      * The returned SemanticWordDescription object must be initialized before being used.
+     * NOTE: for this method to succeed, the exact given word must have been used in the sentence associated to this object.
      *
      * @param {string} word The word of the sentence associated to this object whose meaning, if found, will be encapsulated in the returned object.
      * @param {string[]} targetLanguages The languages to associate to the returned {@link SemanticWordDescription}. Use two letters abbreviation, e.g. 'EN' for English.
      * @returns {SemanticWordDescription} A {@link SemanticWordDescription} encapsulating the given word and her meaning in the sentence associated to this {@link SemanticSentenceDescription}.
+     *     Returns null if the given word has not been used in this sentence.
      * @throws {NotInitializedError} if initialize() has not been called on this instance.
      */
     getSemanticWordDescription(word, targetLanguages){
         /**
          * This method is useful because after obtaining the semantic description of a word of the sentence the
          * checkForEquality can be invoked on her passing the SemanticWordDescription of another word, allowing to check
-         * if a word has been used in the sentence with the same meaning as another word.
+         * if a (exact) word has been used in the sentence with the same meaning as another word.
          */
         this.initializationErrorChecking_();
 
@@ -109,7 +116,7 @@ export class SemanticSentenceDescription {
             return null;
         }
 
-        // Loop over the available words
+        // Loop over the available words (due to the previous check, the required word is surely available)
         for(var i = 0; i < words.length; i++){
             if(words[i] == word){
                 // When you find the required one, build a SemanticWordDescription object through her synsetID
@@ -149,7 +156,7 @@ export class SemanticWordDescription {
         }
 
         /** @private */
-        const key = '13ddafed-299e-4e2e-a044-b2bc7fedb92a';
+        const key = 'bd7e6cc2-731f-4eed-89ad-7a14e4f29d95';
         this.proxy_ = new BabelProxy(key);
 
 
@@ -309,6 +316,8 @@ export class SemanticWordDescription {
      * Controllare se esiste un altro synsetID associato a questa parola.
      */
     hasAnotherMeaning(){
+        this.initializationErrorChecking_();
+
         return this.maxMeaningPos_ - 1 > this.meaningPos_;
     }
 
@@ -318,6 +327,8 @@ export class SemanticWordDescription {
      * @throws {RangeError} if no new meaning is available for the word encapsulated by this object.
      */
     async nextMeaning(){
+        this.initializationErrorChecking_();
+
         if(this.hasAnotherMeaning()){
             this.meaningPos_ += 1;
             this.reinit_ = true;
@@ -363,8 +374,10 @@ export class SemanticWordDescription {
      * @throws {TypeError} if the lemma is not available in the required language.
      */
     getLemma(targetLang){
+        this.initializationErrorChecking_();
+
         if(targetLang == null || (this.wordLang_ != targetLang && !this.availableLangs.includes(targetLang))){
-            throw new TypeError('Lemma not available in the required language.')
+            throw new TypeError('Lemma not available in the required language.');
         }
 
         var senses = this.apiResponse_["senses"];

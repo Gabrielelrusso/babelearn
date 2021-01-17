@@ -43,7 +43,7 @@ export class BabelProxy {
      * It's an async method, so it returns a Promise object, while in the method it waits for the HTTP request to
      * be completed.
      *
-     * @param {string} word The word for which BabelNet syntes will be retrieved.
+     * @param {string} word The word for which BabelNet synsets will be retrieved.
      * @param {string} language The language the given word belongs to. Use two letters abbreviation, e.g. 'EN' for English.
      * @returns {string[]} A list of the retrived synset IDs.
      * @throws an error if an error occurs during the GET request.
@@ -84,6 +84,14 @@ export class BabelProxy {
         return synsetIDs;
     }
 
+    /**
+     * Creates a list of synsets IDs from the response received when querying the BabelNet HTTP API for
+     * the sense of a given word.
+     * 
+     * @param {Object} apiResponse The data as returned by the BabelNet HTTP API, in JSON format.
+     * @param {string[]} outArray The array in which the synset IDs must be returned.
+     * @private
+     */
     createSynsetsListFromSenses_(apiResponse, outArray){
         // console.log("API RESPONSE: ", apiResponse);
         apiResponse.data.forEach(element => {
@@ -91,6 +99,13 @@ export class BabelProxy {
         });
     }
 
+    /**
+     * Retrieves all the senses available for a given word in a given language from the BabelNet HTTP API.
+     * 
+     * @param {string} word The word whose senses will be searched.
+     * @param {*} language The language the given word is expressed into.
+     * @throws an error if an error occurs during the GET request.
+     */
     async getSensesSynsets(word, language){
         var get_params = {
             'lemma' : word,
@@ -116,8 +131,6 @@ export class BabelProxy {
             console.log("ERROR: ", err);
             return;
         }
-
-        // console.log("Synset IDs from senses:\n", synsetIDs); // DEBUG
 
         return synsetIDs;
 
@@ -165,16 +178,14 @@ export class BabelProxy {
 
     /**
      * Creates a list of mappings {"word": word, "synsetID": synsetID}, mapping each word of the given
-     * sentence whose sense has been disambiguated to the corresponding synsetID. The reported word is not the
-     * one used in the sentence, but the lemma corresponding to the synsetID which the Babelfy API has mapped
-     * to the word used in the sentence.
+     * sentence whose sense has been disambiguated to the corresponding synsetID. The reported word is exactly the
+     * one used in the sentence, not the main lemma associated to the synset ID.
      *
      * @param {Object} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
      * @param {string[]} outArray The array in which the Objects must be returned.
      * @private
      */
     async createSynsetsListFromBabelfy_(sentence, apiResponse, outArray){
-        //console.log('Creating synsets from Babelfy'); // DEBUG
 
         apiResponse.forEach((disambiguatedWord) => {
             var unitStart = disambiguatedWord["charFragment"]["start"];
@@ -182,7 +193,7 @@ export class BabelProxy {
             outArray.push({"word": sentence.slice(unitStart, unitEnd+1), "synsetID": disambiguatedWord["babelSynsetID"]});
         });
 
-        console.log('Done creating disambiguation dictionary');
+        console.log('Done creating disambiguation dictionary'); // DEBUG
     }
 
     /**
