@@ -104,6 +104,9 @@ export class Challenge {
     }
 
     getExerciseOptions(){
+      this.exercise_["options"].forEach(option => {
+        console.log(option+"spazio");
+      })
       return this.exercise_["options"];
     }
 

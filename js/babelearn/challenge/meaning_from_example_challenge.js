@@ -75,6 +75,7 @@ export class MeaningFromExampleChallenge extends Challenge{
         // Settare solution ed exercise
         let exerciseMain = await this.translateSentence('EN', this.getGameLang(), this.gameWordFirstMeaning.getExamples('EN')[0]);
         let exerciseOption1 = await this.translateSentence('EN', this.getGameLang(), this.gameWordFirstMeaning.getMeaning('EN'));
+        console.log("First Meaning: ",this.gameWordFirstMeaning.getMeaning('EN')+"spazio");
         let exerciseOption2 = await this.translateSentence('EN', this.getGameLang(), this.gameWordSecondMeaning.getMeaning('EN'));
         let exerciseOption3 = await this.translateSentence('EN', this.getGameLang(), this.gameWordThirdMeaning.getMeaning('EN'));
 
@@ -124,9 +125,9 @@ export class MeaningFromExampleChallenge extends Challenge{
       console.error(err);
     }); */
 
-    var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sentence);
+    var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + sentence;
     var apiResponse = null;
-    
+
     try{
       await axios.get(
         url

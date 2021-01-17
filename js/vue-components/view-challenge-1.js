@@ -40,7 +40,7 @@ var ViewChallenge1 = Vue.component('view-challenge-1', {
                                       <table class="h-100">
                                         <tbody>
                                           <tr>
-                                            <td @click="$emit('submit-answer-event',$event.target.innerText)" class="align-middle">{{option}}</td>
+                                            <td @click="$emit('submit-answer-event',option)" class="align-middle">{{option}}</td>
                                           </tr>
                                         </tbody>
                                       </table>

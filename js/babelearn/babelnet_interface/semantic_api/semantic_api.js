@@ -32,7 +32,7 @@ export class SemanticSentenceDescription {
         this.sentenceLang = language;
 
         /** @private */
-        const key = '13ddafed-299e-4e2e-a044-b2bc7fedb92a';
+        const key = 'bd7e6cc2-731f-4eed-89ad-7a14e4f29d95';
         this.proxy_ = new BabelProxy(key);
         console.log("Your key is: ", this.proxy_.apiKey);
 
@@ -149,7 +149,7 @@ export class SemanticWordDescription {
         }
 
         /** @private */
-        const key = '13ddafed-299e-4e2e-a044-b2bc7fedb92a';
+        const key = 'bd7e6cc2-731f-4eed-89ad-7a14e4f29d95';
         this.proxy_ = new BabelProxy(key);
 
 
