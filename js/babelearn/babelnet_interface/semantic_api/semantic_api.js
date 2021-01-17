@@ -32,7 +32,7 @@ export class SemanticSentenceDescription {
         this.sentenceLang = language;
 
         /** @private */
-        const key = 'eb5b7486-687a-4768-9cbd-1f6cd7f7590f';
+        const key = '75c81075-8056-4e82-b0a6-7c2f384c1282';
         this.proxy_ = new BabelProxy(key);
         console.log("Your key is: ", this.proxy_.apiKey);
 
@@ -149,7 +149,8 @@ export class SemanticWordDescription {
         }
 
         /** @private */
-        this.proxy_ = new BabelProxy('eb5b7486-687a-4768-9cbd-1f6cd7f7590f');
+        const key = '75c81075-8056-4e82-b0a6-7c2f384c1282';
+        this.proxy_ = new BabelProxy(key);
 
 
         /** @private */
@@ -258,15 +259,14 @@ export class SemanticWordDescription {
 
         // The synsetID, if specified, is the preferred method to build the instance
         if(this.synsetID_ == null || this.reinit_){
-            console.log('re-calling API');
             // it was not provided in the constructor
             var synsetIDs = await this.proxy_.getSensesSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
             console.log("wordLang: ",this.wordLang_);
             console.log("lemma: ", this.lemma_);
-            console.log("synset IDs: ",synsetIDs);
+            // console.log("synset IDs: ",synsetIDs);
             this.maxMeaningPos_ = synsetIDs.length;
             this.synsetID_ = synsetIDs[this.meaningPos_];
-            console.log("synsetIDs[", this.meaningPos_,"]: ", this.synsetID_);
+            // console.log("synsetIDs[", this.meaningPos_,"]: ", this.synsetID_);
         }
         else{
             isSynsetIdGiven = true;
@@ -274,8 +274,8 @@ export class SemanticWordDescription {
 
         await this.proxy_.getSynsetInfo(this.synsetID_, this.availableLangs).then((res)=>{
           this.apiResponse_ = res;
-          console.log("available langs: ", this.availableLangs);
-          console.log("RESPONSE: ", this.apiResponse_);
+          // console.log("available langs: ", this.availableLangs);
+          // console.log("RESPONSE: ", this.apiResponse_);
         });
 
         if(isSynsetIdGiven && !this.reinit_){
@@ -409,7 +409,7 @@ export class SemanticWordDescription {
           console.log("API RESPONSE: ", this.apiResponse_);
           console.log("examples found with lang(",lang,"): ", examplesList);
         }else{
-          console.log(this.apiResponse_['senses'][0]['properties']['synsetID']['id']);
+          // console.log(this.apiResponse_['senses'][0]['properties']['synsetID']['id']);
         }
 
         return examplesList;
@@ -477,8 +477,8 @@ export class SemanticWordDescription {
     checkForEquality(semanticWordDescription){
         // Check if the synsetIDs are equal
         this.initializationErrorChecking_();
-        console.log("my synsetID: ", this.synsetID_);
-        console.log("other synsetID: ", semanticWordDescription.synsetID_);
+        // console.log("my synsetID: ", this.synsetID_);
+        // console.log("other synsetID: ", semanticWordDescription.synsetID_);
         return semanticWordDescription.synsetID_ == this.synsetID_;
     }
 }
