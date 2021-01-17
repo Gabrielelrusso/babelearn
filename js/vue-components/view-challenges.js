@@ -13,28 +13,28 @@ var ViewChallenges = Vue.component('view-challenges', {
       },
   },
   template: `
-    <div  class="card mt-5 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
+    <div  class="card mt-5 w-100 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
         <div class="card-header card-header-icon card-header-info">
             <div class="card-text">
                 <h4 class="card-title text-center">Choose Your Challenge</h4>
             </div>
         </div>
 
-        <div class="card-body h-100 mt-3">
-            <div class="row h-100">
-                <div class="col-12 h-100">
-                    <div class="row h-75">
+        <div class="card-body w-100 align-items-center d-flex justify-content-center h-100 mt-3">
+            <div class="row w-100 h-100">
+                <div class="col-12 w-100 h-100">
+                    <div class="row w-100 h-75">
                         <div class="col-2 h-100"></div>
-                        <div class="col-8 h-100">
-                            <div class="row h-100">
+                        <div class="col-8 w-100 h-100">
+                            <div class="row w-100 h-100">
                                 <div class="col-1 h-100 my-auto mx-auto">
                                     <a class="carousel-control-prev" href="#challengesCarousel" role="button" data-slide="prev">
                                         <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(0.4)"></span>
                                         <span class="sr-only">Previous</span>
                                     </a>
                                 </div>
-                                <div class="col-10">
-                                    <div id="challengesCarousel" class="carousel slide h-100 my-auto" data-ride="carousel">
+                                <div class="col-10 mx-auto">
+                                    <div id="challengesCarousel" class="carousel slide h-100" data-ride="carousel">
                                         <div class="carousel-inner w-100 h-100 my-auto">
                                             <div class="carousel-item active my-auto w-100 h-100">
                                                 <div class="card mx-auto text-center"
