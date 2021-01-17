@@ -98,7 +98,12 @@ export class MeaningFromExampleChallenge extends Challenge{
     }
 
     getWordInGameLang() {
-      return this.gameWordFirstMeaning.getLemma(this.getGameLang());
+      try{
+        return this.gameWordFirstMeaning.getLemma(this.getGameLang());
+      }catch(error){
+        return "";
+      }
+
     }
 
   async translateSentence(sourceLang, targetLang, sentence){

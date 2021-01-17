@@ -8,22 +8,33 @@ var ViewChallenge2 = Vue.component('view-challenge-2', {
     game_metadata: Object
   },
   watch: {
-      challenge: function(newChallenge, oldChallenge) {
-          this.challenge = newChallenge;
-      }
+    challenge: function(newChallenge, oldChallenge) {
+      this.challenge = newChallenge;
+    }
 
   },
   methods: {
-      getSubmittedAnswer(){
-          let answer = $("#answer-input").val();
-          return answer;
-      },
-      cleanInput(){
-          $("#answer-input").val("");
-      },
-      showWrongAnswerInfo: function(){
-        return this.game_metadata.answered && !this.game_metadata.rightAnswered;
+    getSubmittedAnswer(){
+      let answer = $("#answer-input").val();
+      return answer;
+    },
+    cleanInput(){
+      $("#answer-input").val("");
+    },
+    showWrongAnswerInfo: function(){
+      let hasAnswered = this.game_metadata.answered;
+      let isAWrongAnswer = !this.game_metadata.rightAnswered;
+      let hasWrongAnswerInfo = this.challenge.getExerciseWrongAnswerInfo() != null;
+      let wrongAnswerInfoIsNotEmpty = false;
+      if(hasWrongAnswerInfo){
+        wrongAnswerInfoIsNotEmpty  = this.challenge.getExerciseWrongAnswerInfo().length > 0;
       }
+      console.log("hasAnswered: ", hasAnswered);
+      console.log("isAWrongAnswer: ", isAWrongAnswer);
+      console.log("hasWrongAnswerInfo: ", hasWrongAnswerInfo);
+      console.log("WrongAnswerInfoIsNotEmpty: ", wrongAnswerInfoIsNotEmpty);
+      return hasAnswered && isAWrongAnswer && hasWrongAnswerInfo && wrongAnswerInfoIsNotEmpty;
+    }
   },
   template: `
     <div  class="card mt-3 w-100 mx-auto d-flex" style="min-height: 80vh; width: 60vw">
