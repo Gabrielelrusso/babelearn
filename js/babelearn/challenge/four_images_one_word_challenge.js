@@ -32,7 +32,7 @@ export class FourImagesOneWordChallenge extends Challenge{
         await this.gameWordSemanticDescription.initialize().then((res) => {
         });
 
-        var images = this.gameWordSemanticDescription.getGoogleImages(); // return value is always != null
+        var images = this.gameWordSemanticDescription.getImages(); // return value is always != null
         while(images.length < this.NUM_GAME_IMAGES){
             if(this.gameWordSemanticDescription.hasAnotherMeaning()){
                 await this.gameWordSemanticDescription.nextMeaning().then((res) => {});
@@ -42,12 +42,15 @@ export class FourImagesOneWordChallenge extends Challenge{
                 throw new ChallengeBuildFailedError('Unable to build FourImagesOneWordChallenge');
             }
         }
-
-        var start = Math.round(Math.random()*images.length) - this.NUM_GAME_IMAGES;
+        
+        /* var start = Math.round(Math.random()*images.length) - this.NUM_GAME_IMAGES;
         // if there is only the number of images needed, start could be less than zero
         if (start < 0){
             start = 0;
-        }
+        } */
+
+        // Always choose the first images, since they're the most significative ones
+        var start = 0;
 
         let gameImages = images.slice(start, start+this.NUM_GAME_IMAGES); // slice() excludes upper limit
         this.setExerciseOptions(gameImages);
