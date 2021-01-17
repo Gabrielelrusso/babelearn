@@ -73,7 +73,8 @@ export class MeaningFromExampleChallenge extends Challenge{
         }
 
         // Settare solution ed exercise
-        this.setExerciseMain(this.gameWordFirstMeaning.getExamples(this.getGameLang())[0]); // the first example surely exists
+        let exerciseMain = this.translateSentence('EN', this.getGameLang(), this.gameWordFirstMeaning.getExamples('EN')[0]);
+        this.setExerciseMain(exerciseMain); // the first example surely exists
         this.setExerciseOptions([this.gameWordFirstMeaning.getMeaning(this.getGameLang()), this.gameWordSecondMeaning.getMeaning(this.getGameLang()), this.gameWordThirdMeaning.getMeaning(this.getGameLang())]);
 
         // Shuffle options in the way suggested here: https://flaviocopes.com/how-to-shuffle-array-javascript/
@@ -94,4 +95,26 @@ export class MeaningFromExampleChallenge extends Challenge{
       return this.gameWordFirstMeaning.getLemma(this.getGameLang());
     }
 
+  async translateSentence(sourceLang, targetLang, sentence){
+    await axios({
+      "q": sentence,
+      "format": "text",
+      "source": sourceLang,
+      "target": targetLang
+    },{
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        "accept-encoding": "application/gzip",
+        "x-rapidapi-key": "077caff853mshc9d9a26a7436d44p1d2a14jsnab04dd561760",
+        "x-rapidapi-host": "google-translate1.p.rapidapi.com"
+      },
+      url: "https://google-translate1.p.rapidapi.com/language/translate/v2",
+      method: "POST",
+      responseType: 'json',
+    }).then((response) =>{
+      console.log("Response for translating sentence: ", response);
+    }).catch(err => {
+      console.error(err);
+    });
+  }
 }
