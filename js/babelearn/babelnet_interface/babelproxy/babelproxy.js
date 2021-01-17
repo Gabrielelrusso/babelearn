@@ -106,8 +106,9 @@ export class BabelProxy {
                 this.babelnetSensesByWord,
                 {params: get_params}
             ).then((response) => {
-              this.createSynsetsListFromSenses_(response, synsetIDs);
               console.log("GET-SENSES RESPONSE: ", response);
+              this.createSynsetsListFromSenses_(response, synsetIDs);
+
             });
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply

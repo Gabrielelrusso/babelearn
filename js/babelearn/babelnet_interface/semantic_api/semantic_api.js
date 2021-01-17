@@ -32,7 +32,7 @@ export class SemanticSentenceDescription {
         this.sentenceLang = language;
 
         /** @private */
-        const key = '75c81075-8056-4e82-b0a6-7c2f384c1282';
+        const key = '13ddafed-299e-4e2e-a044-b2bc7fedb92a';
         this.proxy_ = new BabelProxy(key);
         console.log("Your key is: ", this.proxy_.apiKey);
 
@@ -149,7 +149,7 @@ export class SemanticWordDescription {
         }
 
         /** @private */
-        const key = '75c81075-8056-4e82-b0a6-7c2f384c1282';
+        const key = '13ddafed-299e-4e2e-a044-b2bc7fedb92a';
         this.proxy_ = new BabelProxy(key);
 
 
@@ -189,7 +189,7 @@ export class SemanticWordDescription {
 
         /**
          * Cache for synset IDS
-         * 
+         *
          * @private
          */
         this.synsetIDs_ = null;
@@ -269,11 +269,13 @@ export class SemanticWordDescription {
             // console.log('re-calling API');
             // it was not provided in the constructor
             this.synsetIDs_ = await this.proxy_.getSensesSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
+            this.synsetIDs_ = this.synsetIDs_.slice(0, 50);
+            console.log("numero di synset ID: ", this.synsetIDs_.length);
             console.log("wordLang: ",this.wordLang_);
             console.log("lemma: ", this.lemma_);
             // console.log("synset IDs: ",synsetIDs);
-            this.maxMeaningPos_ = synsetIDs.length;
-            this.synsetID_ = synsetIDs[this.meaningPos_];
+            this.maxMeaningPos_ = this.synsetIDs_.length;
+            this.synsetID_ = this.synsetIDs_[this.meaningPos_];
             // console.log("synsetIDs[", this.meaningPos_,"]: ", this.synsetID_);
         }
         else{
