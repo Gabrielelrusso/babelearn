@@ -149,7 +149,7 @@ export class SemanticWordDescription {
         }
 
         /** @private */
-        this.proxy_ = new BabelProxy('98ad6b15-c4ed-42c8-bffe-e165fc332424');
+        this.proxy_ = new BabelProxy('eb5b7486-687a-4768-9cbd-1f6cd7f7590f');
 
 
         /** @private */

@@ -90,4 +90,8 @@ export class MeaningFromExampleChallenge extends Challenge{
         return (answer.toLowerCase() === this.getSolution().toLowerCase());
     }
 
+    getWordInGameLang() {
+      return this.gameWordFirstMeaning.getLemma(this.getGameLang());
+    }
+
 }
