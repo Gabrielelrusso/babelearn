@@ -41,7 +41,12 @@ export class ExampleFromMeaningChallenge extends Challenge{
     }
 
   getWordInGameLang() {
-    return this.semanticWordDescription.getLemma(this.getGameLang());
+      try{
+        return this.semanticWordDescription.getLemma(this.getGameLang());
+      }catch(error){
+        return "";
+      }
+
   }
 
   async guess(answer) {
@@ -53,11 +58,14 @@ export class ExampleFromMeaningChallenge extends Challenge{
         });
 
         if(!correctAnswer){
-            let userSemanticWordDescription = semanticSentenceDescription.getSemanticWordDescription(this.getWord(), [this.getGameLang()]);
+          console.log("Risposta sbagliata");
+            let userSemanticWordDescription = semanticSentenceDescription.getSemanticWordDescription(this.getWordInGameLang(), [this.getGameLang()]);
             if(userSemanticWordDescription == null){
+              console.log("SEMANTIC WORD DESCRIPTION FOR DISAMBIGUATION E NULL");
                 this.setExerciseWrongAnswerInfo(null);
             }
             else{
+                console.log("Disambiguazione in corso...");
                 await userSemanticWordDescription.initialize().then((res) => {
                   this.setExerciseWrongAnswerInfo(userSemanticWordDescription.getMeaning(this.getGameLang()));
                 });
