@@ -100,10 +100,11 @@ export class BabelProxy {
     }
 
     /**
-     * Retrieves all the senses available for a given word in a given language from the BabelNet HTTP API.
+     * Retrieves the synsets associated to all the senses available for a given word in a given language from the BabelNet HTTP API.
      * 
      * @param {string} word The word whose senses will be searched.
-     * @param {*} language The language the given word is expressed into.
+     * @param {string} language The language the given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English.
+     * @returns {string[]} A list of the retrived synset IDs.
      * @throws an error if an error occurs during the GET request.
      */
     async getSensesSynsets(word, language){
@@ -133,7 +134,6 @@ export class BabelProxy {
         }
 
         return synsetIDs;
-
     }
 
     /**

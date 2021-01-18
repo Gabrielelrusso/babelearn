@@ -138,7 +138,7 @@ export class SemanticWordDescription {
      * Default parameters here are only for documentation purposes.
      *
      * @param {string} word The word whose semantic description will be built. Can be omitted if the synsetID is provided.
-     * @param {string} language The language the given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English.
+     * @param {string} language The language the given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English. Can be omitted if the synsetID is provided.
      * @param {string[]} targetLangs The languages in which language-dependent elements (lemma, examples, meaning) of this instance will be available. Use two letters abbreviation, e.g. 'EN' for English.
      * @param {string} synsetID The synsetID upon which the semantic word description encapsulated by this object will be built.
      *     Can be omitted if word and language are provided.
@@ -203,18 +203,14 @@ export class SemanticWordDescription {
     }
 
     /**
-     *
-     * @param {*} word
+     * Searches for images associated to given word, on Google Image Search.
+     * 
+     * @param {string} word
+     * @returns {string[]} A list of image URLs. Can be empty if no image is found.
      * @private
      */
     async getGoogleImages_(word){
-        /*
-        var getParams = {
-            'q': word,
-            'tbm': 'isch',
-            'ijn': 0
-        };
-        */
+        
         var getParams = new URLSearchParams();
 
         getParams.append('q', word);
@@ -225,7 +221,6 @@ export class SemanticWordDescription {
         var googleImages = [];
 
         try{
-
             await axios({
                 headers: {"Access-Control-Allow-Origin": "*"},
                 url: googleImageSeachUrl,
@@ -237,17 +232,6 @@ export class SemanticWordDescription {
                     googleImages.append(image.original)
                 )
             );
-
-           /*
-            await axios.get(
-            googleImageSeachUrl,
-            {params: getParams}
-            ).then((response) =>
-                response.images_results.forEach((image) =>
-                    googleImages.append(image.original)
-                )
-            );
-            */
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
@@ -273,30 +257,28 @@ export class SemanticWordDescription {
 
         // The synsetID, if specified, is the preferred method to build the instance
         if(this.synsetID_ == null){
-            // console.log('re-calling API');
             // it was not provided in the constructor
             this.synsetIDs_ = await this.proxy_.getSensesSynsets(this.lemma_, this.wordLang_); // VSCode suggests that await has no effect here, but evidences show that it has.
+            // Reduce the number of synsets considered to the 50 most significant ones, in order to reduce the number of requests made to the API when it's necessary
+            // to look for different meanings
             this.synsetIDs_ = this.synsetIDs_.slice(0, 50);
-            console.log("numero di synset ID: ", this.synsetIDs_.length);
-            console.log("wordLang: ",this.wordLang_);
-            console.log("lemma: ", this.lemma_);
-            // console.log("synset IDs: ",synsetIDs);
-            this.maxMeaningPos_ = this.synsetIDs_.length;
+            console.log("numero di synset ID: ", this.synsetIDs_.length); // DEBUG
+            console.log("wordLang: ",this.wordLang_); // DEBUG
+            console.log("lemma: ", this.lemma_); // DEBUG
+            this.maxMeaningPos_ = this.synsetIDs_.length; // maximum number of different meanings available
             this.synsetID_ = this.synsetIDs_[this.meaningPos_];
-            // console.log("synsetIDs[", this.meaningPos_,"]: ", this.synsetID_);
         }
         else{
             isSynsetIdGiven = true;
         }
 
         if(this.reinit_){
+            // change synset ID
             this.synsetID_ = this.synsetIDs_[this.meaningPos_];
         }
 
         await this.proxy_.getSynsetInfo(this.synsetID_, this.availableLangs).then((res)=>{
           this.apiResponse_ = res;
-          // console.log("available langs: ", this.availableLangs);
-          // console.log("RESPONSE: ", this.apiResponse_);
         });
 
         if(isSynsetIdGiven && !this.reinit_){
@@ -313,7 +295,9 @@ export class SemanticWordDescription {
     }
 
     /**
-     * Controllare se esiste un altro synsetID associato a questa parola.
+     * Checks if there exists another synset ID associated to this word.
+     * 
+     * @returns {boolean} True if another meaning is available, false otherwise.
      */
     hasAnotherMeaning(){
         this.initializationErrorChecking_();
@@ -322,7 +306,7 @@ export class SemanticWordDescription {
     }
 
     /**
-     * Carica in quest'oggetto il significato successivo di questa parola.
+     * Loads the next meaning of the word associated to this object (the next meaning is the one associated with the next synset ID).
      *
      * @throws {RangeError} if no new meaning is available for the word encapsulated by this object.
      */
@@ -352,7 +336,7 @@ export class SemanticWordDescription {
     }
 
     /**
-     * Convenience method used by the methods which received a desired language as a parameter to check if that
+     * Convenience method used by the methods which receive a desired language as a parameter to check if that
      * language is available for this semantic word description.
      *
      * @param {string} lang Desired language. Use two letters abbreviation, e.g. 'EN' for English.
@@ -405,7 +389,6 @@ export class SemanticWordDescription {
         var glosses = this.apiResponse_.glosses;
         for(var i = 0; i < glosses.length; i++){
             if(glosses[i]['language'] == lang){
-                // console.log('found gloss: ', glosses[i]['gloss']); // DEBUG
                 return glosses[i]['gloss'];
             }
         }
@@ -431,12 +414,6 @@ export class SemanticWordDescription {
         this.apiResponse_.examples.forEach((example) => {
             examplesList.push(example['example']);
         });
-        if(this.apiResponse_['senses'].length > 0 && this.apiResponse_['senses'][0]['properties']['synsetID']['id'] == "bn:13784328v"){
-          console.log("API RESPONSE: ", this.apiResponse_);
-          console.log("examples found with lang(",lang,"): ", examplesList);
-        }else{
-          // console.log(this.apiResponse_['senses'][0]['properties']['synsetID']['id']);
-        }
 
         return examplesList;
     }
@@ -459,6 +436,12 @@ export class SemanticWordDescription {
         return imageURLs;
     }
 
+    /**
+     * Retrieves images associated to the word linked to this SemanticWordDescription.
+     * 
+     * @returns {string[]} An array containing the URLs of the images. Returned array could be empty if no image is found.
+     * @throws {NotInitializedError} if initialize() has not been called on this instance.
+     */
     getGoogleImages(){
         this.initializationErrorChecking_();
 
@@ -494,7 +477,7 @@ export class SemanticWordDescription {
     }
 
     /**
-     * Check if two words are equal (same lemma and meaning).
+     * Checks if two words are equal (same lemma and meaning).
      *
      * @param {SemanticWordDescription} semanticWordDescription The word to compare with the one associated to this object.
      * @returns {boolean} True if the words associated to this object and the given one are equal (same lemma and meaning).
@@ -503,8 +486,7 @@ export class SemanticWordDescription {
     checkForEquality(semanticWordDescription){
         // Check if the synsetIDs are equal
         this.initializationErrorChecking_();
-        // console.log("my synsetID: ", this.synsetID_);
-        // console.log("other synsetID: ", semanticWordDescription.synsetID_);
+        
         return semanticWordDescription.synsetID_ == this.synsetID_;
     }
 }

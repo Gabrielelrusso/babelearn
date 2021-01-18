@@ -5,7 +5,7 @@ import {CHALLENGE_DIFFICULTY} from '../challenge/enum.js';
 import {ChallengeFactory} from '../challenge/challenge_factory.js';
 
 /*
- * Implements the game class.
+ * Represents an instance of the game.
  */
 export class Game {
 
@@ -16,8 +16,8 @@ export class Game {
         this.gameLang = 'EN';
     }
 
-    /*
-     * starts a new Challenge. In particular, changes the current challenge with
+    /**
+     * Starts a new Challenge. In particular, changes the current challenge with
      * a new challenge according to the difficulty and type specified.
      *
      * @param {CHALLENGE_DIFFICULTY} difficulty of the challenge to return.
@@ -27,31 +27,33 @@ export class Game {
       this.currentChallenge = this.challengeFactory.getNewChallenge(difficulty, type, this.getGameLang());
     }
 
-    /*
-     * starts a new Challenge. In particular, changes the current challenge with
-     * a new challenge according to the difficulty and type specified.
-     *
-     * @returns {Challenge} currentChallenge
+    /** 
+     * @returns {Challenge}
      */
     getCurrentChallenge(){
       return this.currentChallenge;
     }
 
-    /*
-     * the user
+    /**
+     * Check whether the given answer is correct for the current challenge.
      *
-     * @param {String} difficulty of the challenge to return.
-     * @returns {Boolean} true if the answer is correct, false otherwise.
+     * @param {string} userAnswer Answer attempt for this challenge.
      */
     async guess(userAnswer){
       var correctAnswer = await this.currentChallenge.guess(userAnswer);
       return correctAnswer;
     }
 
+    /**
+     * @returns {string}
+     */
     getSolution(){
       return this.currentChallenge.getSolution();
     }
 
+    /**
+     * @returns {string}
+     */
     getGameLang(){
       return this.gameLang;
     }

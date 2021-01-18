@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>SemanticWordDescription<span class="signature">(word, language, targetLangs, meaningPos, synsetID)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>SemanticWordDescription<span class="signature">(word, language, targetLangs, synsetID)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Represents the semantic description of a certain word.When the constructor is called, the information necessary to build the description is stored in the instance, butsince actually building the description requires Internet communication, this action is deferred to when the initialize()method is called, in order to allow the API user to choose when this communication must happen. This implies that it'smandatory to call the initialize() method before calling any other method or accessing any property of the instance.</div>
         
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="SemanticWordDescription"><span class="type-signature"></span>new SemanticWordDescription<span class="signature">(word, language, targetLangs, meaningPos, synsetID)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="SemanticWordDescription"><span class="type-signature"></span>new SemanticWordDescription<span class="signature">(word, language, targetLangs, synsetID)</span><span class="type-signature"></span></h4>
     
 
     
@@ -142,7 +142,7 @@
                 </td>
             
 
-            <td class="description last">The language the given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English.</td>
+            <td class="description last">The language the given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English. Can be omitted if the synsetID is provided.</td>
         </tr>
 
     
@@ -170,35 +170,6 @@
             
 
             <td class="description last">The languages in which language-dependent elements (lemma, examples, meaning) of this instance will be available. Use two letters abbreviation, e.g. 'EN' for English.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>meaningPos</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last">This value allows to select different meanings of the same word: if you call different time this    method with the same value for all the parameters except this one, you will get each time a different meaning of the same word to be    associated to the <a href="SemanticWordDescription.html">SemanticWordDescription</a> instance. If you don't have this necessity, just put it to zero, or even to null if you    provide the synsetID. In general, it must be a non-negative integer.</td>
         </tr>
 
     
@@ -268,7 +239,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="semantic_api_semantic_api.js.html">semantic_api/semantic_api.js</a>, <a href="semantic_api_semantic_api.js.html#line106">line 106</a>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -325,7 +296,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        in the following cases:    - Target languages have not been specified, they are too many or they have not been provided as an array    - The synsetID has not been specified and meaningPos is null or meaningPos is a negative value.
+        if target languages have not been specified, they are too many or they have not been provided as an array
         </div>
     </dt>
     <dd></dd>
@@ -395,7 +366,7 @@
 
 
 <div class="description">
-    Checks if a word in a given language is compatible with the word associated to this semantic word description.The term "compatible" is used instead of "equal" because the comparison is based on the existence of a synsetIDassociated to the given word which is equal to the synsetID associated to this object, but, if for example the given word is extracted from a sentence without prior disambiguation, that word could have been used in thatsentence with a meaning different from the meaning of the word associated to this object.
+    Checks if a word in a given language is compatible with the word associated to this semantic word description.The term "compatible" is used instead of "equal" because the comparison is based on the existence of a synsetIDassociated to the given word which is equal to the synsetID associated to this object, but, if for example thegiven word is extracted from a sentence without prior disambiguation, that word could have been used in thatsentence with a meaning different from the meaning of the word associated to this object.
 </div>
 
 
@@ -511,7 +482,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="semantic_api_semantic_api.js.html">semantic_api/semantic_api.js</a>, <a href="semantic_api_semantic_api.js.html#line319">line 319</a>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line463">line 463</a>
     </li></ul></dd>
     
 
@@ -606,7 +577,7 @@
 
 
 <div class="description">
-    Check if two words are equal (same lemma and meaning).
+    Checks if two words are equal (same lemma and meaning).
 </div>
 
 
@@ -699,7 +670,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="semantic_api_semantic_api.js.html">semantic_api/semantic_api.js</a>, <a href="semantic_api_semantic_api.js.html#line342">line 342</a>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line486">line 486</a>
     </li></ul></dd>
     
 
@@ -887,7 +858,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="semantic_api_semantic_api.js.html">semantic_api/semantic_api.js</a>, <a href="semantic_api_semantic_api.js.html#line276">line 276</a>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line408">line 408</a>
     </li></ul></dd>
     
 
@@ -1001,6 +972,145 @@
     
 
     
+    <h4 class="name" id="getGoogleImages"><span class="type-signature"></span>getGoogleImages<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Retrieves images associated to the word linked to this SemanticWordDescription.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line445">line 445</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        if initialize() has not been called on this instance.
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type"><a href="NotInitializedError.html">NotInitializedError</a></span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    An array containing the URLs of the images. Returned array could be empty if no image is found.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="getImages"><span class="type-signature"></span>getImages<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
     
 
@@ -1053,7 +1163,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="semantic_api_semantic_api.js.html">semantic_api/semantic_api.js</a>, <a href="semantic_api_semantic_api.js.html#line295">line 295</a>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line427">line 427</a>
     </li></ul></dd>
     
 
@@ -1241,7 +1351,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="semantic_api_semantic_api.js.html">semantic_api/semantic_api.js</a>, <a href="semantic_api_semantic_api.js.html#line228">line 228</a>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line360">line 360</a>
     </li></ul></dd>
     
 
@@ -1429,7 +1539,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="semantic_api_semantic_api.js.html">semantic_api/semantic_api.js</a>, <a href="semantic_api_semantic_api.js.html#line250">line 250</a>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line383">line 383</a>
     </li></ul></dd>
     
 
@@ -1543,6 +1653,116 @@
     
 
     
+    <h4 class="name" id="hasAnotherMeaning"><span class="type-signature"></span>hasAnotherMeaning<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Checks if there exists another synset ID associated to this word.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line302">line 302</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if another meaning is available, false otherwise.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="initialize"><span class="type-signature">(async) </span>initialize<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -1595,7 +1815,95 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="semantic_api_semantic_api.js.html">semantic_api/semantic_api.js</a>, <a href="semantic_api_semantic_api.js.html#line164">line 164</a>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line249">line 249</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="nextMeaning"><span class="type-signature">(async) </span>nextMeaning<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Loads the next meaning of the word associated to this object (the next meaning is the one associated with the next synset ID).
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line313">line 313</a>
     </li></ul></dd>
     
 
@@ -1625,7 +1933,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        is the meaningPos specified in the constructor exceeds the available meanings for the given lemma.
+        if no new meaning is available for the word encapsulated by this object.
         </div>
     </dt>
     <dd></dd>
@@ -1670,13 +1978,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BabelProxy.html">BabelProxy</a></li><li><a href="NotInitializedError.html">NotInitializedError</a></li><li><a href="SemanticSentenceDescription.html">SemanticSentenceDescription</a></li><li><a href="SemanticWordDescription.html">SemanticWordDescription</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BabelProxy.html">BabelProxy</a></li><li><a href="Challenge.html">Challenge</a></li><li><a href="ChallengeBuildFailedError.html">ChallengeBuildFailedError</a></li><li><a href="ChallengeFactory.html">ChallengeFactory</a></li><li><a href="ExampleFromMeaningChallenge.html">ExampleFromMeaningChallenge</a></li><li><a href="FourImagesOneWordChallenge.html">FourImagesOneWordChallenge</a></li><li><a href="MeaningFromExampleChallenge.html">MeaningFromExampleChallenge</a></li><li><a href="NotInitializedError.html">NotInitializedError</a></li><li><a href="SemanticSentenceDescription.html">SemanticSentenceDescription</a></li><li><a href="SemanticWordDescription.html">SemanticWordDescription</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CHALLENGE_DIFFICULTY">CHALLENGE_DIFFICULTY</a></li><li><a href="global.html#CHALLENGE_TYPE">CHALLENGE_TYPE</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Thu Dec 17 2020 18:21:41 GMT+0100 (Ora standard dell’Europa centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Jan 18 2021 20:34:39 GMT+0100 (Ora standard dell’Europa centrale)
 </footer>
 
 <script> prettyPrint(); </script>

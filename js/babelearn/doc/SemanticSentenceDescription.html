@@ -30,7 +30,7 @@
     
         <h2><span class="attribs"><span class="type-signature"></span></span>SemanticSentenceDescription<span class="signature">(sentence, language)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Represents the semantic description of a certain sentence in a certain language. It uses a <a href="BabelProxy.html">BabelProxy</a> instancein order to disambiguate the sense of the words used in the sentence using the Babelfy API and stores the synsetIDs associated to those words.Since full initialization requires Internet access, the bulding process of an instance of this class is split in two parts,to allow to defer the time-consuming Internet communication to when it's more appropriate for the API user. When the object is built the information necessary to the disambiguation is stored, but for the disambiguation to actually happen it's necessary to call the initialize()method on the instance, so it must be called before using any other method or accessing any property of the instance.</div>
+            <div class="class-description">Represents the semantic description of a certain sentence in a certain language. It uses a <a href="BabelProxy.html">BabelProxy</a> instancein order to disambiguate the sense of the words used in the sentence using the Babelfy API.Since full initialization requires Internet access, the bulding process of an instance of this class is split in two parts,to allow to defer the time-consuming Internet communication to when it's more appropriate for the API user. When the object is builtthe information necessary to the disambiguation is stored, but for the disambiguation to actually happen it's necessary to call the initialize()method on the instance, so it must be called before using any other method or accessing any property of the instance.</div>
         
     
 </header>
@@ -169,7 +169,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="semantic_api_semantic_api.js.html">semantic_api/semantic_api.js</a>, <a href="semantic_api_semantic_api.js.html#line16">line 16</a>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -261,6 +261,172 @@
     
 
     
+    <h4 class="name" id="checkForUsage"><span class="type-signature"></span>checkForUsage<span class="signature">(word)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Checks if a given word has been used in this sentence (with the sense associated to the <a href="SemanticWordDescription.html">SemanticWordDescription</a> whichencapsulates the word).
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>word</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="SemanticWordDescription.html">SemanticWordDescription</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The semantic description of the word to check for usage.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line71">line 71</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        if initialize() has not been called on this instance.
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type"><a href="NotInitializedError.html">NotInitializedError</a></span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="getSemanticWordDescription"><span class="type-signature"></span>getSemanticWordDescription<span class="signature">(word, targetLanguages)</span><span class="type-signature"> &rarr; {<a href="SemanticWordDescription.html">SemanticWordDescription</a>}</span></h4>
     
 
@@ -269,7 +435,7 @@
 
 
 <div class="description">
-    Returns a <a href="SemanticWordDescription.html">SemanticWordDescription</a> object encapsulating the meaning found by Babelfy for the givenword of the sentence associated to this object.The returned SemanticWordDescription object must be initialized before being used.
+    Returns a <a href="SemanticWordDescription.html">SemanticWordDescription</a> object encapsulating the meaning found by Babelfy for the givenword of the sentence associated to this object.The returned SemanticWordDescription object must be initialized before being used.NOTE: for this method to succeed, the exact given word must have been used in the sentence associated to this object.
 </div>
 
 
@@ -385,7 +551,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="semantic_api_semantic_api.js.html">semantic_api/semantic_api.js</a>, <a href="semantic_api_semantic_api.js.html#line70">line 70</a>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line100">line 100</a>
     </li></ul></dd>
     
 
@@ -443,7 +609,7 @@
 
         
 <div class="param-desc">
-    A <a href="SemanticWordDescription.html">SemanticWordDescription</a> encapsulating the given word and her meaning in the sentence associated to this <a href="SemanticSentenceDescription.html">SemanticSentenceDescription</a>.
+    A <a href="SemanticWordDescription.html">SemanticWordDescription</a> encapsulating the given word and her meaning in the sentence associated to this <a href="SemanticSentenceDescription.html">SemanticSentenceDescription</a>.    Returns null if the given word has not been used in this sentence.
 </div>
 
 
@@ -480,7 +646,7 @@
 
 
 <div class="description">
-    Performs the actual disambiguation and stores the result as a mapping {word: synsetID}, for each word in thesentence associated to the instance whose sense the Babelfy API was able to disambiguate.
+    Performs the actual disambiguation, and stores the result as a mapping {word: synsetID} for each word in thesentence associated to this object whose sense the Babelfy API was able to disambiguate.
 </div>
 
 
@@ -524,7 +690,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="semantic_api_semantic_api.js.html">semantic_api/semantic_api.js</a>, <a href="semantic_api_semantic_api.js.html#line43">line 43</a>
+        <a href="babelnet_interface_semantic_api_semantic_api.js.html">babelnet_interface/semantic_api/semantic_api.js</a>, <a href="babelnet_interface_semantic_api_semantic_api.js.html#line47">line 47</a>
     </li></ul></dd>
     
 
@@ -570,13 +736,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BabelProxy.html">BabelProxy</a></li><li><a href="NotInitializedError.html">NotInitializedError</a></li><li><a href="SemanticSentenceDescription.html">SemanticSentenceDescription</a></li><li><a href="SemanticWordDescription.html">SemanticWordDescription</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BabelProxy.html">BabelProxy</a></li><li><a href="Challenge.html">Challenge</a></li><li><a href="ChallengeBuildFailedError.html">ChallengeBuildFailedError</a></li><li><a href="ChallengeFactory.html">ChallengeFactory</a></li><li><a href="ExampleFromMeaningChallenge.html">ExampleFromMeaningChallenge</a></li><li><a href="FourImagesOneWordChallenge.html">FourImagesOneWordChallenge</a></li><li><a href="MeaningFromExampleChallenge.html">MeaningFromExampleChallenge</a></li><li><a href="NotInitializedError.html">NotInitializedError</a></li><li><a href="SemanticSentenceDescription.html">SemanticSentenceDescription</a></li><li><a href="SemanticWordDescription.html">SemanticWordDescription</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CHALLENGE_DIFFICULTY">CHALLENGE_DIFFICULTY</a></li><li><a href="global.html#CHALLENGE_TYPE">CHALLENGE_TYPE</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Thu Dec 17 2020 18:21:41 GMT+0100 (Ora standard dell’Europa centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Jan 18 2021 20:34:39 GMT+0100 (Ora standard dell’Europa centrale)
 </footer>
 
 <script> prettyPrint(); </script>

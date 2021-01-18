@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: babelproxy/babelproxy.js</title>
+    <title>JSDoc: Source: babelnet_interface/babelproxy/babelproxy.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: babelproxy/babelproxy.js</h1>
+    <h1 class="page-title">Source: babelnet_interface/babelproxy/babelproxy.js</h1>
 
     
 
@@ -26,9 +26,11 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
+            <pre class="prettyprint source linenums"><code>/*jshint esversion: 8 */
+
+/**
  * Implements a proxy towards the BabelNet and Babelfy HTTP APIs.
- * 
+ *
  * @requires axios
  */
 export class BabelProxy {
@@ -40,20 +42,22 @@ export class BabelProxy {
         this.babelnetSynsetsByWordServiceUrl = "https://babelnet.io/v5/getSynsetIds";
         this.babelnetSynsetsInfoByIDServiceUrl = "https://babelnet.io/v5/getSynset";
         this.babelfyDisambiguationServiceUrl = "https://babelfy.io/v1/disambiguate";
+        this.babelnetSensesByWord = 'https://babelnet.io/v5/getSenses';
+        this.REQUEST_TIMEOUT = 5000; // ms
     }
 
     /**
      * Creates a list of BabelNet synset IDs from the response received by the BabelNet API.
      * The synsets IDs are represented as strings.
-     * 
+     *
      * @param {Object} apiResponse The data as returned by the BabelNet HTTP API, in JSON format.
      * @param {string[]} outArray The array in which the synset IDs must be returned.
      * @private
      */
     createSynsetsList_(apiResponse, outArray){
         //console.log('creating synsets array'); // DEBUG
-        
-        /* 
+
+        /*
         * apiResponse is an array of dictionaries which in turn contain synset-related information,
         * and we are interested in getting the id of each synset.
         */
@@ -64,65 +68,123 @@ export class BabelProxy {
 
     /**
      * Retrieves the IDs af all the BabelNet synsets denoted by a given word.
-     * It's an async method, so it returns a Promise object, while in the method it waits for the HTTP request to 
+     * It's an async method, so it returns a Promise object, while in the method it waits for the HTTP request to
      * be completed.
-     * 
-     * @param {string} word The word for which BabelNet syntes will be retrieved.
+     *
+     * @param {string} word The word for which BabelNet synsets will be retrieved.
      * @param {string} language The language the given word belongs to. Use two letters abbreviation, e.g. 'EN' for English.
      * @returns {string[]} A list of the retrived synset IDs.
      * @throws an error if an error occurs during the GET request.
      */
     async getBabelnetSynsets(word, language){
-        var get_params = { 
+        var get_params = {
             'lemma' : word,
             'searchLang' : language,
-            'key' : this.apiKey
+            'key' : this.apiKey,
+            'timeout': this.REQUEST_TIMEOUT
         };
 
         var synsetIDs = [];
-        
+
         /*
         * await causes the function to return the actual data only after that a (positive or negative) result has been
         * obtained from the HTTP request (it "stops" the execution flow on the request and its callbacks, without actually
         * stopping the execution thread).
         */
-        
+
         try{
             await axios.get(
                 this.babelnetSynsetsByWordServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => this.createSynsetsList_(response, synsetIDs));
+            ).then((response) => {
+              this.createSynsetsList_(response, synsetIDs);
+              console.log("SERVER RESPONSE: ", response);
+            });
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
+            console.log("ERROR: ", err);
             return;
         }
 
         console.log('returning synsets array'); // DEBUG
-    
+
         return synsetIDs;
     }
 
     /**
-     * Retrieves all the available informations regarding a given BabelNet synset.
+     * Creates a list of synsets IDs from the response received when querying the BabelNet HTTP API for
+     * the sense of a given word.
      * 
+     * @param {Object} apiResponse The data as returned by the BabelNet HTTP API, in JSON format.
+     * @param {string[]} outArray The array in which the synset IDs must be returned.
+     * @private
+     */
+    createSynsetsListFromSenses_(apiResponse, outArray){
+        // console.log("API RESPONSE: ", apiResponse);
+        apiResponse.data.forEach(element => {
+            outArray.push(element.properties.synsetID.id);
+        });
+    }
+
+    /**
+     * Retrieves the synsets associated to all the senses available for a given word in a given language from the BabelNet HTTP API.
+     * 
+     * @param {string} word The word whose senses will be searched.
+     * @param {string} language The language the given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English.
+     * @returns {string[]} A list of the retrived synset IDs.
+     * @throws an error if an error occurs during the GET request.
+     */
+    async getSensesSynsets(word, language){
+        var get_params = {
+            'lemma' : word,
+            'searchLang' : language,
+            'key' : this.apiKey,
+            'timeout': this.REQUEST_TIMEOUT
+        };
+
+        var synsetIDs = [];
+
+        try{
+            await axios.get(
+                this.babelnetSensesByWord,
+                {params: get_params}
+            ).then((response) => {
+              console.log("GET-SENSES RESPONSE: ", response);
+              this.createSynsetsListFromSenses_(response, synsetIDs);
+
+            });
+        }catch(err){
+            // An exception is already thrown by get, so don't throw anything else here, simply
+            // stop execution flow
+            console.log("ERROR: ", err);
+            return;
+        }
+
+        return synsetIDs;
+    }
+
+    /**
+     * Retrieves all the available information regarding a given BabelNet synset.
+     *
      * @param {string} synsetID The identifier of the desired synset.
      * @param {string[]} targetLanguages Languages desired for the language-dependent information (e.g. words usage examples).
      * @returns {Object} The data (so no headers) retuned by the API, in the same format as it's returned.
      * @throws {RangeError} if too many target languages are given.
      * @throws an error if an error occurs during the GET request.
      */
-    async getSynsetInfo(synsetID, targetLanguages = ['EN']){
+    async getSynsetInfo(synsetID, targetLanguages){
         if(targetLanguages.length > 4){
             throw new RangeError('BabelNet API accepts at most 4 different languages');
         }
         var get_params = new URLSearchParams();
-        
+
         get_params.append('id', synsetID);
         get_params.append('key', this.apiKey);
         targetLanguages.forEach((language) => {
-            get_params.append('targetLang', language);    
+            get_params.append('targetLang', language);
         });
+        get_params.append('timeout', this.REQUEST_TIMEOUT);
 
         var apiResponse;
 
@@ -137,33 +199,35 @@ export class BabelProxy {
             return;
         }
 
-        console.log('returning synset info'); // DEBUG
+        // console.log('returning synset info'); // DEBUG
 
         return apiResponse;
     }
 
     /**
      * Creates a list of mappings {"word": word, "synsetID": synsetID}, mapping each word of the given
-     * sentence whose sense has been disambiguated to the corresponding synsetID.
-     * 
+     * sentence whose sense has been disambiguated to the corresponding synsetID. The reported word is exactly the
+     * one used in the sentence, not the main lemma associated to the synset ID.
+     *
      * @param {Object} apiResponse The data as returned by the Babelfy HTTP API, in JSON format.
      * @param {string[]} outArray The array in which the Objects must be returned.
      * @private
      */
-    createSynsetsListFromBabelfy_(sentence, apiResponse, outArray){
-        //console.log('Creating synsets from Babelfy'); // DEBUG
+    async createSynsetsListFromBabelfy_(sentence, apiResponse, outArray){
 
         apiResponse.forEach((disambiguatedWord) => {
             var unitStart = disambiguatedWord["charFragment"]["start"];
             var unitEnd = disambiguatedWord["charFragment"]["end"];
             outArray.push({"word": sentence.slice(unitStart, unitEnd+1), "synsetID": disambiguatedWord["babelSynsetID"]});
         });
+
+        console.log('Done creating disambiguation dictionary'); // DEBUG
     }
 
     /**
      * Retrieves the synsets associated to the words in the given sentence which the Babelfy API is able to
      * disambiguate.
-     * 
+     *
      * @param {string} sentence The sentence to query the API for.
      * @param {string} language The language the sentence is expressed into. Use two-letters abbreviations, e.g. 'EN' for English.
      * @returns {Object} A mapping between each word of the sentence whose sense has been disambiguated and the corresponding synsetID, as {"word": word, "synsetID": synsetID}.
@@ -173,7 +237,8 @@ export class BabelProxy {
         var get_params = {
             'text' : sentence,
             'lang' : language,
-            'key' : this.apiKey
+            'key' : this.apiKey,
+            'timeout': this.REQUEST_TIMEOUT
         };
 
         var synsetIDs = [];
@@ -182,13 +247,19 @@ export class BabelProxy {
             await axios.get(
                 this.babelfyDisambiguationServiceUrl + '?',
                 {params: get_params}
-            ).then((response) => {this.createSynsetsListFromBabelfy_(sentence, response.data, synsetIDs);});
+            ).then((response) =>
+                /**
+                 * se metto la chiamata a createSynsetsList in una funzione anonima e dopo metto una print si rompe la sincronizzazione, mentre
+                 * così sembra di no.
+                 */
+                this.createSynsetsListFromBabelfy_(sentence, response.data, synsetIDs)
+                );
         }catch(err){
             // An exception is already thrown by get, so don't throw anything else here, simply
             // stop execution flow
             return;
         }
-        console.log('done disambiguation'); // DEBUG
+        console.log('Done disambiguation, found:\n', synsetIDs); // DEBUG
 
         return synsetIDs;
     }
@@ -203,13 +274,13 @@ export class BabelProxy {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BabelProxy.html">BabelProxy</a></li><li><a href="NotInitializedError.html">NotInitializedError</a></li><li><a href="SemanticSentenceDescription.html">SemanticSentenceDescription</a></li><li><a href="SemanticWordDescription.html">SemanticWordDescription</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BabelProxy.html">BabelProxy</a></li><li><a href="Challenge.html">Challenge</a></li><li><a href="ChallengeBuildFailedError.html">ChallengeBuildFailedError</a></li><li><a href="ChallengeFactory.html">ChallengeFactory</a></li><li><a href="ExampleFromMeaningChallenge.html">ExampleFromMeaningChallenge</a></li><li><a href="FourImagesOneWordChallenge.html">FourImagesOneWordChallenge</a></li><li><a href="MeaningFromExampleChallenge.html">MeaningFromExampleChallenge</a></li><li><a href="NotInitializedError.html">NotInitializedError</a></li><li><a href="SemanticSentenceDescription.html">SemanticSentenceDescription</a></li><li><a href="SemanticWordDescription.html">SemanticWordDescription</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CHALLENGE_DIFFICULTY">CHALLENGE_DIFFICULTY</a></li><li><a href="global.html#CHALLENGE_TYPE">CHALLENGE_TYPE</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Thu Dec 17 2020 18:21:41 GMT+0100 (Ora standard dell’Europa centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Jan 18 2021 20:34:39 GMT+0100 (Ora standard dell’Europa centrale)
 </footer>
 
 <script> prettyPrint(); </script>
