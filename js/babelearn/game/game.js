@@ -4,7 +4,7 @@ import {CHALLENGE_TYPE} from '../challenge/enum.js';
 import {CHALLENGE_DIFFICULTY} from '../challenge/enum.js';
 import {ChallengeFactory} from '../challenge/challenge_factory.js';
 
-/*
+/**
  * Represents an instance of the game.
  */
 export class Game {

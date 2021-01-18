@@ -10,13 +10,14 @@ export class ChallengeBuildFailedError extends Error{}
 
 /**
  * Abstract Base Class for challenges.
- *
- * gameLang è la lingua di gioco, cioè la lingua in cui l'utente ha scelto di giocare. La specifichiamo
- * perché noi gestiamo sempre le parole in inglese (è più semplice per noi), però la roba sull'interfaccia
- * la mettiamo nella lingua scelta dall'utente.
- * additionalLang invece server per la challenge 3.
  */
 export class Challenge {
+    /* 
+    * gameLang è la lingua di gioco, cioè la lingua in cui l'utente ha scelto di giocare. La specifichiamo
+    * perché noi gestiamo sempre le parole in inglese (è più semplice per noi), però la roba sull'interfaccia
+    * la mettiamo nella lingua scelta dall'utente.
+    * additionalLang invece server per la challenge 3.
+    */
     /**
      * 
      * @param {string} word The word to use for this challenge. 
