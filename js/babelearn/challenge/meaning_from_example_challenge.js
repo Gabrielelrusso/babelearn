@@ -14,8 +14,8 @@ import {SemanticWordDescription} from '../babelnet_interface/semantic_api/semant
 export class MeaningFromExampleChallenge extends Challenge{
     /**
      * @param {string} word The word to use for this challenge. 
-     * @param {string} wordLang The language given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English. 
-     * @param {string} gameLang Game language. Use two letters abbreviation, e.g. 'EN' for English. 
+     * @param {string} wordLang The language the given word is expressed into. Use two letters abbreviations, e.g. 'EN' for English. 
+     * @param {string} gameLang Game language. Use two letters abbreviations, e.g. 'EN' for English. 
      * @throws {TypeError} if word or wordLang are not specified.
      */
     constructor(word, wordLang, gameLang){
@@ -137,9 +137,9 @@ export class MeaningFromExampleChallenge extends Challenge{
   /**
    * Translate a sentence from a language to another, using Google Translate.
    * 
-   * @param {string} sourceLang Language given sentence is expressed into. Use two-letters abbreviations, e.g. 'EN' for English.
-   * @param {*} targetLang Language given sentence must be translated into. Use two-letters abbreviations, e.g. 'EN' for English.
-   * @param {*} sentence Sentece to translate.
+   * @param {string} sourceLang Language the given sentence is expressed into. Use two-letters abbreviations, e.g. 'EN' for English.
+   * @param {string} targetLang Language the given sentence must be translated into. Use two-letters abbreviations, e.g. 'EN' for English.
+   * @param {string} sentence Sentence to translate.
    */
   async translateSentence_(sourceLang, targetLang, sentence){
     /* console.log('attempting translation');

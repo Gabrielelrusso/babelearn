@@ -21,8 +21,8 @@ export class Challenge {
     /**
      * 
      * @param {string} word The word to use for this challenge. 
-     * @param {string} wordLang The language given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English. 
-     * @param {string} gameLang Game language. Use two letters abbreviation, e.g. 'EN' for English. 
+     * @param {string} wordLang The language the given word is expressed into. Use two letters abbreviations, e.g. 'EN' for English. 
+     * @param {string} gameLang Game language. Use two letters abbreviations, e.g. 'EN' for English. 
      * @param {string} additionalLang Any additional language that must be stored for the challenge (challenge 3).
      * @param {string} description Description of the challenge, i.e. what the player has to do to complete the challenge.
      */
