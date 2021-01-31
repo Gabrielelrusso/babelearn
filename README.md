@@ -6,7 +6,7 @@ BabeLearn makes use of [Babelnet](https://babelnet.org/) and [Babelfy](http://ba
 
 Babeleran is the web application proposed as Semantic Technologies (Università degli Studi di Salerno 2020/2021) exam project.
 
-## Doc
+## Documentation
 
 You can find Babeleran documentation in this repository; you can also navigate it [here](https://gabrielelrusso.github.io/doc/).
 
