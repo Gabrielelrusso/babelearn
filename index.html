@@ -148,6 +148,7 @@ var vm = new Vue({
       this.currentComponent = component;
     },
     goToMainMenu: function(){
+      this.setLanguage('EN');
       this.swapComponent('view-home');
     },
     goToChallengesMenu: function(){
