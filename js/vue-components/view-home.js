@@ -13,7 +13,8 @@ var ViewHome = Vue.component('view-home', {
           <div class="row">
             <div class="col-12 text-center align-self-center">
                 <h3>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis eleifend sem. Pellentesque posuere quam nisi, et condimentum neque interdum sed.
+                    Welcome to Babelearn: an interactive, didactic web application to learn several new languages!
+                    Choose a language, hit <i>start game</i> and have fun! 
                 </h3>
             </div>
           </div>
