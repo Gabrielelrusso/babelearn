@@ -7,16 +7,16 @@ import {ExampleFromMeaningChallenge} from './example_from_meaning_challenge.js'
 import {FourImagesOneWordChallenge} from './four_images_one_word_challenge.js'
 import {MeaningFromExampleChallenge} from './meaning_from_example_challenge.js'
 
-/** 
+/**
  * Implements a {@link Challenge} factory according to the factory method pattern.
 */
 export class ChallengeFactory {
 
     constructor(){
         this.words = {
-          EASY: ['force'],
+          EASY: ['sweet','work','run','ball','machine','factory','full','force'],
           //EASY: ['play', 'work','run', 'sweet','big','duck','],
-          MEDIUM: ['sweet','work','run','ball','machine','factory','full','force'],
+          MEDIUM: [],
           HARD: []
         };
     }
