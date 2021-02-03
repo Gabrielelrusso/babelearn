@@ -32,7 +32,7 @@ export class SemanticSentenceDescription {
         this.sentenceLang = language;
 
         /** @private */
-        const key = 'a35c7c44-37db-42c6-90c1-b8f7dbc78cfb';
+        const key = '5c2d428e-2bf4-4583-b2dc-9c1ed3276d21';
         this.proxy_ = new BabelProxy(key);
         console.log("Your key is: ", this.proxy_.apiKey); // DEBUG
 
@@ -156,7 +156,7 @@ export class SemanticWordDescription {
         }
 
         /** @private */
-        const key = 'a35c7c44-37db-42c6-90c1-b8f7dbc78cfb';
+        const key = '5c2d428e-2bf4-4583-b2dc-9c1ed3276d21';
         this.proxy_ = new BabelProxy(key);
 
 
@@ -204,13 +204,13 @@ export class SemanticWordDescription {
 
     /**
      * Searches for images associated to given word, on Google Image Search.
-     * 
+     *
      * @param {string} word
      * @returns {string[]} A list of image URLs. Can be empty if no image is found.
      * @private
      */
     async getGoogleImages_(word){
-        
+
         var getParams = new URLSearchParams();
 
         getParams.append('q', word);
@@ -296,7 +296,7 @@ export class SemanticWordDescription {
 
     /**
      * Checks if there exists another synset ID associated to this word.
-     * 
+     *
      * @returns {boolean} True if another meaning is available, false otherwise.
      */
     hasAnotherMeaning(){
@@ -438,7 +438,7 @@ export class SemanticWordDescription {
 
     /**
      * Retrieves images associated to the word linked to this SemanticWordDescription.
-     * 
+     *
      * @returns {string[]} An array containing the URLs of the images. Returned array could be empty if no image is found.
      * @throws {NotInitializedError} if initialize() has not been called on this instance.
      */
@@ -486,7 +486,7 @@ export class SemanticWordDescription {
     checkForEquality(semanticWordDescription){
         // Check if the synsetIDs are equal
         this.initializationErrorChecking_();
-        
+
         return semanticWordDescription.synsetID_ == this.synsetID_;
     }
 }
