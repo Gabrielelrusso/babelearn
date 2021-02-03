@@ -13,8 +13,8 @@ import {SemanticWordDescription} from '../babelnet_interface/semantic_api/semant
 export class FourImagesOneWordChallenge extends Challenge{
     /**
      * @param {string} word The word to use for this challenge. 
-     * @param {string} wordLang The language given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English. 
-     * @param {string} gameLang Game language. Use two letters abbreviation, e.g. 'EN' for English. 
+     * @param {string} wordLang The language the given word is expressed into. Use two letters abbreviations, e.g. 'EN' for English. 
+     * @param {string} gameLang Game language. Use two letters abbreviations, e.g. 'EN' for English. 
      * @throws {TypeError} if word or wordLang are not specified.
      */
     constructor(word, wordLang, gameLang){

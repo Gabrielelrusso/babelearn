@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: MeaningFromExampleChallenge</title>
+    <title>JSDoc: Class: ExampleFromMeaningChallenge</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: MeaningFromExampleChallenge</h1>
+    <h1 class="page-title">Class: ExampleFromMeaningChallenge</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>MeaningFromExampleChallenge<span class="signature">(word, wordLang, gameLang)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>ExampleFromMeaningChallenge<span class="signature">(word, wordLang, gameLang)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">The user is given a usage example of the game word and must identify the meaning the gameword has been used with, among three possible ones.</div>
+            <div class="class-description">The user is given the game word and a meaning of her, and must provide a sentence in which thegame word (or a synonym) is used in the given meaning.</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="MeaningFromExampleChallenge"><span class="type-signature"></span>new MeaningFromExampleChallenge<span class="signature">(word, wordLang, gameLang)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ExampleFromMeaningChallenge"><span class="type-signature"></span>new ExampleFromMeaningChallenge<span class="signature">(word, wordLang, gameLang)</span><span class="type-signature"></span></h4>
     
 
     
@@ -124,7 +124,7 @@
 
             
 
-            <td class="description last">The language given word is expressed into. Use two letters abbreviation, e.g. 'EN' for English.</td>
+            <td class="description last">The language the given word is expressed into. Use two letters abbreviations, e.g. 'EN' for English.</td>
         </tr>
 
     
@@ -147,7 +147,7 @@
 
             
 
-            <td class="description last">Game language. Use two letters abbreviation, e.g. 'EN' for English.</td>
+            <td class="description last">Game language. Use two letters abbreviations, e.g. 'EN' for English.</td>
         </tr>
 
     
@@ -188,7 +188,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="challenge_meaning_from_example_challenge.js.html">challenge/meaning_from_example_challenge.js</a>, <a href="challenge_meaning_from_example_challenge.js.html#line14">line 14</a>
+        <a href="challenge_example_from_meaning_challenge.js.html">challenge/example_from_meaning_challenge.js</a>, <a href="challenge_example_from_meaning_challenge.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -269,7 +269,7 @@
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
-            <dt><a href="MeaningFromExampleChallenge.html">MeaningFromExampleChallenge</a></dt>
+            <dt><a href="ExampleFromMeaningChallenge.html">ExampleFromMeaningChallenge</a></dt>
             <dd></dd>
         </dl>
     
@@ -299,7 +299,7 @@
 
 
 <div class="description">
-    See <a href="Challenge.html">Challenge</a>
+    See <a href="Challenge.html">Challenge</a>.
 </div>
 
 
@@ -348,7 +348,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="challenge_meaning_from_example_challenge.js.html">challenge/meaning_from_example_challenge.js</a>, <a href="challenge_meaning_from_example_challenge.js.html#line39">line 39</a>
+        <a href="challenge_example_from_meaning_challenge.js.html">challenge/example_from_meaning_challenge.js</a>, <a href="challenge_example_from_meaning_challenge.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -1503,7 +1503,7 @@
 
 
 <div class="description">
-    See <a href="Challenge.html">Challenge</a>
+    See <a href="Challenge.html">Challenge</a>.
 </div>
 
 
@@ -1552,190 +1552,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="challenge_meaning_from_example_challenge.js.html">challenge/meaning_from_example_challenge.js</a>, <a href="challenge_meaning_from_example_challenge.js.html#line122">line 122</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="translateSentence_"><span class="type-signature">(async) </span>translateSentence_<span class="signature">(sourceLang, targetLang, sentence)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Translate a sentence from a language to another, using Google Translate.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>sourceLang</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Language given sentence is expressed into. Use two-letters abbreviations, e.g. 'EN' for English.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>targetLang</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Language given sentence must be translated into. Use two-letters abbreviations, e.g. 'EN' for English.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>sentence</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Sentece to translate.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="challenge_meaning_from_example_challenge.js.html">challenge/meaning_from_example_challenge.js</a>, <a href="challenge_meaning_from_example_challenge.js.html#line144">line 144</a>
+        <a href="challenge_example_from_meaning_challenge.js.html">challenge/example_from_meaning_challenge.js</a>, <a href="challenge_example_from_meaning_challenge.js.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -1787,7 +1604,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Jan 18 2021 20:51:41 GMT+0100 (Ora standard dell’Europa centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Jan 18 2021 21:11:50 GMT+0100 (Ora standard dell’Europa centrale)
 </footer>
 
 <script> prettyPrint(); </script>
