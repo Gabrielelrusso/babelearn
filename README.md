@@ -8,6 +8,6 @@ Babeleran is the web application proposed as Semantic Technologies (Università 
 
 ## Documentation
 
-You can find Babeleran documentation in this repository; you are also able to read it [here](https://gabrielelrusso.github.io/doc/).
+You can find Babeleran documentation in this repository.
 
 
